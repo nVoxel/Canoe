@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_javascript">JavaScript</string>
+    <string name="language_python">Python</string>
+    <string name="language_go">Go</string>
+    <string name="language_java">Java</string>
+    <string name="language_kotlin">Kotlin</string>
+    <string name="language_php">PHP</string>
+    <string name="language_csharp">C#</string>
+    <string name="country_india">India</string>
+    <string name="country_china">China</string>
+    <string name="country_us">US</string>
+    <string name="country_brazil">Brazil</string>
+    <string name="country_russia">Russia</string>
+    <string name="country_japan">Japan</string>
+    <string name="country_germany">Germany</string>
+</resources>

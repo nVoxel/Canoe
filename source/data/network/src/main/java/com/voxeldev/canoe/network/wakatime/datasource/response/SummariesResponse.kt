@@ -1,0 +1,203 @@
+package com.voxeldev.canoe.network.wakatime.datasource.response
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+/**
+ * @author nvoxel
+ */
+@Serializable
+data class SummariesResponse(
+    val data: List<SummariesDayResponse>,
+    @SerialName("cumulative_total")
+    val cumulativeTotal: CumulativeTotalResponse,
+    @SerialName("daily_average")
+    val dailyAverage: DailyAverageResponse,
+    val start: String,
+    val end: String,
+)
+
+@Serializable
+data class SummariesDayResponse(
+    @SerialName("grand_total")
+    val grandTotal: GrandTotalResponse,
+    val categories: List<CategoryResponse>,
+    val projects: List<SummaryProjectResponse>,
+    val languages: List<LanguageResponse>,
+    val editors: List<EditorResponse>,
+    @SerialName("operating_systems")
+    val operatingSystems: List<OperatingSystemResponse>,
+    val dependencies: List<DependencyResponse>,
+    val machines: List<MachineResponse>,
+    val branches: List<BranchResponse>? = null,
+    val entities: List<EntityResponse>? = null,
+    val range: RangeResponse,
+)
+
+@Serializable
+sealed interface GeneralizedEntityResponse {
+    val name: String
+
+    @SerialName("total_seconds")
+    val totalSeconds: Float
+}
+
+@Serializable
+data class GrandTotalResponse(
+    val digital: String,
+    val hours: Int,
+    val minutes: Int,
+    val text: String,
+    @SerialName("total_seconds")
+    val totalSeconds: Float,
+)
+
+@Serializable
+data class CategoryResponse(
+    val name: String,
+    @SerialName("total_seconds")
+    val totalSeconds: Float,
+    val percent: Float,
+    val digital: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+)
+
+@Serializable
+data class SummaryProjectResponse(
+    val name: String,
+    @SerialName("total_seconds")
+    val totalSeconds: Float,
+    val percent: Float,
+    val digital: String,
+    val decimal: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+)
+
+@Serializable
+data class LanguageResponse(
+    override val name: String,
+    @SerialName("total_seconds")
+    override val totalSeconds: Float,
+    val percent: Float? = null,
+    val digital: String? = null,
+    val text: String? = null,
+    val hours: Int? = null,
+    val minutes: Int? = null,
+    val seconds: Int? = null,
+) : GeneralizedEntityResponse
+
+@Serializable
+data class EditorResponse(
+    override val name: String,
+    @SerialName("total_seconds")
+    override val totalSeconds: Float,
+    val percent: Float,
+    val digital: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+    val seconds: Int,
+) : GeneralizedEntityResponse
+
+@Serializable
+data class OperatingSystemResponse(
+    override val name: String,
+    @SerialName("total_seconds")
+    override val totalSeconds: Float,
+    val percent: Float,
+    val digital: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+    val seconds: Int,
+) : GeneralizedEntityResponse
+
+@Serializable
+data class DependencyResponse(
+    val name: String,
+    @SerialName("total_seconds")
+    val totalSeconds: Float,
+    val percent: Float,
+    val digital: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+    val seconds: Int,
+)
+
+@Serializable
+data class MachineResponse(
+    override val name: String,
+    @SerialName("total_seconds")
+    override val totalSeconds: Float,
+    @SerialName("machine_name_id")
+    val machineNameId: String,
+    val percent: Float,
+    val digital: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+    val seconds: Int,
+) : GeneralizedEntityResponse
+
+@Serializable
+data class BranchResponse(
+    val name: String,
+    @SerialName("total_seconds")
+    val totalSeconds: Float,
+    val percent: Float,
+    val digital: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+    val seconds: Int,
+)
+
+@Serializable
+data class EntityResponse(
+    val name: String,
+    @SerialName("total_seconds")
+    val totalSeconds: Float,
+    val percent: Float,
+    val digital: String,
+    val text: String,
+    val hours: Int,
+    val minutes: Int,
+    val seconds: Int,
+)
+
+@Serializable
+data class RangeResponse(
+    val date: String,
+    val start: String,
+    val end: String,
+    val text: String,
+    val timezone: String,
+)
+
+@Serializable
+data class CumulativeTotalResponse(
+    val seconds: Float,
+    val text: String,
+    val decimal: String,
+    val digital: String,
+)
+
+@Serializable
+data class DailyAverageResponse(
+    val holidays: Int,
+    @SerialName("days_including_holidays")
+    val daysIncludingHolidays: Int,
+    @SerialName("days_minus_holidays")
+    val daysMinusHolidays: Int,
+    val seconds: Float,
+    val text: String,
+    @SerialName("seconds_including_other_language")
+    val secondsIncludingOtherLanguage: Float,
+    @SerialName("text_including_other_language")
+    val textIncludingOtherLanguage: String,
+)

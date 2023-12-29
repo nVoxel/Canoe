@@ -1,0 +1,283 @@
+complexity:
+  StringLiteralDuplication:
+    active: true
+    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
+    ignoreAnnotation: true
+    ignoreStringsRegex: '$^'
+  CyclomaticComplexMethod:
+    active: true
+    ignoreSingleWhenExpression: true
+  LargeClass:
+    active: true
+    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+  TooManyFunctions:
+    excludes: ['**/test/**', '**/functionalTest/**', '**/*Mapper.kt', '**/*StringResourceProvider.kt']
+  LongMethod:
+    threshold: 70
+  LongParameterList:
+    constructorThreshold: 8
+    functionThreshold: 15 # Compose...
+  NestedBlockDepth:
+    threshold: 7
+
+coroutines:
+  active: true
+  GlobalCoroutineUsage:
+    active: true
+  RedundantSuspendModifier:
+    active: true
+  SleepInsteadOfDelay:
+    active: true
+  SuspendFunWithFlowReturnType:
+    active: true
+
+exceptions:
+  InstanceOfCheckForException:
+    active: true
+  NotImplementedDeclaration:
+    active: true
+  ObjectExtendsThrowable:
+    active: true
+  RethrowCaughtException:
+    active: true
+  ReturnFromFinally:
+    active: true
+  ThrowingExceptionFromFinally:
+    active: true
+  ThrowingExceptionInMain:
+    active: true
+  ThrowingExceptionsWithoutMessageOrCause:
+    active: true
+  ThrowingNewInstanceOfSameException:
+    active: true
+
+formatting:
+  active: true
+  android: false
+  autoCorrect: true
+  BinaryExpressionWrapping:
+    active: true
+  BlankLineBeforeDeclaration:
+    active: false
+  ConditionWrapping:
+    active: true
+  Filename:
+    active: false
+  FunctionSignature:
+    active: false
+  MaximumLineLength:
+    active: false
+  MultilineExpressionWrapping:
+    active: false
+  MultilineLoop:
+    active: true
+  NoEmptyFirstLineInClassBody:
+    active: false
+  StringTemplateIndent:
+    active: false
+  ValueArgumentComment:
+    active: false
+  NoWildcardImports:
+    active: true
+    excludes: ['**/*Test.kt']
+
+naming:
+  ClassNaming:
+    ignoreAnnotated: ['org.junit.jupiter.api.Nested']
+  FunctionNaming:
+    active: true
+    ignoreAnnotated: ['Composable', 'Test', 'ParameterizedTest', 'RepeatedTest', 'TestFactory']
+  TopLevelPropertyNaming:
+    constantPattern: '[a-z][_A-Za-z0-9]*|[A-Z][_A-Z0-9]*'
+  InvalidPackageDeclaration:
+    active: true
+    excludes: ['**/build-logic/**/*.kt', '**/*.kts']
+  NoNameShadowing:
+    active: true
+  NonBooleanPropertyPrefixedWithIs:
+    active: true
+  VariableMaxLength:
+    active: true
+  VariableMinLength:
+    active: true
+  VariableNaming:
+    active: true
+    ignoreAnnotated: ['PrimaryKey']
+
+performance:
+  SpreadOperator:
+    excludes: ['**/test/**', '**/functionalTest/**']
+
+potential-bugs:
+  AvoidReferentialEquality:
+    active: true
+  DontDowncastCollectionTypes:
+    active: true
+  ElseCaseInsteadOfExhaustiveWhen:
+    active: true
+  ExitOutsideMain:
+    active: false
+  HasPlatformType:
+    active: true
+  IgnoredReturnValue:
+    active: true
+  ImplicitDefaultLocale:
+    active: true
+    excludes: ['**/SummariesMapper.kt']
+  ImplicitUnitReturnType:
+    active: true
+  MapGetWithNotNullAssertionOperator:
+    active: true
+  UnconditionalJumpStatementInLoop:
+    active: true
+  UnreachableCatchBlock:
+    active: true
+  UnsafeCast:
+    active: true
+    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+  UselessPostfixExpression:
+    active: true
+
+style:
+  BracesOnIfStatements:
+    active: true
+    singleLine: 'consistent'
+    multiLine: 'consistent'
+  CanBeNonNullable:
+    active: true
+  CascadingCallWrapping:
+    active: true
+  ClassOrdering:
+    active: true
+    excludes: ['**/RootComponent.kt'] # ¯\_(ツ)_/¯
+  CollapsibleIfStatements:
+    active: true
+  DestructuringDeclarationWithTooManyEntries:
+    active: true
+  EqualsOnSignatureLine:
+    active: true
+  ExplicitCollectionElementAccessMethod:
+    active: true
+  ExplicitItLambdaParameter:
+    active: true
+  ForbiddenComment:
+    active: true
+    comments:
+      - value: 'FIXME:'
+        reason: 'Forbidden FIXME todo marker in comment, please fix the problem.'
+      - value: 'STOPSHIP:'
+        reason: 'Forbidden STOPSHIP todo marker in comment, please address the problem before shipping the code.'
+      - value: 'TODO:'
+        reason: 'Forbidden TODO todo marker in comment, please do the changes.'
+      - value: '@author'
+        reason: 'Authors are not recorded in KDoc.'
+      - value: '@requiresTypeResolution'
+        reason: 'Use @RequiresTypeResolution annotation on the class instead.'
+    excludes: ['**/detekt-rules-style/**/ForbiddenComment.kt']
+  ForbiddenImport:
+    active: true
+    imports:
+      - value: 'org.assertj.core.api.Assertions'
+        reason: 'Import Assertions.assertThat instead.'
+      - value: 'org.junit.jupiter.api.Assertions*'
+        reason: 'Use AssertJ assertions instead.'
+      - value: 'org.junit.jupiter.api.assertAll'
+        reason: 'Use AssertJ assertSoftly instead.'
+      - value: 'org.junit.jupiter.api.assertThrows'
+        reason: 'Use AssertJ assertThatCode { }.isInstanceOf() or assertThatExceptionOfType().isThrownBy { } instead.'
+      - value: 'org.junit.jupiter.api.assertDoesNotThrow'
+        reason: 'Use AssertJ assertThatCode { }.doesNotThrowAnyException() instead.'
+      # These don't have AssertJ alternatives, so just allow them:
+      #- value: 'org.junit.jupiter.api.fail'
+      #- value: 'org.junit.jupiter.api.assertTimeout'
+      #- value: 'org.junit.jupiter.api.assertTimeoutPreemptively'
+      - value: 'java.util.stream.*'
+        reason: "Use Kotlin's sequences instead."
+  ForbiddenMethodCall:
+    active: true
+    methods:
+      - 'kotlin.io.print'
+      - 'kotlin.io.println'
+      - 'java.net.URL.openStream'
+      - 'java.lang.Class.getResourceAsStream'
+      - 'java.lang.ClassLoader.getResourceAsStream'
+      - 'org.jetbrains.kotlin.diagnostics.DiagnosticUtils.getLineAndColumnInPsiFile'
+  ForbiddenVoid:
+    active: true
+  MagicNumber:
+    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
+    ignorePropertyDeclaration: true
+    ignoreAnnotation: true
+    ignoreEnums: true
+    ignoreNumbers:
+      - '-1'
+      - '0'
+      - '1'
+      - '2'
+      - '100'
+      - '1000'
+  MandatoryBracesLoops:
+    active: true
+  MaxLineLength:
+    active: true
+    maxLineLength: 135
+    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
+    excludeCommentStatements: true
+  NestedClassesVisibility:
+    active: true
+  ObjectLiteralToLambda:
+    active: true
+  PreferToOverPairSyntax:
+    active: true
+  RedundantExplicitType:
+    active: true
+  RedundantHigherOrderMapUsage:
+    active: true
+  RedundantVisibilityModifierRule:
+    active: true
+  ReturnCount:
+    active: true
+    max: 3
+    excludeGuardClauses: true
+  TrimMultilineRawString:
+    active: true
+  UnderscoresInNumericLiterals:
+    active: true
+    acceptableLength: 6
+  UnnecessaryAnnotationUseSiteTarget:
+    active: true
+  UnnecessaryBackticks:
+    active: true
+  UnnecessaryFilter:
+    active: true
+  UnnecessaryLet:
+    active: true
+  UnnecessaryInnerClass:
+    active: true
+    ignoreAnnotated: ['Nested']
+  UnusedPrivateMember:
+    active: true
+    allowedNames: '(_|ignored|expected)'
+  UseAnyOrNoneInsteadOfFind:
+    active: true
+  UseCheckOrError:
+    active: true
+  UseEmptyCounterpart:
+    active: true
+  UseIfEmptyOrIfBlank:
+    active: true
+  UseIsNullOrEmpty:
+    active: true
+  UseLet:
+    active: true
+  UseOrEmpty:
+    active: true
+  UseRequire:
+    active: true
+  UseRequireNotNull:
+    active: true
+  VarCouldBeVal:
+    active: true
+    ignoreAnnotated: ['Parameter']
+  WildcardImport:
+    active: false # because formatting -> NoWildcardImports

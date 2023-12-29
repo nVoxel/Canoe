@@ -1,0 +1,111 @@
+[versions]
+kotlinx-serialization = "1.6.2"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+security-crypto = "1.1.0-alpha06"
+activity-compose = "1.8.2"
+compose-bom = "2023.10.01"
+decompose = "2.2.2"
+detekt = "1.23.4"
+dependency-analysis = "1.22.0"
+mvikotlin = "3.3.0"
+essenty = "1.3.0"
+koin = "3.5.3"
+realm = "1.13.0"
+ktor = "2.3.7"
+coil = "2.5.0"
+vico = "2.0.0-alpha.4"
+ycharts = "2.1.0"
+
+compose-compiler-extension = "1.5.6"
+
+version-name = "1.0"
+version-code = "1"
+
+agp = "8.2.0"
+jvm-target = "1.8"
+kotlin = "1.9.21"
+
+android-minSdk = "27"
+android-targetSdk = "34"
+android-compileSdk = "34"
+
+[libraries]
+
+#AndroidX
+security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto"}
+
+# Material
+material3 = { group = "androidx.compose.material3", name = "material3" }
+material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+
+# Compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+compose-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+# Decompose
+decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
+decompose-extensions = { group = "com.arkivanov.decompose", name = "extensions-compose-jetpack", version.ref = "decompose" }
+
+# MVI Kotlin
+mvikotlin = { group = "com.arkivanov.mvikotlin", name = "mvikotlin", version.ref = "mvikotlin" }
+mvikotlin-rx = { group = "com.arkivanov.mvikotlin", name = "rx", version.ref = "mvikotlin" }
+mvikotlin-main = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-main", version.ref = "mvikotlin" }
+mvikotlin-extensions-coroutines = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-extensions-coroutines", version.ref = "mvikotlin" }
+
+# Essenty
+essenty-lifecycle = { group = "com.arkivanov.essenty", name = "lifecycle", version.ref = "essenty" }
+
+# Koin
+koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin"}
+
+# Realm
+realm = { group = "io.realm.kotlin", name = "library-base", version.ref = "realm" }
+
+# Ktor
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+# KotlinX
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# Charts
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+ycharts = { group = "co.yml", name = "ycharts", version.ref = "ycharts"}
+
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
+
+# Test
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+
+[plugins]
+
+# Android
+com-android-application = { id = "com.android.application", version.ref = "agp" }
+com-android-library = { id = "com.android.library", version.ref = "agp" }
+
+# Kotlin
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Realm
+realm = { id = "io.realm.kotlin", version.ref = "realm" }
+
+# Analysis
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis" }
+
+[bundles]
+
