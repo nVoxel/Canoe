@@ -1,4 +1,4 @@
-name: detekt
+name: firebase
 
 on:
   pull_request:
@@ -29,8 +29,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Create google-services.json
-        run: cat /home/runner/work/Canoe/Canoe/canoe/src/google-services.json | base64
-      - name: Put google-services.json data
         env:
           DATA: ${{secrets.GOOGLE_SERVICES_JSON}}
         run: echo $DATA > /home/runner/work/Canoe/Canoe/canoe/src/google-services.json
@@ -45,4 +43,4 @@ jobs:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{secrets.CREDENTIAL_FILE_CONTENT}}
           groups: testers
-          file: app/build/outputs/apk/release/app-release-unsigned.apk
+          file: canoe/build/outputs/apk/release/app-release-unsigned.apk
