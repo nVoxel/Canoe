@@ -5,17 +5,26 @@ import com.arkivanov.mvikotlin.core.store.SimpleBootstrapper
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.perf.performance
 import com.voxeldev.canoe.leaderboards.api.LeaderboardsModel
 import com.voxeldev.canoe.leaderboards.api.LeaderboardsRequest
 import com.voxeldev.canoe.leaderboards.integration.GetLeaderboardsUseCase
 import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.Intent
 import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.State
+import com.voxeldev.canoe.utils.analytics.CustomEvent
+import com.voxeldev.canoe.utils.analytics.CustomTrace
+import com.voxeldev.canoe.utils.analytics.logEvent
+import com.voxeldev.canoe.utils.analytics.startTrace
 
 /**
  * @author nvoxel
  */
 internal class LeaderboardsStoreProvider(
     private val storeFactory: StoreFactory,
+    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics,
     private val getLeaderboardsUseCase: GetLeaderboardsUseCase = GetLeaderboardsUseCase(),
 ) {
 
@@ -56,11 +65,13 @@ internal class LeaderboardsStoreProvider(
                 is Intent.ReloadLeaderboards -> loadLeaderboards(
                     params = getLeaderboardsRequest(getState().filterBottomSheetState)
                 )
+
                 is Intent.ResetFilters -> {
                     dispatch(message = Msg.LanguageChanged(language = null))
                     dispatch(message = Msg.HireableChanged(hireable = null))
                     dispatch(message = Msg.CountryCodeChanged(countryCode = null))
                 }
+
                 is Intent.ToggleFilterBottomSheet -> {
                     val state = getState()
                     val isActive = state.filterBottomSheetState.active
@@ -78,12 +89,18 @@ internal class LeaderboardsStoreProvider(
         }
 
         private fun loadLeaderboards(params: LeaderboardsRequest) {
+            val trace = Firebase.performance.startTrace(trace = CustomTrace.LeaderboardsLoadTrace)
             dispatch(message = Msg.LeaderboardsLoading)
             getLeaderboardsUseCase(params = params, scope = scope) { result ->
-                result.fold(
-                    onSuccess = { dispatch(message = Msg.LeaderboardsLoaded(leaderboardsModel = it)) },
-                    onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
-                )
+                result
+                    .fold(
+                        onSuccess = {
+                            firebaseAnalytics.logEvent(event = CustomEvent.LoadedLeaderboards)
+                            dispatch(message = Msg.LeaderboardsLoaded(leaderboardsModel = it))
+                        },
+                        onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                    )
+                    .also { trace.stop() }
             }
         }
 
@@ -103,17 +120,21 @@ internal class LeaderboardsStoreProvider(
                     errorText = null,
                     isLoading = false
                 )
+
                 is Msg.LeaderboardsLoading -> copy(isLoading = true)
                 is Msg.Error -> copy(errorText = msg.message, isLoading = false)
                 is Msg.LanguageChanged -> copy(
                     filterBottomSheetState = filterBottomSheetState.copy(selectedLanguage = msg.language)
                 )
+
                 is Msg.HireableChanged -> copy(
                     filterBottomSheetState = filterBottomSheetState.copy(hireable = msg.hireable)
                 )
+
                 is Msg.CountryCodeChanged -> copy(
                     filterBottomSheetState = filterBottomSheetState.copy(selectedCountryCode = msg.countryCode)
                 )
+
                 is Msg.FilterBottomSheetToggled -> copy(
                     filterBottomSheetState = filterBottomSheetState.copy(active = msg.active)
                 )

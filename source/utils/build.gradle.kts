@@ -46,6 +46,12 @@ dependencies {
 
     implementation(libs.koin)
 
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.performance)
+
+    implementation(libs.activity.compose)
+    implementation(libs.material)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
 }

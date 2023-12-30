@@ -40,6 +40,9 @@ dependencies {
 
     implementation(libs.koin)
 
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.performance)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
 }

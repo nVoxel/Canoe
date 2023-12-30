@@ -5,6 +5,10 @@ import com.arkivanov.mvikotlin.core.store.SimpleBootstrapper
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.perf.performance
 import com.voxeldev.canoe.dashboard.api.languages.ProgramLanguagesModel
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesModel
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesRequest
@@ -12,6 +16,10 @@ import com.voxeldev.canoe.dashboard.integration.GetProgramLanguagesUseCase
 import com.voxeldev.canoe.dashboard.integration.GetSummariesUseCase
 import com.voxeldev.canoe.dashboard.store.DashboardStore.Intent
 import com.voxeldev.canoe.dashboard.store.DashboardStore.State
+import com.voxeldev.canoe.utils.analytics.CustomEvent
+import com.voxeldev.canoe.utils.analytics.CustomTrace
+import com.voxeldev.canoe.utils.analytics.logEvent
+import com.voxeldev.canoe.utils.analytics.startTrace
 import com.voxeldev.canoe.utils.integration.BaseUseCase
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -22,6 +30,7 @@ import java.util.Locale
  */
 internal class DashboardStoreProvider(
     private val storeFactory: StoreFactory,
+    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics,
     private val getProgramLanguagesUseCase: GetProgramLanguagesUseCase = GetProgramLanguagesUseCase(),
     private val getSummariesUseCase: GetSummariesUseCase = GetSummariesUseCase(),
 ) {
@@ -66,11 +75,13 @@ internal class DashboardStoreProvider(
                 is Intent.ReloadDashboard -> loadDashboard(
                     params = getSummariesRequest(getState().datePickerBottomSheetState)
                 )
+
                 is Intent.ShowDatePickerBottomSheet -> {
                     val state = getState()
                     lastDatePickerState = state.datePickerBottomSheetState.copy()
                     dispatch(message = Msg.DatePickerBottomSheetShowed)
                 }
+
                 is Intent.DismissDatePickerBottomSheet -> {
                     val startDate = intent.startMillis?.toDateFormat()
                     val endDate = intent.endMillis?.toDateFormat()
@@ -94,24 +105,34 @@ internal class DashboardStoreProvider(
         }
 
         private fun loadDashboard(params: SummariesRequest) {
+            val summariesTrace = Firebase.performance.startTrace(trace = CustomTrace.SummariesLoadTrace)
             dispatch(message = Msg.SummariesLoading)
             getSummariesUseCase(params = params, scope = scope) { result ->
-                result.fold(
-                    onSuccess = { dispatch(message = Msg.SummariesLoaded(summariesModel = it)) },
-                    onFailure = { dispatch(message = Msg.SummariesError(message = it.message ?: it.toString())) },
-                )
+                result
+                    .fold(
+                        onSuccess = {
+                            firebaseAnalytics.logEvent(event = CustomEvent.LoadedSummaries)
+                            dispatch(message = Msg.SummariesLoaded(summariesModel = it))
+                        },
+                        onFailure = { dispatch(message = Msg.SummariesError(message = it.message ?: it.toString())) },
+                    )
+                    .also { summariesTrace.stop() }
             }
 
+            val programLanguagesTrace = Firebase.performance.startTrace(trace = CustomTrace.ProgramLanguagesLoadTrace)
             dispatch(message = Msg.ProgramLanguagesLoading)
             getProgramLanguagesUseCase(params = BaseUseCase.NoParams) { result ->
-                result.fold(
-                    onSuccess = { dispatch(message = Msg.ProgramLanguagesLoaded(programLanguagesModel = it)) },
-                    onFailure = {
-                        dispatch(
-                            message = Msg.ProgramLanguagesError(message = it.message ?: it.toString())
-                        )
-                    },
-                )
+                result
+                    .fold(
+                        onSuccess = {
+                            firebaseAnalytics.logEvent(event = CustomEvent.LoadedProgramLanguages)
+                            dispatch(message = Msg.ProgramLanguagesLoaded(programLanguagesModel = it))
+                        },
+                        onFailure = {
+                            dispatch(message = Msg.ProgramLanguagesError(message = it.message ?: it.toString()))
+                        },
+                    )
+                    .also { programLanguagesTrace.stop() }
             }
         }
 
@@ -136,19 +157,23 @@ internal class DashboardStoreProvider(
                     programLanguagesModel = msg.programLanguagesModel,
                     isProgramLanguagesLoading = false
                 )
+
                 is Msg.ProgramLanguagesLoading -> copy(isProgramLanguagesLoading = true)
                 is Msg.SummariesError -> copy(errorText = msg.message, isSummariesLoading = false)
                 is Msg.ProgramLanguagesError -> copy(errorText = msg.message, isProgramLanguagesLoading = false)
                 is Msg.StartDateChanged -> copy(
                     datePickerBottomSheetState = datePickerBottomSheetState.copy(startDate = msg.startDate)
                 )
+
                 is Msg.EndDateChanged -> copy(
                     datePickerBottomSheetState = datePickerBottomSheetState.copy(endDate = msg.endDate)
                 )
+
                 is Msg.DatesReset -> copy(datePickerBottomSheetState = DashboardStore.DatePickerBottomSheetState())
                 is Msg.DatePickerBottomSheetShowed -> copy(
                     datePickerBottomSheetState = datePickerBottomSheetState.copy(active = true)
                 )
+
                 is Msg.DatePickerBottomSheetDismissed -> copy(
                     datePickerBottomSheetState = datePickerBottomSheetState.copy(active = false)
                 )

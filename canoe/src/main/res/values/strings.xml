@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Canoe</string>
+
+    <string name="fcm_notification_channel_id">1337</string>
+    <string name="fcm_notification_channel_name">Notifications</string>
+    <string name="fcm_notification_channel_description">Firebase Cloud Messaging</string>
+
+    <string name="fcm_notification_default_title">Canoe</string>
+    <string name="fcm_notification_default_text">Notification</string>
 </resources>
