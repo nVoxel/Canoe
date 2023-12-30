@@ -14,4 +14,8 @@
     <string name="country_russia">Russia</string>
     <string name="country_japan">Japan</string>
     <string name="country_germany">Germany</string>
+
+    <string name="notifications_rationale">Allow the app to send notifications in order to get news and updates</string>
+    <string name="notifications_denied_warning">You will not be able to get important notifications</string>
+    <string name="notifications_denied_warning_fix">Fix</string>
 </resources>

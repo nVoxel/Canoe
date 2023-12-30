@@ -5,8 +5,13 @@ plugins {
     alias(libs.plugins.com.android.application) apply false
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false
     alias(libs.plugins.com.android.library) apply false
+
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.realm) apply false
+
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.performance) apply false
+    alias(libs.plugins.google.services) apply false
 
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.dependency.analysis) apply true

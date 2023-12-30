@@ -1,22 +1,31 @@
 [versions]
-kotlinx-serialization = "1.6.2"
-junit = "4.13.2"
-androidx-test-ext-junit = "1.1.5"
-espresso-core = "3.5.1"
-security-crypto = "1.1.0-alpha06"
 activity-compose = "1.8.2"
+androidx-test-ext-junit = "1.1.5"
+coil = "2.5.0"
 compose-bom = "2023.10.01"
 decompose = "2.2.2"
-detekt = "1.23.4"
 dependency-analysis = "1.22.0"
-mvikotlin = "3.3.0"
+detekt = "1.23.4"
+espresso-core = "3.5.1"
 essenty = "1.3.0"
+kotlinx-serialization = "1.6.2"
+junit = "4.13.2"
 koin = "3.5.3"
-realm = "1.13.0"
 ktor = "2.3.7"
-coil = "2.5.0"
+material = "1.11.0"
+mvikotlin = "3.3.0"
+realm = "1.13.0"
+security-crypto = "1.1.0-alpha06"
 vico = "2.0.0-alpha.4"
 ycharts = "2.1.0"
+
+firebase-analytics = "21.5.0"
+firebase-crashlytics = "18.6.0"
+firebase-crashlytics-plugin = "2.9.9"
+firebase-messaging = "23.4.0"
+firebase-performance = "20.5.1"
+firebase-performance-plugin = "1.4.2"
+gms-googleServices = "4.4.0"
 
 compose-compiler-extension = "1.5.6"
 
@@ -34,9 +43,10 @@ android-compileSdk = "34"
 [libraries]
 
 #AndroidX
-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto"}
+security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto" }
 
 # Material
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 
@@ -61,8 +71,8 @@ mvikotlin-extensions-coroutines = { group = "com.arkivanov.mvikotlin", name = "m
 essenty-lifecycle = { group = "com.arkivanov.essenty", name = "lifecycle", version.ref = "essenty" }
 
 # Koin
-koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin"}
+koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
 # Realm
 realm = { group = "io.realm.kotlin", name = "library-base", version.ref = "realm" }
@@ -79,7 +89,13 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 
 # Charts
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
-ycharts = { group = "co.yml", name = "ycharts", version.ref = "ycharts"}
+ycharts = { group = "co.yml", name = "ycharts", version.ref = "ycharts" }
+
+# Firebase
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebase-crashlytics" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebase-messaging" }
+firebase-performance = { group = "com.google.firebase", name = "firebase-perf", version.ref = "firebase-performance" }
 
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 
@@ -102,6 +118,11 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 # Realm
 realm = { id = "io.realm.kotlin", version.ref = "realm" }
+
+# Firebase
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
+firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-performance-plugin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "gms-googleServices" }
 
 # Analysis
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

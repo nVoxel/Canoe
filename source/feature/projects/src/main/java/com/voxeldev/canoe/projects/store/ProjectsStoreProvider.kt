@@ -5,17 +5,26 @@ import com.arkivanov.mvikotlin.core.store.SimpleBootstrapper
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.perf.performance
 import com.voxeldev.canoe.projects.api.ProjectsModel
 import com.voxeldev.canoe.projects.api.ProjectsRequest
 import com.voxeldev.canoe.projects.integration.GetProjectsUseCase
 import com.voxeldev.canoe.projects.store.ProjectsStore.Intent
 import com.voxeldev.canoe.projects.store.ProjectsStore.State
+import com.voxeldev.canoe.utils.analytics.CustomEvent
+import com.voxeldev.canoe.utils.analytics.CustomTrace
+import com.voxeldev.canoe.utils.analytics.logEvent
+import com.voxeldev.canoe.utils.analytics.startTrace
 
 /**
  * @author nvoxel
  */
 internal class ProjectsStoreProvider(
     private val storeFactory: StoreFactory,
+    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics,
     private val getProjectsUseCase: GetProjectsUseCase = GetProjectsUseCase(),
 ) {
 
@@ -51,12 +60,18 @@ internal class ProjectsStoreProvider(
         }
 
         private fun loadProjects(params: ProjectsRequest) {
+            val trace = Firebase.performance.startTrace(trace = CustomTrace.ProjectsLoadTrace)
             dispatch(message = Msg.ProjectsLoading)
             getProjectsUseCase(params = params, scope = scope) { result ->
-                result.fold(
-                    onSuccess = { dispatch(message = Msg.ProjectsLoaded(projectsModel = it)) },
-                    onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
-                )
+                result
+                    .fold(
+                        onSuccess = {
+                            firebaseAnalytics.logEvent(event = CustomEvent.LoadedProjects)
+                            dispatch(message = Msg.ProjectsLoaded(projectsModel = it))
+                        },
+                        onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                    )
+                    .also { trace.stop() }
             }
         }
     }
@@ -64,8 +79,8 @@ internal class ProjectsStoreProvider(
     private object ReducerImpl : Reducer<State, Msg> {
         override fun State.reduce(msg: Msg): State =
             when (msg) {
-                is Msg.ProjectsLoaded -> copy(projectsModel = msg.projectsModel, errorText = null, isLoading = false)
-                is Msg.ProjectsLoading -> copy(isLoading = true)
+                is Msg.ProjectsLoaded -> copy(projectsModel = msg.projectsModel, isLoading = false)
+                is Msg.ProjectsLoading -> copy(isLoading = true, errorText = null)
                 is Msg.Error -> copy(errorText = msg.message, isLoading = false)
                 is Msg.TextChanged -> copy(searchText = msg.text)
                 is Msg.SearchToggled -> copy(searchActive = msg.active)

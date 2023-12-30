@@ -7,12 +7,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.google.firebase.FirebaseApp
 import com.voxeldev.canoe.compose.ui.root.RootContent
 import com.voxeldev.canoe.root.integration.LinkHandler
 import com.voxeldev.canoe.root.integration.RootComponent
+import com.voxeldev.canoe.utils.extensions.checkNotificationsPermission
+import com.voxeldev.canoe.utils.extensions.registerNotificationsPermissionLauncher
 import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
+
+    private val launcher = registerNotificationsPermissionLauncher()
 
     private val androidLinkHandler = LinkHandler { url ->
         startActivity(
@@ -22,6 +27,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FirebaseApp.initializeApp(applicationContext)
+
+        checkNotificationsPermission(launcher)
 
         val root =
             RootComponent(

@@ -6,11 +6,19 @@ import com.arkivanov.mvikotlin.core.store.SimpleBootstrapper
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.perf.performance
 import com.voxeldev.canoe.settings.integration.GetAccessTokenFromCodeUseCase
 import com.voxeldev.canoe.settings.integration.GetAccessTokenFromStorageUseCase
 import com.voxeldev.canoe.settings.integration.RevokeAccessTokenUseCase
 import com.voxeldev.canoe.settings.store.SettingsStore.Intent
 import com.voxeldev.canoe.settings.store.SettingsStore.State
+import com.voxeldev.canoe.utils.analytics.CustomEvent
+import com.voxeldev.canoe.utils.analytics.CustomTrace
+import com.voxeldev.canoe.utils.analytics.logEvent
+import com.voxeldev.canoe.utils.analytics.startTrace
 import com.voxeldev.canoe.utils.integration.BaseUseCase
 import com.voxeldev.canoe.utils.parsers.AuthenticationCodeParser
 import com.voxeldev.canoe.utils.parsers.DefaultAuthenticationCodeParser
@@ -21,6 +29,7 @@ import com.voxeldev.canoe.utils.parsers.DefaultAuthenticationCodeParser
 internal class SettingsStoreProvider(
     private val storeFactory: StoreFactory,
     private val deepLink: Uri?,
+    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics,
     private val authenticationCodeParser: AuthenticationCodeParser = DefaultAuthenticationCodeParser(),
     private val getAccessTokenFromCodeUseCase: GetAccessTokenFromCodeUseCase = GetAccessTokenFromCodeUseCase(),
     private val getAccessTokenFromStorageUseCase: GetAccessTokenFromStorageUseCase = GetAccessTokenFromStorageUseCase(),
@@ -71,23 +80,35 @@ internal class SettingsStoreProvider(
 
         private fun getAccessTokenFromCode(uri: Uri) {
             authenticationCodeParser.getAuthenticationCode(uri)?.let { code ->
+                val trace = Firebase.performance.startTrace(trace = CustomTrace.AuthenticationLoadTrace)
                 dispatch(message = Msg.AccessTokenLoading)
                 getAccessTokenFromCodeUseCase(params = code, scope = scope) { result ->
-                    result.fold(
-                        onSuccess = { dispatch(message = Msg.AccessTokenLoaded(isConnected = true)) },
-                        onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
-                    )
+                    result
+                        .fold(
+                            onSuccess = {
+                                firebaseAnalytics.logEvent(event = CustomEvent.Login)
+                                dispatch(message = Msg.AccessTokenLoaded(isConnected = true))
+                            },
+                            onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                        )
+                        .also { trace.stop() }
                 }
             }
         }
 
         private fun revokeAccessToken() {
+            val trace = Firebase.performance.startTrace(trace = CustomTrace.AuthenticationLoadTrace)
             dispatch(Msg.AccessTokenLoading)
             revokeAccessTokenUseCase(params = BaseUseCase.NoParams, scope = scope) { result ->
-                result.fold(
-                    onSuccess = { dispatch(message = Msg.AccessTokenLoaded(isConnected = false)) },
-                    onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
-                )
+                result
+                    .fold(
+                        onSuccess = {
+                            firebaseAnalytics.logEvent(event = CustomEvent.Logout)
+                            dispatch(message = Msg.AccessTokenLoaded(isConnected = false))
+                        },
+                        onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                    )
+                    .also { trace.stop() }
             }
         }
     }
