@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -34,11 +33,10 @@ dependencies {
     implementation(libs.decompose.extensions)
     implementation(libs.mvikotlin)
     implementation(libs.mvikotlin.extensions.coroutines)
-    implementation(libs.kotlinx.serialization.json)
 
     implementation(project(":source:data:network"))
+    implementation(project(":source:utils"))
     api(project(":source:feature:dashboard-api"))
-    api(project(":source:utils"))
 
     implementation(libs.koin)
 

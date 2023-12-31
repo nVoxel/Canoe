@@ -49,7 +49,7 @@ import java.util.Locale
 /**
  * @author nvoxel
  */
-class SummariesDatabaseMapper {
+internal class SummariesDatabaseMapper {
 
     private val fromSimpleDateFormat = SimpleDateFormat(ISO_8601_DATE_FORMAT, Locale.getDefault())
     private val toSimpleDateFormat = SimpleDateFormat(AXIS_FORMAT, Locale.getDefault())

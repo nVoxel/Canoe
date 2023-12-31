@@ -48,12 +48,12 @@ dependencies {
 
     implementation(libs.realm)
 
-    api(project(":source:feature:dashboard-api"))
-    api(project(":source:feature:leaderboards-api"))
-    api(project(":source:feature:projects-api"))
-    api(project(":source:feature:settings-api"))
-    api(project(":source:data:database"))
-    api(project(":source:utils"))
+    implementation(project(":source:feature:dashboard-api"))
+    implementation(project(":source:feature:leaderboards-api"))
+    implementation(project(":source:feature:projects-api"))
+    implementation(project(":source:feature:settings-api"))
+    implementation(project(":source:data:database"))
+    implementation(project(":source:utils"))
     implementation(project(":source:data:local"))
 
     testImplementation(libs.junit)

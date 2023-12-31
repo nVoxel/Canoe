@@ -8,7 +8,7 @@ import org.koin.core.component.inject
 /**
  * @author nvoxel
  */
-class RevokeAccessTokenUseCase : BaseUseCase<BaseUseCase.NoParams, Unit>(), KoinComponent {
+internal class RevokeAccessTokenUseCase : BaseUseCase<BaseUseCase.NoParams, Unit>(), KoinComponent {
 
     private val authenticationRepository: AuthenticationRepository by inject()
 

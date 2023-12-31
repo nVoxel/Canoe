@@ -16,7 +16,7 @@ import java.util.Locale
 /**
  * @author nvoxel
  */
-class SummariesMapper {
+internal class SummariesMapper {
 
     fun toModel(summariesResponse: SummariesResponse): SummariesModel =
         SummariesModel(

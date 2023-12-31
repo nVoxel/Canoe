@@ -25,7 +25,7 @@ import com.voxeldev.canoe.settings.integration.SettingsComponent
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsContent(component: SettingsComponent) {
+internal fun SettingsContent(component: SettingsComponent) {
     val model by component.model.subscribeAsState()
 
     Scaffold(

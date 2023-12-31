@@ -36,7 +36,7 @@ import com.voxeldev.canoe.projects.integration.ProjectsComponent
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProjectsContent(component: ProjectsComponent) {
+internal fun ProjectsContent(component: ProjectsComponent) {
     val model by component.model.subscribeAsState()
 
     Scaffold(

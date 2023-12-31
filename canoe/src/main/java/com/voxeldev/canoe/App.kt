@@ -12,7 +12,7 @@ import org.koin.core.context.startKoin
 /**
  * @author nvoxel
  */
-class App : Application() {
+internal class App : Application() {
 
     override fun onCreate() {
         startKoin {

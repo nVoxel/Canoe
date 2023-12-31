@@ -9,7 +9,7 @@ import io.realm.kotlin.query.RealmResults
 /**
  * @author nvoxel
  */
-class DefaultSummariesDatabase : SummariesDatabase, RealmDatabase() {
+internal class DefaultSummariesDatabase : SummariesDatabase, RealmDatabase() {
 
     override val configuration: RealmConfiguration = super.configuration
 

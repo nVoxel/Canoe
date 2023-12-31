@@ -9,7 +9,7 @@ import io.realm.kotlin.query.RealmResults
 /**
  * @author nvoxel
  */
-class DefaultProgramLanguagesDatabase : ProgramLanguagesDatabase, RealmDatabase() {
+internal class DefaultProgramLanguagesDatabase : ProgramLanguagesDatabase, RealmDatabase() {
 
     override val configuration: RealmConfiguration = super.configuration
 

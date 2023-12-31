@@ -15,7 +15,7 @@ import com.voxeldev.canoe.utils.extensions.checkNotificationsPermission
 import com.voxeldev.canoe.utils.extensions.registerNotificationsPermissionLauncher
 import org.koin.android.ext.android.get
 
-class MainActivity : ComponentActivity() {
+internal class MainActivity : ComponentActivity() {
 
     private val launcher = registerNotificationsPermissionLauncher()
 

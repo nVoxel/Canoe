@@ -9,7 +9,7 @@ import org.koin.core.component.inject
 /**
  * @author nvoxel
  */
-class GetProgramLanguagesUseCase : BaseUseCase<BaseUseCase.NoParams, ProgramLanguagesModel>(), KoinComponent {
+internal class GetProgramLanguagesUseCase : BaseUseCase<BaseUseCase.NoParams, ProgramLanguagesModel>(), KoinComponent {
 
     private val programLanguagesRepository: ProgramLanguagesRepository by inject()
 

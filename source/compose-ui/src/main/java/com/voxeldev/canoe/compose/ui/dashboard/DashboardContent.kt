@@ -42,7 +42,7 @@ import com.voxeldev.canoe.dashboard.integration.DashboardComponent
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardContent(component: DashboardComponent) {
+internal fun DashboardContent(component: DashboardComponent) {
     val model by component.model.subscribeAsState()
 
     Scaffold(
@@ -95,7 +95,7 @@ fun DashboardContent(component: DashboardComponent) {
 }
 
 @Composable
-fun Header(
+internal fun Header(
     summariesModel: SummariesModel,
     startDate: String,
     endDate: String,

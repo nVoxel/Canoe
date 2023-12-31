@@ -20,7 +20,7 @@ import com.voxeldev.canoe.network.wakatime.datasource.response.UserResponse
 /**
  * @author nvoxel
  */
-class LeaderboardsMapper {
+internal class LeaderboardsMapper {
 
     fun toModel(leaderboardsResponse: LeaderboardsResponse): LeaderboardsModel =
         LeaderboardsModel(

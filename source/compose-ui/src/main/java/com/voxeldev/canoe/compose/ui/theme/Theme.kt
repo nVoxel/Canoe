@@ -75,7 +75,7 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun CanoeTheme(
+internal fun CanoeTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {

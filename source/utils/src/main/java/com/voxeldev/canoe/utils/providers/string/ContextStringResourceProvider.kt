@@ -6,7 +6,7 @@ import com.voxeldev.canoe.utils.R
 /**
  * @author nvoxel
  */
-class ContextStringResourceProvider(context: Context) : StringResourceProvider {
+internal class ContextStringResourceProvider(context: Context) : StringResourceProvider {
 
     private val resources = context.resources
 
@@ -15,7 +15,7 @@ class ContextStringResourceProvider(context: Context) : StringResourceProvider {
     override fun getWakaTimePhotoBaseUrl(): String = resources.getString(R.string.wakatime_photo_base_url)
     override fun getWakaTimeProfileBaseUrl(): String = resources.getString(R.string.wakatime_profile_base_url)
     override fun getOAuthAuthorizeUrl(): String = "${getWakaTimeOAuthBaseUrl()}authorize?client_id=${getOAuthClientId()}" +
-        "&scope=email,read_logged_time,read_stats&response_type=code&redirect_uri=${getOAuthRedirectUrl()}"
+            "&scope=email,read_logged_time,read_stats&response_type=code&redirect_uri=${getOAuthRedirectUrl()}"
 
     override fun getOAuthClientId(): String = resources.getString(R.string.oauth_client_id)
     override fun getOAuthClientSecret(): String = resources.getString(R.string.oauth_client_secret)

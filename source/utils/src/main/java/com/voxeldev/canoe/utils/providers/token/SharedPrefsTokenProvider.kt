@@ -7,7 +7,7 @@ import androidx.security.crypto.MasterKey
 /**
  * @author nvoxel
  */
-class SharedPrefsTokenProvider(context: Context) : TokenProvider {
+internal class SharedPrefsTokenProvider(context: Context) : TokenProvider {
 
     private val masterKey: MasterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)

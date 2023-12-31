@@ -65,6 +65,8 @@ formatting:
     active: false
   FunctionSignature:
     active: false
+  Indentation:
+    active: false
   MaximumLineLength:
     active: false
   MultilineExpressionWrapping:

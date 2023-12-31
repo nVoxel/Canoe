@@ -17,7 +17,7 @@ import io.realm.kotlin.query.TRUE_PREDICATE
 /**
  * @author nvoxel
  */
-class DefaultProgramLanguagesRepository(
+internal class DefaultProgramLanguagesRepository(
     networkHandler: NetworkHandler,
     httpClient: HttpClient,
     authenticationRepository: AuthenticationRepository,

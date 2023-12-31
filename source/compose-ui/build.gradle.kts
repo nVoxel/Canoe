@@ -42,7 +42,7 @@ dependencies {
     implementation(libs.compose.foundation.android)
 
     implementation(libs.material3)
-    implementation(libs.material.icons.extended)
+    // implementation(libs.material.icons.extended)
 
     implementation(libs.coil)
     implementation(libs.vico.compose.m3)

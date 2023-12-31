@@ -12,7 +12,7 @@ import kotlin.random.Random
  * @author nvoxel
  */
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
-class FcmService : FirebaseMessagingService() {
+internal class FcmService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         message.notification?.let {
