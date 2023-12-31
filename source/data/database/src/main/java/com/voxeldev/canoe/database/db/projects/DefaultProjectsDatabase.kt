@@ -9,7 +9,7 @@ import io.realm.kotlin.query.RealmResults
 /**
  * @author nvoxel
  */
-class DefaultProjectsDatabase : ProjectsDatabase, RealmDatabase() {
+internal class DefaultProjectsDatabase : ProjectsDatabase, RealmDatabase() {
 
     override val configuration: RealmConfiguration = super.configuration
 

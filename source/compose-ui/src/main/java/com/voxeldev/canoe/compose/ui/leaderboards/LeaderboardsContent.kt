@@ -13,9 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
@@ -45,6 +42,7 @@ import coil.transform.CircleCropTransformation
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.voxeldev.canoe.compose.ui.components.Error
 import com.voxeldev.canoe.compose.ui.components.Loader
+import com.voxeldev.canoe.compose.ui.theme.AdditionalIcons
 import com.voxeldev.canoe.leaderboards.Leaderboards
 import com.voxeldev.canoe.leaderboards.api.GeneralizedUser
 import com.voxeldev.canoe.leaderboards.api.LeaderboardEntry
@@ -57,7 +55,7 @@ import org.koin.compose.koinInject
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LeaderboardsContent(component: LeaderboardsComponent) {
+internal fun LeaderboardsContent(component: LeaderboardsComponent) {
     val model by component.model.subscribeAsState()
     val stringResourceProvider = koinInject<StringResourceProvider>()
 
@@ -67,7 +65,7 @@ fun LeaderboardsContent(component: LeaderboardsComponent) {
                 title = { Text(text = "Leaderboards") },
                 actions = {
                     IconButton(onClick = { component.onToggleFilterBottomSheet() }) {
-                        Icon(imageVector = Icons.Default.FilterList, contentDescription = "Filters")
+                        Icon(imageVector = AdditionalIcons.FilterList, contentDescription = "Filters")
                     }
                 }
             )
@@ -289,7 +287,7 @@ private fun FilterBottomSheet(
                 Spacer(modifier = Modifier.size(size = 8.dp))
 
                 Button(onClick = onResetFilters) {
-                    Icon(imageVector = Icons.Default.RestartAlt, contentDescription = "Reset filters")
+                    Icon(imageVector = AdditionalIcons.RestartAlt, contentDescription = "Reset filters")
                     Text(text = "Reset filters")
                 }
             }

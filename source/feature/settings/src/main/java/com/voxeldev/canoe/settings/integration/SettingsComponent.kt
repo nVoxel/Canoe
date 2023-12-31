@@ -11,7 +11,10 @@ import com.voxeldev.canoe.settings.Settings.Output
 import com.voxeldev.canoe.settings.store.SettingsStore
 import com.voxeldev.canoe.settings.store.SettingsStoreProvider
 import com.voxeldev.canoe.utils.extensions.asValue
+import com.voxeldev.canoe.utils.parsers.AuthenticationCodeParser
 import com.voxeldev.canoe.utils.providers.string.StringResourceProvider
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 /**
  * @author nvoxel
@@ -22,10 +25,16 @@ class SettingsComponent(
     private val stringResourceProvider: StringResourceProvider,
     private val deepLink: Uri?,
     private val output: (Output) -> Unit,
-) : Settings, ComponentContext by componentContext {
+) : Settings, KoinComponent, ComponentContext by componentContext {
+
+    private val authenticationCodeParser: AuthenticationCodeParser by inject()
 
     private val store = instanceKeeper.getStore {
-        SettingsStoreProvider(storeFactory = storeFactory, deepLink = deepLink).provide()
+        SettingsStoreProvider(
+            storeFactory = storeFactory,
+            deepLink = deepLink,
+            authenticationCodeParser = authenticationCodeParser
+        ).provide()
     }
 
     override val model: Value<Settings.Model> = store.asValue().map { state ->

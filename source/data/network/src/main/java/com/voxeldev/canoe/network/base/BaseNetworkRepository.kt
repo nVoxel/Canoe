@@ -14,7 +14,7 @@ import io.ktor.http.HttpStatusCode
 /**
  * @author nvoxel
  */
-abstract class BaseNetworkRepository<Model>(
+internal abstract class BaseNetworkRepository<Model>(
     protected val networkHandler: NetworkHandler,
     protected val httpClient: HttpClient,
     protected val authenticationRepository: AuthenticationRepository,

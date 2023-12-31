@@ -31,8 +31,8 @@ android {
 dependencies {
     implementation(libs.koin)
 
-    api(project(":source:utils"))
-    api(project(":source:feature:settings-api"))
+    implementation(project(":source:utils"))
+    implementation(project(":source:feature:settings-api"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

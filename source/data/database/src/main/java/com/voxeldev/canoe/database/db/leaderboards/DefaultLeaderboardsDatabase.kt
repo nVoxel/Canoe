@@ -9,7 +9,7 @@ import io.realm.kotlin.query.RealmResults
 /**
  * @author nvoxel
  */
-class DefaultLeaderboardsDatabase : LeaderboardsDatabase, RealmDatabase() {
+internal class DefaultLeaderboardsDatabase : LeaderboardsDatabase, RealmDatabase() {
 
     override val configuration: RealmConfiguration = super.configuration
 

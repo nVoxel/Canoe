@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  * @author nvoxel
  */
 @Serializable
-data class LeaderboardsResponse(
+internal data class LeaderboardsResponse(
     @SerialName("current_user")
     val currentUser: CurrentUserResponse,
     val data: List<LeaderboardEntryResponse>,
@@ -28,7 +28,7 @@ data class LeaderboardsResponse(
 )
 
 @Serializable
-data class CurrentUserResponse(
+internal data class CurrentUserResponse(
     val rank: Int?,
     @SerialName("running_total")
     val runningTotal: RunningTotalResponse?,
@@ -37,7 +37,7 @@ data class CurrentUserResponse(
 )
 
 @Serializable
-data class UserResponse(
+internal data class UserResponse(
     val id: String,
     val email: String?,
     val username: String? = null,
@@ -58,7 +58,7 @@ data class UserResponse(
 )
 
 @Serializable
-data class CityResponse(
+internal data class CityResponse(
     @SerialName("country_code")
     val countryCode: String? = null,
     val name: String? = null,
@@ -67,7 +67,7 @@ data class CityResponse(
 )
 
 @Serializable
-data class LeaderboardEntryResponse(
+internal data class LeaderboardEntryResponse(
     val rank: Int,
     @SerialName("running_total")
     val runningTotal: RunningTotalResponse? = null,
@@ -75,7 +75,7 @@ data class LeaderboardEntryResponse(
 )
 
 @Serializable
-data class RunningTotalResponse(
+internal data class RunningTotalResponse(
     @SerialName("total_seconds")
     val totalSeconds: Float? = null,
     @SerialName("human_readable_total")
@@ -88,7 +88,7 @@ data class RunningTotalResponse(
 )
 
 @Serializable
-data class TimeRangeResponse(
+internal data class TimeRangeResponse(
     @SerialName("start_date")
     val startDate: String? = null,
     @SerialName("start_text")

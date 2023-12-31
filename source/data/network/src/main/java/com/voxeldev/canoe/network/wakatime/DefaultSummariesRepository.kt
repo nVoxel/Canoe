@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter
 /**
  * @author nvoxel
  */
-class DefaultSummariesRepository(
+internal class DefaultSummariesRepository(
     networkHandler: NetworkHandler,
     httpClient: HttpClient,
     authenticationRepository: AuthenticationRepository,

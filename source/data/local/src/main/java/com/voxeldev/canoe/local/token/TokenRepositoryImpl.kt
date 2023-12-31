@@ -7,7 +7,7 @@ import com.voxeldev.canoe.utils.providers.token.TokenProvider
 /**
  * @author nvoxel
  */
-class TokenRepositoryImpl(
+internal class TokenRepositoryImpl(
     private val tokenProvider: TokenProvider,
 ) : TokenRepository {
 

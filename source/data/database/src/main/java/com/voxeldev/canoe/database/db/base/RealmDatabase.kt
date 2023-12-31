@@ -6,7 +6,7 @@ import io.realm.kotlin.RealmConfiguration
 /**
  * @author nvoxel
  */
-abstract class RealmDatabase {
+internal abstract class RealmDatabase {
 
     private var realm: Realm? = null
 

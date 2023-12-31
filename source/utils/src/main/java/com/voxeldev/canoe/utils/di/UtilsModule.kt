@@ -1,5 +1,7 @@
 package com.voxeldev.canoe.utils.di
 
+import com.voxeldev.canoe.utils.parsers.AuthenticationCodeParser
+import com.voxeldev.canoe.utils.parsers.DefaultAuthenticationCodeParser
 import com.voxeldev.canoe.utils.platform.NetworkHandler
 import com.voxeldev.canoe.utils.providers.string.ContextStringResourceProvider
 import com.voxeldev.canoe.utils.providers.string.StringResourceProvider
@@ -14,6 +16,8 @@ import org.koin.dsl.module
 val utilsModule = module {
 
     single { NetworkHandler(context = androidContext()) }
+
+    single<AuthenticationCodeParser> { DefaultAuthenticationCodeParser() }
 
     single<TokenProvider> { SharedPrefsTokenProvider(androidContext()) }
 

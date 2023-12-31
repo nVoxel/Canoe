@@ -10,7 +10,7 @@ import org.koin.core.component.inject
 /**
  * @author nvoxel
  */
-class GetSummariesUseCase : BaseUseCase<SummariesRequest, SummariesModel>(), KoinComponent {
+internal class GetSummariesUseCase : BaseUseCase<SummariesRequest, SummariesModel>(), KoinComponent {
 
     private val summariesRepository: SummariesRepository by inject()
 

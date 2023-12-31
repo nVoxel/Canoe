@@ -34,10 +34,10 @@ dependencies {
     implementation(libs.mvikotlin)
     implementation(libs.mvikotlin.extensions.coroutines)
 
-    api(project(":source:utils"))
-    implementation(project(":source:data:local"))
     implementation(project(":source:data:network"))
+    implementation(project(":source:data:local"))
     implementation(project(":source:feature:settings-api"))
+    api(project(":source:utils"))
 
     implementation(libs.koin)
 

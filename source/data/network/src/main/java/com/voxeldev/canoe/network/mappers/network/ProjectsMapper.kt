@@ -8,7 +8,7 @@ import com.voxeldev.canoe.projects.api.ProjectsModel
 /**
  * @author nvoxel
  */
-class ProjectsMapper {
+internal class ProjectsMapper {
 
     fun toModel(projectsResponse: ProjectsResponse): ProjectsModel =
         ProjectsModel(

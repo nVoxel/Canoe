@@ -10,7 +10,7 @@ import org.koin.core.component.inject
 /**
  * @author nvoxel
  */
-class GetProjectsUseCase : BaseUseCase<ProjectsRequest, ProjectsModel>(), KoinComponent {
+internal class GetProjectsUseCase : BaseUseCase<ProjectsRequest, ProjectsModel>(), KoinComponent {
 
     private val projectsRepository: ProjectsRepository by inject()
 

@@ -8,7 +8,7 @@ import org.koin.core.component.inject
 /**
  * @author nvoxel
  */
-class GetAccessTokenFromStorageUseCase : BaseUseCase<BaseUseCase.NoParams, String>(), KoinComponent {
+internal class GetAccessTokenFromStorageUseCase : BaseUseCase<BaseUseCase.NoParams, String>(), KoinComponent {
 
     private val tokenRepository: TokenRepository by inject()
 

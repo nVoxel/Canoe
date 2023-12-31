@@ -25,7 +25,7 @@ import com.voxeldev.canoe.utils.extensions.toColorInt
  * @author nvoxel
  */
 @Composable
-fun LanguagesChart(
+internal fun LanguagesChart(
     modifier: Modifier = Modifier,
     data: List<Pair<String, Pair<Float, String>>>,
     programLanguagesModel: ProgramLanguagesModel,
@@ -39,7 +39,7 @@ fun LanguagesChart(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun UsageChart(
+internal fun UsageChart(
     modifier: Modifier = Modifier,
     data: List<Pair<String, Triple<Float, String, Int>>>,
     isDonutChart: Boolean = true,

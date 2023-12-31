@@ -2,8 +2,6 @@ package com.voxeldev.canoe.compose.ui.root
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -27,6 +25,7 @@ import com.voxeldev.canoe.compose.ui.dashboard.DashboardContent
 import com.voxeldev.canoe.compose.ui.leaderboards.LeaderboardsContent
 import com.voxeldev.canoe.compose.ui.projects.ProjectsContent
 import com.voxeldev.canoe.compose.ui.settings.SettingsContent
+import com.voxeldev.canoe.compose.ui.theme.AdditionalIcons
 import com.voxeldev.canoe.compose.ui.theme.CanoeTheme
 import com.voxeldev.canoe.root.Root
 import com.voxeldev.canoe.root.integration.RootComponent
@@ -81,7 +80,7 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
             onClick = component::onDashboardTabClicked,
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Dashboard,
+                    imageVector = AdditionalIcons.Dashboard,
                     contentDescription = "Dashboard",
                 )
             },
@@ -96,7 +95,7 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
             onClick = component::onLeaderboardsTabClicked,
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Leaderboard,
+                    imageVector = AdditionalIcons.Leaderboard,
                     contentDescription = "Leaderboards",
                 )
             },

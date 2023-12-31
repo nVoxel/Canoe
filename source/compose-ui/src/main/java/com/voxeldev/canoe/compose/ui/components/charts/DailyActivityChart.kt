@@ -20,7 +20,7 @@ import com.voxeldev.canoe.dashboard.api.sumaries.DailyChartData
  * @author nvoxel
  */
 @Composable
-fun DailyActivityChart(data: DailyChartData) {
+internal fun DailyActivityChart(data: DailyChartData) {
     val chartModel =
         CartesianChartModel(
             ColumnCartesianLayerModel.build {

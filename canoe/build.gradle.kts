@@ -70,7 +70,6 @@ dependencies {
 
     implementation(libs.koin)
 
-    implementation(libs.ui)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
 

@@ -29,7 +29,7 @@ import io.realm.kotlin.ext.toRealmList
 /**
  * @author nvoxel
  */
-class LeaderboardsDatabaseMapper {
+internal class LeaderboardsDatabaseMapper {
 
     fun toObject(leaderboardsResponse: LeaderboardsResponse): LeaderboardsObject =
         LeaderboardsObject().apply {

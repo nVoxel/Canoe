@@ -7,13 +7,13 @@ import kotlinx.serialization.Serializable
  * @author nvoxel
  */
 @Serializable
-data class ProjectsResponse(
+internal data class ProjectsResponse(
     val data: List<ProjectResponse>,
     val message: String? = null,
 )
 
 @Serializable
-data class ProjectResponse(
+internal data class ProjectResponse(
     val id: String,
     val name: String,
     val repository: String?,

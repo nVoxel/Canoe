@@ -21,7 +21,6 @@ import com.voxeldev.canoe.utils.analytics.logEvent
 import com.voxeldev.canoe.utils.analytics.startTrace
 import com.voxeldev.canoe.utils.integration.BaseUseCase
 import com.voxeldev.canoe.utils.parsers.AuthenticationCodeParser
-import com.voxeldev.canoe.utils.parsers.DefaultAuthenticationCodeParser
 
 /**
  * @author nvoxel
@@ -29,8 +28,8 @@ import com.voxeldev.canoe.utils.parsers.DefaultAuthenticationCodeParser
 internal class SettingsStoreProvider(
     private val storeFactory: StoreFactory,
     private val deepLink: Uri?,
+    private val authenticationCodeParser: AuthenticationCodeParser,
     private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics,
-    private val authenticationCodeParser: AuthenticationCodeParser = DefaultAuthenticationCodeParser(),
     private val getAccessTokenFromCodeUseCase: GetAccessTokenFromCodeUseCase = GetAccessTokenFromCodeUseCase(),
     private val getAccessTokenFromStorageUseCase: GetAccessTokenFromStorageUseCase = GetAccessTokenFromStorageUseCase(),
     private val revokeAccessTokenUseCase: RevokeAccessTokenUseCase = RevokeAccessTokenUseCase(),

@@ -18,7 +18,7 @@ import io.ktor.http.parameters
 /**
  * @author nvoxel
  */
-class DefaultAuthenticationRepository(
+internal class DefaultAuthenticationRepository(
     private val networkHandler: NetworkHandler,
     private val httpClient: HttpClient,
     private val stringResourceProvider: StringResourceProvider,

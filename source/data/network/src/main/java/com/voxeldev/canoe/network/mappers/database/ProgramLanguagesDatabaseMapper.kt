@@ -13,7 +13,7 @@ import io.realm.kotlin.ext.toRealmList
 /**
  * @author nvoxel
  */
-class ProgramLanguagesDatabaseMapper {
+internal class ProgramLanguagesDatabaseMapper {
 
     fun toObject(programLanguagesResponse: ProgramLanguagesResponse): ProgramLanguagesObject =
         ProgramLanguagesObject().apply {

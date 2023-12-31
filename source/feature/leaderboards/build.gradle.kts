@@ -36,8 +36,8 @@ dependencies {
     implementation(libs.mvikotlin.extensions.coroutines)
 
     implementation(project(":source:data:network"))
+    implementation(project(":source:utils"))
     api(project(":source:feature:leaderboards-api"))
-    api(project(":source:utils"))
 
     implementation(libs.koin)
 

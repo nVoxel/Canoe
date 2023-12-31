@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -16,12 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.voxeldev.canoe.compose.ui.theme.AdditionalIcons
 
 /**
  * @author nvoxel
  */
 @Composable
-fun Error(
+internal fun Error(
     message: String,
     shouldShowRetry: Boolean,
     retryCallback: () -> Unit = {},
@@ -45,7 +44,7 @@ fun Error(
             ) {
                 Icon(
                     modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Default.RestartAlt,
+                    imageVector = AdditionalIcons.RestartAlt,
                     contentDescription = null
                 )
                 Text(

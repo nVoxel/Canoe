@@ -11,7 +11,7 @@ import io.realm.kotlin.ext.toRealmList
 /**
  * @author nvoxel
  */
-class ProjectsDatabaseMapper {
+internal class ProjectsDatabaseMapper {
 
     fun toObject(projectsResponse: ProjectsResponse, searchQuery: String?): ProjectsObject =
         ProjectsObject().apply {

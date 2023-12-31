@@ -18,7 +18,7 @@ import io.realm.kotlin.query.TRUE_PREDICATE
 /**
  * @author nvoxel
  */
-class DefaultLeaderboardsRepository(
+internal class DefaultLeaderboardsRepository(
     networkHandler: NetworkHandler,
     httpClient: HttpClient,
     authenticationRepository: AuthenticationRepository,

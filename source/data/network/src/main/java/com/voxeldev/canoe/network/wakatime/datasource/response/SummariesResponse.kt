@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  * @author nvoxel
  */
 @Serializable
-data class SummariesResponse(
+internal data class SummariesResponse(
     val data: List<SummariesDayResponse>,
     @SerialName("cumulative_total")
     val cumulativeTotal: CumulativeTotalResponse,
@@ -18,7 +18,7 @@ data class SummariesResponse(
 )
 
 @Serializable
-data class SummariesDayResponse(
+internal data class SummariesDayResponse(
     @SerialName("grand_total")
     val grandTotal: GrandTotalResponse,
     val categories: List<CategoryResponse>,
@@ -35,7 +35,7 @@ data class SummariesDayResponse(
 )
 
 @Serializable
-sealed interface GeneralizedEntityResponse {
+internal sealed interface GeneralizedEntityResponse {
     val name: String
 
     @SerialName("total_seconds")
@@ -43,7 +43,7 @@ sealed interface GeneralizedEntityResponse {
 }
 
 @Serializable
-data class GrandTotalResponse(
+internal data class GrandTotalResponse(
     val digital: String,
     val hours: Int,
     val minutes: Int,
@@ -53,7 +53,7 @@ data class GrandTotalResponse(
 )
 
 @Serializable
-data class CategoryResponse(
+internal data class CategoryResponse(
     val name: String,
     @SerialName("total_seconds")
     val totalSeconds: Float,
@@ -65,7 +65,7 @@ data class CategoryResponse(
 )
 
 @Serializable
-data class SummaryProjectResponse(
+internal data class SummaryProjectResponse(
     val name: String,
     @SerialName("total_seconds")
     val totalSeconds: Float,
@@ -78,7 +78,7 @@ data class SummaryProjectResponse(
 )
 
 @Serializable
-data class LanguageResponse(
+internal data class LanguageResponse(
     override val name: String,
     @SerialName("total_seconds")
     override val totalSeconds: Float,
@@ -91,7 +91,7 @@ data class LanguageResponse(
 ) : GeneralizedEntityResponse
 
 @Serializable
-data class EditorResponse(
+internal data class EditorResponse(
     override val name: String,
     @SerialName("total_seconds")
     override val totalSeconds: Float,
@@ -104,7 +104,7 @@ data class EditorResponse(
 ) : GeneralizedEntityResponse
 
 @Serializable
-data class OperatingSystemResponse(
+internal data class OperatingSystemResponse(
     override val name: String,
     @SerialName("total_seconds")
     override val totalSeconds: Float,
@@ -117,7 +117,7 @@ data class OperatingSystemResponse(
 ) : GeneralizedEntityResponse
 
 @Serializable
-data class DependencyResponse(
+internal data class DependencyResponse(
     val name: String,
     @SerialName("total_seconds")
     val totalSeconds: Float,
@@ -130,7 +130,7 @@ data class DependencyResponse(
 )
 
 @Serializable
-data class MachineResponse(
+internal data class MachineResponse(
     override val name: String,
     @SerialName("total_seconds")
     override val totalSeconds: Float,
@@ -145,7 +145,7 @@ data class MachineResponse(
 ) : GeneralizedEntityResponse
 
 @Serializable
-data class BranchResponse(
+internal data class BranchResponse(
     val name: String,
     @SerialName("total_seconds")
     val totalSeconds: Float,
@@ -158,7 +158,7 @@ data class BranchResponse(
 )
 
 @Serializable
-data class EntityResponse(
+internal data class EntityResponse(
     val name: String,
     @SerialName("total_seconds")
     val totalSeconds: Float,
@@ -171,7 +171,7 @@ data class EntityResponse(
 )
 
 @Serializable
-data class RangeResponse(
+internal data class RangeResponse(
     val date: String,
     val start: String,
     val end: String,
@@ -180,7 +180,7 @@ data class RangeResponse(
 )
 
 @Serializable
-data class CumulativeTotalResponse(
+internal data class CumulativeTotalResponse(
     val seconds: Float,
     val text: String,
     val decimal: String,
@@ -188,7 +188,7 @@ data class CumulativeTotalResponse(
 )
 
 @Serializable
-data class DailyAverageResponse(
+internal data class DailyAverageResponse(
     val holidays: Int,
     @SerialName("days_including_holidays")
     val daysIncludingHolidays: Int,

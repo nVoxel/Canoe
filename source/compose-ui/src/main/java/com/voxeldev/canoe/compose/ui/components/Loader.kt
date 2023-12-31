@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
  * @author nvoxel
  */
 @Composable
-fun Loader() {
+internal fun Loader() {
     Column(
         modifier = Modifier
             .fillMaxSize()

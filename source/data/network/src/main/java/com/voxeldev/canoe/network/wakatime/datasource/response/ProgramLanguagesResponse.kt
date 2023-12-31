@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  * @author nvoxel
  */
 @Serializable
-data class ProgramLanguagesResponse(
+internal data class ProgramLanguagesResponse(
     val data: List<ProgramLanguageResponse>,
     val total: Int,
     @SerialName("total_pages")
@@ -15,7 +15,7 @@ data class ProgramLanguagesResponse(
 )
 
 @Serializable
-data class ProgramLanguageResponse(
+internal data class ProgramLanguageResponse(
     val id: String,
     val name: String,
     val color: String?,

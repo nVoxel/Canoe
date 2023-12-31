@@ -10,7 +10,7 @@ import com.voxeldev.canoe.utils.extensions.toColorInt
 /**
  * @author nvoxel
  */
-class ProgramLanguagesMapper {
+internal class ProgramLanguagesMapper {
 
     fun toModel(programLanguagesResponse: ProgramLanguagesResponse): ProgramLanguagesModel =
         ProgramLanguagesModel(
