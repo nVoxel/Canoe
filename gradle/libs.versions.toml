@@ -33,7 +33,7 @@ version-name = "1.0"
 version-code = "1"
 
 agp = "8.2.0"
-jvm-target = "1.8"
+jvm-target = "11"
 kotlin = "1.9.21"
 
 android-minSdk = "27"

@@ -29,8 +29,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvm.target.get()
@@ -53,5 +53,12 @@ dependencies {
     implementation(libs.material)
 
     testImplementation(libs.junit)
+    testFixturesImplementation(libs.junit)
+    testFixturesImplementation(libs.mockito.core)
+    testFixturesImplementation(libs.mockito.kotlin)
+    testFixturesImplementation(libs.koin.test)
+    testFixturesImplementation(libs.koin.test.junit4)
+    testFixturesImplementation(libs.kotlinx.coroutines.test)
+
     androidTestImplementation(libs.androidx.test.ext.junit)
 }
