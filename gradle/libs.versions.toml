@@ -1,5 +1,6 @@
 [versions]
 activity-compose = "1.8.2"
+androidx-browser = "1.5.0"
 androidx-test-ext-junit = "1.1.5"
 coil = "2.5.0"
 compose-bom = "2023.10.01"
@@ -46,6 +47,7 @@ android-compileSdk = "34"
 [libraries]
 
 #AndroidX
+browser = { group = "androidx.browser", name = "browser", version.ref = "androidx-browser" }
 security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto" }
 
 # Material
