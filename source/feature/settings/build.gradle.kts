@@ -45,5 +45,12 @@ dependencies {
     implementation(libs.firebase.performance)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(testFixtures(project(":source:utils")))
+
     androidTestImplementation(libs.androidx.test.ext.junit)
 }

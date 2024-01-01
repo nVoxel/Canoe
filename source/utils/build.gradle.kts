@@ -35,6 +35,10 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.jvm.target.get()
     }
+
+    testFixtures {
+        enable = true
+    }
 }
 
 dependencies {
