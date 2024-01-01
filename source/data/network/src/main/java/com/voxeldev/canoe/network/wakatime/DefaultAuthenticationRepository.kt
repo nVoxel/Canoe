@@ -62,7 +62,7 @@ internal class DefaultAuthenticationRepository(
             formParameters = parameters {
                 append(CLIENT_ID_PARAM, stringResourceProvider.getOAuthClientId())
                 append(CLIENT_SECRET_PARAM, stringResourceProvider.getOAuthClientSecret())
-                append(ALL_PARAM, ALL_TRUE)
+                // append(ALL_PARAM, ALL_TRUE)
                 append(TOKEN_PARAM, tokenRepository.getAccessToken().getOrThrow())
             }
         ).map {
