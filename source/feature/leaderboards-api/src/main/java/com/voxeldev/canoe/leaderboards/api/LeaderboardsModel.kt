@@ -24,15 +24,15 @@ abstract class GeneralizedUser {
 }
 
 data class CurrentUser(
-    override val rank: Int?,
-    val page: Int?,
-    override val runningTotal: RunningTotal?,
+    override val rank: Int? = null,
+    val page: Int? = null,
+    override val runningTotal: RunningTotal? = null,
     override val user: User,
 ) : GeneralizedUser()
 
 data class User(
     val id: String,
-    val email: String?,
+    val email: String? = null,
     val username: String? = null,
     val fullName: String? = null,
     val displayName: String? = null,
