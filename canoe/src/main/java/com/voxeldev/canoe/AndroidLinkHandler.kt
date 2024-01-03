@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import com.voxeldev.canoe.root.integration.LinkHandler
 
 /**
@@ -36,9 +37,11 @@ class AndroidLinkHandler(private val context: Context) : LinkHandler {
     }
 
     private fun openUsingCustomTab(url: String) {
-        val intent = CustomTabsIntent.Builder().build()
-        CustomTabsIntent.Builder().build()
-        intent.launchUrl(context, Uri.parse(url))
+        CustomTabsIntent.Builder().build().apply {
+            intent.data = Uri.parse(url)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Otherwise app activity may close after returning from the Custom Tab
+            ContextCompat.startActivity(context, intent, startAnimationBundle)
+        }
     }
 
     private companion object {
