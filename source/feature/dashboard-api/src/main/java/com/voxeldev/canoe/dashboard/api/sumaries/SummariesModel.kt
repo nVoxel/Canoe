@@ -15,7 +15,7 @@ data class SummariesModel(
 
 data class DailyChartData(
     val projectsSeries: HashMap<String, MutableList<Pair<Float, String>>>,
-    val totalLabels: MutableList<String>,
+    val totalLabels: MutableList<Pair<Float, String>>,
     val horizontalLabels: MutableList<String>,
 )
 

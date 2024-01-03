@@ -21,6 +21,7 @@ internal interface DashboardStore : Store<Intent, State, Nothing> {
     }
 
     data class State(
+        val projectName: String? = null,
         val summariesModel: SummariesModel? = null,
         val programLanguagesModel: ProgramLanguagesModel? = null,
         val errorText: String? = null,
@@ -44,7 +45,7 @@ internal interface DashboardStore : Store<Intent, State, Nothing> {
             startDate = getCurrentDate(
                 calendar = calendar,
                 simpleDateFormat = simpleDateFormat,
-                daysOffset = DEFAULT_DAYS_OFFSET
+                daysOffset = DEFAULT_DAYS_OFFSET,
             ),
             endDate = getCurrentDate(calendar = calendar, simpleDateFormat = simpleDateFormat),
         )

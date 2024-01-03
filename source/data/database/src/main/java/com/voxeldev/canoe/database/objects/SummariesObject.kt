@@ -15,6 +15,7 @@ class SummariesObject : RealmObject {
     @PrimaryKey
     var _id: ObjectId = BsonObjectId()
     var timestamp: Long = 0L
+    var project: String? = null
     var data: RealmList<SummariesDayObject> = realmListOf()
     var cumulativeTotal: CumulativeTotalObject? = CumulativeTotalObject()
     var dailyAverage: DailyAverageObject? = DailyAverageObject()
@@ -62,7 +63,7 @@ class SummaryProjectObject : EmbeddedRealmObject {
     var totalSeconds: Float = 0f
     var percent: Float = 0f
     var digital: String = ""
-    var decimal: String = ""
+    var decimal: Float = 0f
     var text: String = ""
     var hours: Int = 0
     var minutes: Int = 0

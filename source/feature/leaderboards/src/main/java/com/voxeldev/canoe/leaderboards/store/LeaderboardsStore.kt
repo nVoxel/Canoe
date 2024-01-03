@@ -50,7 +50,7 @@ internal interface LeaderboardsStore : Store<Intent, State, Nothing> {
             JAVA,
             KOTLIN,
             PHP,
-            CSHARP
+            CSHARP,
         ),
         val hireable: Boolean? = null,
         val selectedCountryCode: String? = null,
@@ -61,7 +61,7 @@ internal interface LeaderboardsStore : Store<Intent, State, Nothing> {
             BRAZIL,
             RUSSIA,
             JAPAN,
-            GERMANY
+            GERMANY,
         ),
     )
 

@@ -55,7 +55,7 @@ class GetLeaderboardsUseCaseTest : BaseUnitTest() {
                 modifiedAt = "0",
                 timeout = 0,
                 writesOnly = false,
-            )
+            ),
         )
 
         declareMock<LeaderboardsRepository> {

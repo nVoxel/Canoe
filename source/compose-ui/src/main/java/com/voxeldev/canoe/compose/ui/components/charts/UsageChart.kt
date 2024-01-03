@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -33,7 +34,7 @@ internal fun LanguagesChart(
     UsageChart(
         modifier = modifier,
         data = data.applyColors(programLanguagesModel),
-        isDonutChart = false
+        isDonutChart = false,
     )
 }
 
@@ -44,22 +45,26 @@ internal fun UsageChart(
     data: List<Pair<String, Triple<Float, String, Int>>>,
     isDonutChart: Boolean = true,
 ) {
-    val pieChartData = PieChartData(
-        slices = data.map {
-            PieChartData.Slice(
-                label = it.first,
-                value = it.second.first,
-                color = Color(color = it.second.third),
-            )
-        },
-        plotType = if (isDonutChart) PlotType.Donut else PlotType.Pie,
-    )
+    val pieChartData = remember(data, isDonutChart) {
+        PieChartData(
+            slices = data.map {
+                PieChartData.Slice(
+                    label = it.first,
+                    value = it.second.first,
+                    color = Color(color = it.second.third),
+                )
+            },
+            plotType = if (isDonutChart) PlotType.Donut else PlotType.Pie,
+        )
+    }
 
-    val pieChartConfig = PieChartConfig(
-        isAnimationEnable = true,
-        chartPadding = 25,
-        backgroundColor = Color.Transparent,
-    )
+    val pieChartConfig = remember {
+        PieChartConfig(
+            isAnimationEnable = true,
+            chartPadding = 25,
+            backgroundColor = Color.Transparent,
+        )
+    }
 
     Column {
         if (isDonutChart) {
@@ -90,9 +95,9 @@ internal fun UsageChart(
                         Box(
                             modifier = Modifier
                                 .size(size = 16.dp)
-                                .background(color = Color(color = it.second.third))
+                                .background(color = Color(color = it.second.third)),
                         )
-                    }
+                    },
                 )
             }
         }

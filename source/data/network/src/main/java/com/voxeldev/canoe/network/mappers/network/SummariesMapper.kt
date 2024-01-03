@@ -39,13 +39,13 @@ internal class SummariesMapper {
         val fromSimpleDateFormat = SimpleDateFormat(ISO_8601_DATE_FORMAT, Locale.getDefault())
         val toSimpleDateFormat = SimpleDateFormat(AXIS_FORMAT, Locale.getDefault())
         val projectsSeries = hashMapOf<String, MutableList<Pair<Float, String>>>()
-        val totalLabels = mutableListOf<String>()
+        val totalLabels = mutableListOf<Pair<Float, String>>()
         val horizontalLabels = mutableListOf<String>()
         var currentDay = 1
 
         summariesResponse.data.forEach { day ->
-            day.projects.forEach { project ->
-                val time = project.decimal.toFloat()
+            day.projects?.forEach { project ->
+                val time = project.decimal
                 val pair = (if (time > 0f) time else DEFAULT_EMPTY_VALUE) to "${project.name}: ${project.text}"
 
                 projectsSeries
@@ -59,7 +59,7 @@ internal class SummariesMapper {
                     .add(pair)
             }
 
-            totalLabels.add(day.grandTotal.text)
+            totalLabels.add(day.grandTotal.totalSeconds to day.grandTotal.text)
 
             val date = fromSimpleDateFormat.parse(day.range.date)!!
             horizontalLabels.add(toSimpleDateFormat.format(date))

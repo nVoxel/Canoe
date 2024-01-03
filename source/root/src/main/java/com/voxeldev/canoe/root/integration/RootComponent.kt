@@ -11,8 +11,7 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.voxeldev.canoe.dashboard.integration.DashboardComponent
 import com.voxeldev.canoe.leaderboards.Leaderboards
 import com.voxeldev.canoe.leaderboards.integration.LeaderboardsComponent
-import com.voxeldev.canoe.projects.Projects
-import com.voxeldev.canoe.projects.integration.ProjectsComponent
+import com.voxeldev.canoe.projects.ProjectsComponent
 import com.voxeldev.canoe.root.Root
 import com.voxeldev.canoe.settings.Settings
 import com.voxeldev.canoe.settings.api.TokenRepository
@@ -31,7 +30,7 @@ class RootComponent internal constructor(
     private val tokenRepository: TokenRepository,
     private val dashboardComponent: (ComponentContext) -> DashboardComponent,
     private val leaderboardsComponent: (ComponentContext, (Leaderboards.Output) -> Unit) -> LeaderboardsComponent,
-    private val projectsComponent: (ComponentContext, (Projects.Output) -> Unit) -> ProjectsComponent,
+    private val projectsComponent: (ComponentContext) -> ProjectsComponent,
     private val settingsComponent: (ComponentContext, (Settings.Output) -> Unit) -> SettingsComponent,
 ) : Root, KoinComponent, ComponentContext by componentContext {
 
@@ -59,11 +58,10 @@ class RootComponent internal constructor(
                 output = output,
             )
         },
-        projectsComponent = { childContext, output ->
+        projectsComponent = { childContext ->
             ProjectsComponent(
                 componentContext = childContext,
                 storeFactory = storeFactory,
-                output = output,
             )
         },
         settingsComponent = { childContext, output ->
@@ -88,34 +86,28 @@ class RootComponent internal constructor(
                 onFailure = { Config.Settings },
             ),
             handleBackButton = true,
-            childFactory = ::createChild
+            childFactory = ::createChild,
         )
 
     private fun createChild(config: Config, componentContext: ComponentContext): Root.Child =
         when (config) {
             is Config.Dashboard -> Root.Child.DashboardChild(
-                component = dashboardComponent(componentContext)
+                component = dashboardComponent(componentContext),
             )
             is Config.Leaderboards -> Root.Child.LeaderboardsChild(
-                component = leaderboardsComponent(componentContext) { output -> onLeaderboardsOutput(output = output) }
+                component = leaderboardsComponent(componentContext) { output -> onLeaderboardsOutput(output = output) },
             )
             is Config.Projects -> Root.Child.ProjectsChild(
-                component = projectsComponent(componentContext) { output -> onProjectsOutput(output = output) }
+                component = projectsComponent(componentContext),
             )
             is Config.Settings -> Root.Child.SettingsChild(
-                component = settingsComponent(componentContext) { output -> onSettingsOutput(output = output) }
+                component = settingsComponent(componentContext) { output -> onSettingsOutput(output = output) },
             )
         }
 
     private fun onLeaderboardsOutput(output: Leaderboards.Output) {
         when (output) {
             is Leaderboards.Output.Selected -> linkHandler.openLink(url = output.profileUrl)
-        }
-    }
-
-    private fun onProjectsOutput(output: Projects.Output) {
-        when (output) {
-            is Projects.Output.Selected -> println(message = output.projectId)
         }
     }
 

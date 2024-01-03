@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -36,12 +37,15 @@ dependencies {
 
     implementation(project(":source:data:network"))
     implementation(project(":source:utils"))
+    implementation(project(":source:feature:dashboard"))
     api(project(":source:feature:projects-api"))
 
     implementation(libs.koin)
 
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance)
+
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)

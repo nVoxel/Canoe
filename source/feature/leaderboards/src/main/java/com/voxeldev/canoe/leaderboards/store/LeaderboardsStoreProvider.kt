@@ -54,7 +54,7 @@ internal class LeaderboardsStoreProvider(
 
         override fun executeAction(action: Unit, getState: () -> State) =
             loadLeaderboards(
-                params = getLeaderboardsRequest(getState().filterBottomSheetState)
+                params = getLeaderboardsRequest(getState().filterBottomSheetState),
             )
 
         override fun executeIntent(intent: Intent, getState: () -> State) {
@@ -63,7 +63,7 @@ internal class LeaderboardsStoreProvider(
                 is Intent.SetHireable -> dispatch(message = Msg.HireableChanged(hireable = intent.hireable))
                 is Intent.SetCountryCode -> dispatch(message = Msg.CountryCodeChanged(countryCode = intent.countryCode))
                 is Intent.ReloadLeaderboards -> loadLeaderboards(
-                    params = getLeaderboardsRequest(getState().filterBottomSheetState)
+                    params = getLeaderboardsRequest(getState().filterBottomSheetState),
                 )
 
                 is Intent.ResetFilters -> {
@@ -118,25 +118,25 @@ internal class LeaderboardsStoreProvider(
                 is Msg.LeaderboardsLoaded -> copy(
                     leaderboardsModel = msg.leaderboardsModel,
                     errorText = null,
-                    isLoading = false
+                    isLoading = false,
                 )
 
                 is Msg.LeaderboardsLoading -> copy(isLoading = true)
                 is Msg.Error -> copy(errorText = msg.message, isLoading = false)
                 is Msg.LanguageChanged -> copy(
-                    filterBottomSheetState = filterBottomSheetState.copy(selectedLanguage = msg.language)
+                    filterBottomSheetState = filterBottomSheetState.copy(selectedLanguage = msg.language),
                 )
 
                 is Msg.HireableChanged -> copy(
-                    filterBottomSheetState = filterBottomSheetState.copy(hireable = msg.hireable)
+                    filterBottomSheetState = filterBottomSheetState.copy(hireable = msg.hireable),
                 )
 
                 is Msg.CountryCodeChanged -> copy(
-                    filterBottomSheetState = filterBottomSheetState.copy(selectedCountryCode = msg.countryCode)
+                    filterBottomSheetState = filterBottomSheetState.copy(selectedCountryCode = msg.countryCode),
                 )
 
                 is Msg.FilterBottomSheetToggled -> copy(
-                    filterBottomSheetState = filterBottomSheetState.copy(active = msg.active)
+                    filterBottomSheetState = filterBottomSheetState.copy(active = msg.active),
                 )
             }
     }

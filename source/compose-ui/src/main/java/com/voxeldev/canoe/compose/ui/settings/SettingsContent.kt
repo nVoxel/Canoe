@@ -47,7 +47,7 @@ internal fun SettingsContent(component: SettingsComponent) {
                     Error(
                         message = it,
                         shouldShowRetry = true,
-                        retryCallback = component::onReloadButtonClicked
+                        retryCallback = component::onReloadButtonClicked,
                     )
                 } ?: run {
                     Text(
@@ -67,6 +67,6 @@ internal fun SettingsContent(component: SettingsComponent) {
                     }
                 }
             }
-        }
+        },
     )
 }

@@ -67,13 +67,13 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
                     IconButton(onClick = { component.onToggleFilterBottomSheet() }) {
                         Icon(imageVector = AdditionalIcons.FilterList, contentDescription = "Filters")
                     }
-                }
+                },
             )
         },
         content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(paddingValues = paddingValues)
+                    .padding(paddingValues = paddingValues),
             ) {
                 if (model.isLoading) Loader()
 
@@ -81,7 +81,7 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
                     Error(
                         message = it,
                         shouldShowRetry = true,
-                        retryCallback = component::onReloadClicked
+                        retryCallback = component::onReloadClicked,
                     )
                 }
 
@@ -90,7 +90,7 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
                         OutlinedCard(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
                         ) {
                             UserCard(generalizedUser = it.currentUser, stringResourceProvider = stringResourceProvider)
                         }
@@ -117,7 +117,7 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
                     )
                 }
             }
-        }
+        },
     )
 }
 
@@ -134,7 +134,7 @@ private fun LeaderboardsList(
             LeaderboardsListItem(
                 entry = entry,
                 onItemClicked = onItemClicked,
-                stringResourceProvider = stringResourceProvider
+                stringResourceProvider = stringResourceProvider,
             )
         }
     }
@@ -178,22 +178,22 @@ private fun UserCard(
             contentDescription = "Avatar",
             loading = {
                 CircularProgressIndicator()
-            }
+            },
         )
 
         Column {
             EntryProperty(
                 text = "#${generalizedUser.rank}",
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
             )
             EntryProperty(
                 text = generalizedUser.user.displayName ?: generalizedUser.user.username ?: generalizedUser.user.id,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
             generalizedUser.user.city?.title?.let { EntryProperty(text = it) }
             generalizedUser.runningTotal?.languages?.let { languages ->
                 EntryProperty(
-                    text = languages.take(LANGUAGE_LIMIT).joinToString(separator = ", ") { it.name }
+                    text = languages.take(LANGUAGE_LIMIT).joinToString(separator = ", ") { it.name },
                 )
             }
             generalizedUser.runningTotal?.humanReadableDailyAverage?.let { EntryProperty(text = "Daily average: $it") }
@@ -229,7 +229,7 @@ private fun FilterBottomSheet(
                 modifier = Modifier
                     .verticalScroll(scrollState)
                     .fillMaxWidth()
-                    .padding(all = 16.dp)
+                    .padding(all = 16.dp),
             ) {
                 Text(text = "Filters", style = MaterialTheme.typography.titleLarge)
 
@@ -238,13 +238,13 @@ private fun FilterBottomSheet(
                 Text(text = "Programming Language")
                 LazyRow(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     items(languages) { language ->
                         Chip(
                             value = language.name,
                             isSelected = selectedLanguage == language.value,
-                            onClick = { onSelectLanguage(language.value) }
+                            onClick = { onSelectLanguage(language.value) },
                         )
                     }
                 }
@@ -261,13 +261,13 @@ private fun FilterBottomSheet(
                 Text(text = "Country")
                 LazyRow(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     items(countries) { country ->
                         Chip(
                             value = country.name,
                             isSelected = selectedCountry == country.value,
-                            onClick = { onSelectCountry(country.value) }
+                            onClick = { onSelectCountry(country.value) },
                         )
                     }
                 }
@@ -306,7 +306,7 @@ private fun Chip(
         modifier = Modifier.padding(horizontal = 4.dp),
         selected = isSelected,
         onClick = onClick,
-        label = { Text(text = value) }
+        label = { Text(text = value) },
     )
 }
 
@@ -320,7 +320,7 @@ private fun EntryProperty(
         modifier = modifier
             .padding(vertical = 4.dp),
         text = text,
-        style = style
+        style = style,
     )
 }
 

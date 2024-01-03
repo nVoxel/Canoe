@@ -16,12 +16,13 @@ import com.voxeldev.canoe.utils.extensions.asValue
 class DashboardComponent(
     componentContext: ComponentContext,
     storeFactory: StoreFactory,
+    projectName: String? = null,
 ) : Dashboard, ComponentContext by componentContext {
 
     private val stateMapper: StateMapper = StateMapper()
 
     private val store = instanceKeeper.getStore {
-        DashboardStoreProvider(storeFactory = storeFactory).provide()
+        DashboardStoreProvider(projectName = projectName, storeFactory = storeFactory).provide()
     }
 
     override val model: Value<Dashboard.Model> = store.asValue().map { state -> stateMapper.toModel(state) }
@@ -34,7 +35,7 @@ class DashboardComponent(
         store.accept(
             intent = DashboardStore.Intent.DismissDatePickerBottomSheet(
                 startMillis = startMillis,
-                endMillis = endMillis
-            )
+                endMillis = endMillis,
+            ),
         )
 }

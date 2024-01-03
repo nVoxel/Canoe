@@ -54,9 +54,10 @@ internal class SummariesDatabaseMapper {
     private val fromSimpleDateFormat = SimpleDateFormat(ISO_8601_DATE_FORMAT, Locale.getDefault())
     private val toSimpleDateFormat = SimpleDateFormat(AXIS_FORMAT, Locale.getDefault())
 
-    fun toObject(summariesResponse: SummariesResponse): SummariesObject =
+    fun toObject(summariesResponse: SummariesResponse, projectName: String?): SummariesObject =
         SummariesObject().apply {
             timestamp = System.currentTimeMillis() / 1000
+            project = projectName
             data = summariesResponse.data.map { toObject(it) }.toRealmList()
             cumulativeTotal = toObject(summariesResponse.cumulativeTotal)
             dailyAverage = toObject(summariesResponse.dailyAverage)
@@ -80,7 +81,7 @@ internal class SummariesDatabaseMapper {
         SummariesDayObject().apply {
             grandTotal = toObject(summariesDayResponse.grandTotal)
             categories = summariesDayResponse.categories.map { toObject(it) }.toRealmList()
-            projects = summariesDayResponse.projects.map { toObject(it) }.toRealmList()
+            summariesDayResponse.projects?.let { projects = it.map { toObject(it) }.toRealmList() }
             languages = summariesDayResponse.languages.map { toObject(it) }.toRealmList()
             editors = summariesDayResponse.editors.map { toObject(it) }.toRealmList()
             operatingSystems = summariesDayResponse.operatingSystems.map { toObject(it) }.toRealmList()
@@ -219,20 +220,20 @@ internal class SummariesDatabaseMapper {
 
     private fun getDailyChartData(summariesObject: SummariesObject): DailyChartData {
         val projectsSeries = hashMapOf<String, MutableList<Pair<Float, String>>>()
-        val totalLabels = mutableListOf<String>()
+        val totalLabels = mutableListOf<Pair<Float, String>>()
         val horizontalLabels = mutableListOf<String>()
         var currentDay = 1
 
         summariesObject.data.forEach { day ->
             day.projects.forEach { project ->
-                val time = project.decimal.toFloat()
+                val time = project.decimal
                 val pair = (if (time > 0f) time else DEFAULT_EMPTY_VALUE) to "${project.name}: ${project.text}"
 
                 projectsSeries
                     .getOrPut(key = project.name) {
                         if (currentDay != 1) {
                             MutableList(
-                                currentDay - 1
+                                currentDay - 1,
                             ) { DEFAULT_EMPTY_VALUE to "${project.name}: 0s" }
                         } else {
                             mutableListOf()
@@ -241,7 +242,9 @@ internal class SummariesDatabaseMapper {
                     .add(pair)
             }
 
-            totalLabels.add(day.grandTotal?.text ?: defaultGrandTotal.text)
+            totalLabels.add(
+                (day.grandTotal?.totalSeconds ?: defaultGrandTotal.totalSeconds) to (day.grandTotal?.text ?: defaultGrandTotal.text),
+            )
 
             val date = fromSimpleDateFormat.parse(day.range?.date ?: defaultRange.date)!!
             horizontalLabels.add(toSimpleDateFormat.format(date))
@@ -281,7 +284,7 @@ internal class SummariesDatabaseMapper {
             hours = 0,
             minutes = 0,
             text = "",
-            totalSeconds = 0f
+            totalSeconds = 0f,
         )
         val defaultRange: Range = Range(date = "", text = "")
     }

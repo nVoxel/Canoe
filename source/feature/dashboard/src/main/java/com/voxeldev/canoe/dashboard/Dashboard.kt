@@ -18,6 +18,7 @@ interface Dashboard {
     fun onDismissDatePickerBottomSheet(startMillis: Long?, endMillis: Long?)
 
     data class Model(
+        val projectName: String?,
         val summariesModel: SummariesModel?,
         val programLanguagesModel: ProgramLanguagesModel?,
         val errorText: String?,

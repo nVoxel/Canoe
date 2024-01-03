@@ -27,7 +27,7 @@ internal class DefaultProgramLanguagesRepository(
 ) : ProgramLanguagesRepository, BaseNetworkRepository<ProgramLanguagesModel>(
     networkHandler,
     httpClient,
-    authenticationRepository
+    authenticationRepository,
 ) {
 
     override suspend fun getProgramLanguages(): Result<ProgramLanguagesModel> =
@@ -38,13 +38,13 @@ internal class DefaultProgramLanguagesRepository(
             getFromCache = { useOutdatedCache ->
                 programLanguagesDatabase.query(
                     query = if (useOutdatedCache) TRUE_PREDICATE else "timestamp > $0",
-                    (System.currentTimeMillis() / 1000) - CACHE_LIFETIME
+                    (System.currentTimeMillis() / 1000) - CACHE_LIFETIME,
                 ) {
                     firstOrNull()?.let { programLanguagesDatabaseMapper.toModel(it) }
                 }
             },
             cache = { programLanguagesDatabase.add(programLanguagesDatabaseMapper.toObject(this)) },
-            transform = { programLanguagesMapper.toModel(this) }
+            transform = { programLanguagesMapper.toModel(this) },
         )
 
     private companion object {

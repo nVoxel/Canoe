@@ -10,6 +10,7 @@ internal class StateMapper {
 
     fun toModel(state: State): Dashboard.Model =
         Dashboard.Model(
+            projectName = state.projectName,
             summariesModel = state.summariesModel,
             programLanguagesModel = state.programLanguagesModel,
             errorText = state.errorText,

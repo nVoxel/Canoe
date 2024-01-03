@@ -175,7 +175,7 @@ internal class LeaderboardsDatabaseMapper {
             humanReadableTotal = humanReadableTotal,
             dailyAverage = dailyAverage,
             humanReadableDailyAverage = humanReadableDailyAverage,
-            languages = languages?.let { languages -> languages.map { it.toModel() } }
+            languages = languages?.let { languages -> languages.map { it.toModel() } },
         )
 
     private fun TimeRangeObject.toModel(): TimeRange =

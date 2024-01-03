@@ -1,14 +1,14 @@
-package com.voxeldev.canoe.projects.store
+package com.voxeldev.canoe.projects.list
 
 import com.arkivanov.mvikotlin.core.store.Store
 import com.voxeldev.canoe.projects.api.ProjectsModel
-import com.voxeldev.canoe.projects.store.ProjectsStore.Intent
-import com.voxeldev.canoe.projects.store.ProjectsStore.State
+import com.voxeldev.canoe.projects.list.ProjectsListStore.Intent
+import com.voxeldev.canoe.projects.list.ProjectsListStore.State
 
 /**
  * @author nvoxel
  */
-internal interface ProjectsStore : Store<Intent, State, Nothing> {
+internal interface ProjectsListStore : Store<Intent, State, Nothing> {
 
     sealed class Intent {
         data class SetSearchText(val text: String) : Intent()

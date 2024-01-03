@@ -45,10 +45,10 @@ internal class DefaultProjectsRepository(
             },
             cache = {
                 projectsDatabase.add(
-                    projectsDatabaseMapper.toObject(projectsResponse = this, searchQuery = request.searchQuery)
+                    projectsDatabaseMapper.toObject(projectsResponse = this, searchQuery = request.searchQuery),
                 )
             },
-            transform = { projectsMapper.toModel(this) }
+            transform = { projectsMapper.toModel(this) },
         )
 
     private companion object {

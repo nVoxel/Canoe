@@ -63,7 +63,7 @@ val networkDataModule = module {
 
                             BearerTokens(
                                 accessToken = tokenRepository.getAccessToken().getOrThrow(),
-                                refreshToken = tokenRepository.getRefreshToken().getOrThrow()
+                                refreshToken = tokenRepository.getRefreshToken().getOrThrow(),
                             )
                         }
                     }
@@ -75,7 +75,7 @@ val networkDataModule = module {
                     json = Json {
                         ignoreUnknownKeys = true
                         explicitNulls = false
-                    }
+                    },
                 )
             }
         }
@@ -93,7 +93,7 @@ val networkDataModule = module {
                 json(
                     json = Json {
                         ignoreUnknownKeys = true
-                    }
+                    },
                 )
             }
         }

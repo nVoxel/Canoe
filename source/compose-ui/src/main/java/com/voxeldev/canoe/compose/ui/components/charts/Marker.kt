@@ -2,6 +2,7 @@ package com.voxeldev.canoe.compose.ui.components.charts
 
 import android.graphics.Typeface
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import androidx.compose.material3.MaterialTheme
@@ -34,9 +35,42 @@ import com.voxeldev.canoe.dashboard.api.sumaries.DEFAULT_EMPTY_VALUE
  * @author nvoxel
  */
 @Composable
-internal fun rememberMarker(
+internal fun rememberDailyMarker(
     projectsLabels: List<List<Pair<Float, String>>>,
-    totalLabels: List<String>,
+    totalLabels: List<Pair<Float, String>>,
+): Marker = rememberMarker(projectsLabels, totalLabels, lineCount = projectsLabels.size + 1) { markedEntries, _ ->
+    markedEntries.transformToSpannableIndexed(
+        prefix = "Total: ${totalLabels[markedEntries.first().entry.x.toInt()].second}\n",
+        separator = "\n",
+    ) { model, index ->
+        val currentLabel = projectsLabels[index][model.entry.x.toInt()]
+        val isShown = currentLabel.first > DEFAULT_EMPTY_VALUE
+        appendCompat(
+            text = if (isShown) currentLabel.second else "",
+            what = ForegroundColorSpan(model.color),
+            flags = Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+        )
+        isShown
+    }
+}
+
+@Composable
+internal fun rememberProjectMarker(
+    totalLabels: List<Pair<Float, String>>,
+): Marker {
+    val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
+    return rememberMarker(totalLabels, lineCount = PROJECT_MARKER_LINE_COUNT) { markedEntries, _ ->
+        SpannableString(totalLabels[markedEntries.first().entry.x.toInt()].second).apply {
+            setSpan(ForegroundColorSpan(textColor), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+}
+
+@Composable
+private fun rememberMarker(
+    vararg keys: Any?,
+    lineCount: Int,
+    markerLabelFormatter: MarkerLabelFormatter,
 ): Marker {
     val labelBackgroundColor = MaterialTheme.colorScheme.surface
     val labelBackground =
@@ -49,8 +83,9 @@ internal fun rememberMarker(
         }
     val label =
         rememberTextComponent(
+            color = MaterialTheme.colorScheme.onSurface,
             background = labelBackground,
-            lineCount = projectsLabels.size + 1,
+            lineCount = lineCount,
             padding = labelPadding,
             typeface = Typeface.MONOSPACE,
         )
@@ -76,7 +111,7 @@ internal fun rememberMarker(
             guidelineShape,
         )
 
-    return remember(label, indicator, guideline, projectsLabels, totalLabels) {
+    return remember(label, indicator, guideline, keys) {
         object : MarkerComponent(label, indicator, guideline) {
             init {
                 indicatorSizeDp = INDICATOR_SIZE_DP
@@ -87,21 +122,7 @@ internal fun rememberMarker(
                         setShadow(radius = INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS, color = entryColor)
                     }
                 }
-                labelFormatter = MarkerLabelFormatter { markedEntries, _ ->
-                    markedEntries.transformToSpannableIndexed(
-                        prefix = "Total: ${totalLabels[markedEntries.first().entry.x.toInt()]}\n",
-                        separator = "\n",
-                    ) { model, index ->
-                        val currentLabel = projectsLabels[index][model.entry.x.toInt()]
-                        val isShown = currentLabel.first > DEFAULT_EMPTY_VALUE
-                        appendCompat(
-                            if (isShown) currentLabel.second else "",
-                            ForegroundColorSpan(model.color),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-                        )
-                        isShown
-                    }
-                }
+                labelFormatter = markerLabelFormatter
             }
 
             override fun getInsets(
@@ -137,6 +158,8 @@ private fun <T> List<T>.transformToSpannableIndexed(
     buffer.append(postfix)
     return buffer
 }
+
+private const val PROJECT_MARKER_LINE_COUNT = 1
 
 private const val LABEL_BACKGROUND_SHADOW_RADIUS = 4f
 private const val LABEL_BACKGROUND_SHADOW_DY = 2f

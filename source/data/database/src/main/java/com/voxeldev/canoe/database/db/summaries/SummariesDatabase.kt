@@ -39,6 +39,6 @@ interface SummariesDatabase : CrDatabase<SummariesObject> {
                 RangeObject::class,
                 CumulativeTotalObject::class,
                 DailyAverageObject::class,
-            )
+            ),
         )
 }

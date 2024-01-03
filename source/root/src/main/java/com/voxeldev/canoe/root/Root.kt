@@ -4,7 +4,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.voxeldev.canoe.dashboard.integration.DashboardComponent
 import com.voxeldev.canoe.leaderboards.integration.LeaderboardsComponent
-import com.voxeldev.canoe.projects.integration.ProjectsComponent
+import com.voxeldev.canoe.projects.ProjectsComponent
 import com.voxeldev.canoe.settings.integration.SettingsComponent
 
 /**

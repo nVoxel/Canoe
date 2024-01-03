@@ -12,15 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.FaultyDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.Direction
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.StackAnimation
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.StackAnimator
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.isEnter
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.slide
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.voxeldev.canoe.compose.ui.components.decompose.slideTabAnimation
 import com.voxeldev.canoe.compose.ui.dashboard.DashboardContent
 import com.voxeldev.canoe.compose.ui.leaderboards.LeaderboardsContent
 import com.voxeldev.canoe.compose.ui.projects.ProjectsContent
@@ -39,7 +33,7 @@ fun RootContent(component: RootComponent) {
         Scaffold(
             bottomBar = {
                 BottomNavigation(component = component)
-            }
+            },
         ) { paddingValues ->
             Children(
                 component = component,
@@ -58,7 +52,7 @@ private fun Children(component: RootComponent, modifier: Modifier = Modifier) {
     Children(
         stack = component.childStack,
         modifier = modifier,
-        animation = tabAnimation(),
+        animation = slideTabAnimation { index() },
     ) {
         when (val child = it.instance) {
             is Root.Child.DashboardChild -> DashboardContent(component = child.component)
@@ -137,39 +131,10 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
     }
 }
 
-@OptIn(FaultyDecomposeApi::class)
-@Composable
-private fun tabAnimation(): StackAnimation<Any, Root.Child> =
-    stackAnimation { child, otherChild, direction ->
-        val index = child.instance.index
-        val otherIndex = otherChild.instance.index
-        val anim = slide()
-        if ((index > otherIndex) == direction.isEnter) anim else anim.flipSide()
-    }
-
-private val Root.Child.index: Int
-    get() =
-        when (this) {
-            is Root.Child.DashboardChild -> 0
-            is Root.Child.LeaderboardsChild -> 1
-            is Root.Child.ProjectsChild -> 2
-            is Root.Child.SettingsChild -> 3
-        }
-
-private fun StackAnimator.flipSide(): StackAnimator =
-    StackAnimator { direction, isInitial, onFinished, content ->
-        invoke(
-            direction = direction.flipSide(),
-            isInitial = isInitial,
-            onFinished = onFinished,
-            content = content,
-        )
-    }
-
-private fun Direction.flipSide(): Direction =
+private fun Root.Child.index(): Int =
     when (this) {
-        Direction.ENTER_FRONT -> Direction.ENTER_BACK
-        Direction.EXIT_FRONT -> Direction.EXIT_BACK
-        Direction.ENTER_BACK -> Direction.ENTER_FRONT
-        Direction.EXIT_BACK -> Direction.EXIT_FRONT
+        is Root.Child.DashboardChild -> 0
+        is Root.Child.LeaderboardsChild -> 1
+        is Root.Child.ProjectsChild -> 2
+        is Root.Child.SettingsChild -> 3
     }
