@@ -28,6 +28,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: Create secrets.properties
+        env:
+          DATA: ${{secrets.SECRETS_PROPERTIES}}
+        run: echo $DATA > /home/runner/work/Canoe/Canoe/secrets.properties
       - name: Download dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: ./gradlew androidDependencies
