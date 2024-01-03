@@ -26,6 +26,9 @@ render.experimental.xml
 *.jks
 *.keystore
 
+# Secrets file
+secrets.properties
+
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
