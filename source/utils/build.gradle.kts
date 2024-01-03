@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
@@ -15,9 +18,14 @@ android {
         resValue("string", "wakatime_photo_base_url", extra["WAKATIME_PHOTO_BASE_URL"].toString())
         resValue("string", "wakatime_profile_base_url", extra["WAKATIME_PROFILE_BASE_URL"].toString())
 
-        resValue("string", "oauth_client_id", extra["OAUTH_CLIENT_ID"].toString())
-        resValue("string", "oauth_client_secret", extra["OAUTH_CLIENT_SECRET"].toString())
         resValue("string", "oauth_redirect_url", extra["OAUTH_REDIRECT_URL"].toString())
+
+        val secrets = Properties()
+        secrets.load(FileInputStream(rootProject.file("secrets.properties")))
+        buildTypes.forEach {
+            it.resValue("string", "oauth_client_id", secrets["OAUTH_CLIENT_ID"].toString())
+            it.resValue("string", "oauth_client_secret", secrets["OAUTH_CLIENT_SECRET"].toString())
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
