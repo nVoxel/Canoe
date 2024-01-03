@@ -45,7 +45,7 @@ fun ComponentActivity.checkNotificationsPermission(launcher: ActivityResultLaunc
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
 
     if (ContextCompat.checkSelfPermission(
-            applicationContext, Manifest.permission.POST_NOTIFICATIONS
+            applicationContext, Manifest.permission.POST_NOTIFICATIONS,
         ) == PackageManager.PERMISSION_GRANTED
     ) {
         return

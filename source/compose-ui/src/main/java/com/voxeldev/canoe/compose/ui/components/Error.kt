@@ -35,21 +35,21 @@ internal fun Error(
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            text = "Error: $message"
+            text = "Error: $message",
         )
         if (shouldShowRetry) {
             Button(
                 modifier = Modifier.padding(top = 16.dp),
-                onClick = { retryCallback() }
+                onClick = { retryCallback() },
             ) {
                 Icon(
                     modifier = Modifier.size(20.dp),
                     imageVector = AdditionalIcons.RestartAlt,
-                    contentDescription = null
+                    contentDescription = null,
                 )
                 Text(
                     modifier = Modifier.padding(start = 4.dp, end = 2.dp),
-                    text = "Retry"
+                    text = "Retry",
                 )
             }
         }

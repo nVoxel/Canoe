@@ -21,6 +21,7 @@ import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
@@ -32,6 +33,7 @@ import com.voxeldev.canoe.compose.ui.components.Error
 import com.voxeldev.canoe.compose.ui.components.Loader
 import com.voxeldev.canoe.compose.ui.components.charts.DailyActivityChart
 import com.voxeldev.canoe.compose.ui.components.charts.LanguagesChart
+import com.voxeldev.canoe.compose.ui.components.charts.ProjectActivityChart
 import com.voxeldev.canoe.compose.ui.components.charts.UsageChart
 import com.voxeldev.canoe.dashboard.api.languages.ProgramLanguagesModel
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesModel
@@ -48,7 +50,7 @@ internal fun DashboardContent(component: DashboardComponent) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Dashboard") },
+                title = { Text(text = model.projectName ?: "Dashboard") },
                 actions = {
                     IconButton(onClick = { component.onShowDatePickerBottomSheet() }) {
                         Icon(imageVector = Icons.Default.DateRange, contentDescription = "Change date range")
@@ -72,7 +74,11 @@ internal fun DashboardContent(component: DashboardComponent) {
                                 endDate = model.datePickerBottomSheetModel.endDate,
                             )
 
-                            Charts(summariesModel = summariesModel, programLanguagesModel = programLanguagesModel)
+                            Charts(
+                                summariesModel = summariesModel,
+                                programLanguagesModel = programLanguagesModel,
+                                displayProjectActivityChart = projectName != null,
+                            )
                         }
 
                         DatePickerBottomSheet(
@@ -84,13 +90,13 @@ internal fun DashboardContent(component: DashboardComponent) {
                             Error(
                                 message = it,
                                 shouldShowRetry = true,
-                                retryCallback = component::onReloadClicked
+                                retryCallback = component::onReloadClicked,
                             )
                         }
                     }
                 }
             }
-        }
+        },
     )
 }
 
@@ -100,21 +106,24 @@ internal fun Header(
     startDate: String,
     endDate: String,
 ) {
-    val headerText =
+    val headerText = remember(summariesModel) {
         "${summariesModel.cumulativeTotal.text} from $startDate to $endDate.\nDaily average is: ${summariesModel.dailyAverage.text}."
+    }
 
-    val spanStyles = listOf(
-        AnnotatedString.Range(
-            item = SpanStyle(fontWeight = FontWeight.Bold),
-            start = 0,
-            end = summariesModel.cumulativeTotal.text.length,
-        ),
-        AnnotatedString.Range(
-            item = SpanStyle(fontWeight = FontWeight.Bold),
-            start = headerText.length - summariesModel.dailyAverage.text.length - 1,
-            end = headerText.length - 1,
-        ),
-    )
+    val spanStyles = remember(summariesModel) {
+        listOf(
+            AnnotatedString.Range(
+                item = SpanStyle(fontWeight = FontWeight.Bold),
+                start = 0,
+                end = summariesModel.cumulativeTotal.text.length,
+            ),
+            AnnotatedString.Range(
+                item = SpanStyle(fontWeight = FontWeight.Bold),
+                start = headerText.length - summariesModel.dailyAverage.text.length - 1,
+                end = headerText.length - 1,
+            ),
+        )
+    }
 
     Text(
         modifier = Modifier.padding(all = 16.dp),
@@ -124,46 +133,66 @@ internal fun Header(
 }
 
 @Composable
-private fun Charts(summariesModel: SummariesModel, programLanguagesModel: ProgramLanguagesModel) {
+private fun Charts(
+    summariesModel: SummariesModel,
+    programLanguagesModel: ProgramLanguagesModel,
+    displayProjectActivityChart: Boolean,
+) {
     Column(
         modifier = Modifier
-            .verticalScroll(state = rememberScrollState())
+            .verticalScroll(state = rememberScrollState()),
     ) {
-        ChartCard(title = "Daily Stats") {
-            DailyActivityChart(data = summariesModel.dailyChartData)
+        if (summariesModel.dailyChartData.projectsSeries.isNotEmpty()) {
+            ChartCard(title = "Daily Stats") {
+                DailyActivityChart(data = summariesModel.dailyChartData)
+            }
         }
 
-        ChartCard(title = "Languages Usage") {
-            LanguagesChart(
-                modifier = Modifier
-                    .padding(all = 8.dp),
-                data = summariesModel.languagesChartData,
-                programLanguagesModel = programLanguagesModel,
-            )
+        if (displayProjectActivityChart) {
+            ChartCard(title = "Project Stats") {
+                ProjectActivityChart(data = summariesModel.dailyChartData)
+            }
         }
 
-        ChartCard(title = "Editors Usage") {
-            UsageChart(
-                modifier = Modifier
-                    .padding(all = 8.dp),
-                data = summariesModel.editorsChartData,
-            )
+        if (summariesModel.languagesChartData.isNotEmpty()) {
+            ChartCard(title = "Languages Usage") {
+                LanguagesChart(
+                    modifier = Modifier
+                        .padding(all = 8.dp),
+                    data = summariesModel.languagesChartData,
+                    programLanguagesModel = programLanguagesModel,
+                )
+            }
         }
 
-        ChartCard(title = "OS Usage") {
-            UsageChart(
-                modifier = Modifier
-                    .padding(all = 8.dp),
-                data = summariesModel.operatingSystemsChartData,
-            )
+        if (summariesModel.editorsChartData.isNotEmpty()) {
+            ChartCard(title = "Editors Usage") {
+                UsageChart(
+                    modifier = Modifier
+                        .padding(all = 8.dp),
+                    data = summariesModel.editorsChartData,
+                )
+            }
         }
 
-        ChartCard(title = "Machines Usage") {
-            UsageChart(
-                modifier = Modifier
-                    .padding(all = 8.dp),
-                data = summariesModel.machinesChartData,
-            )
+        if (summariesModel.operatingSystemsChartData.isNotEmpty()) {
+            ChartCard(title = "OS Usage") {
+                UsageChart(
+                    modifier = Modifier
+                        .padding(all = 8.dp),
+                    data = summariesModel.operatingSystemsChartData,
+                )
+            }
+        }
+
+        if (summariesModel.machinesChartData.isNotEmpty()) {
+            ChartCard(title = "Machines Usage") {
+                UsageChart(
+                    modifier = Modifier
+                        .padding(all = 8.dp),
+                    data = summariesModel.machinesChartData,
+                )
+            }
         }
     }
 }
@@ -208,10 +237,10 @@ private fun DatePickerBottomSheet(
             onDismissRequest = {
                 onDismissRequest(
                     dateRangePickerState.selectedStartDateMillis,
-                    dateRangePickerState.selectedEndDateMillis
+                    dateRangePickerState.selectedEndDateMillis,
                 )
             },
-            sheetState = sheetState
+            sheetState = sheetState,
         ) {
             DateRangePicker(
                 state = dateRangePickerState,

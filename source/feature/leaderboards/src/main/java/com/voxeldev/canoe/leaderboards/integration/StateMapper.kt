@@ -27,7 +27,7 @@ internal class StateMapper : KoinComponent {
                 hireable = state.filterBottomSheetState.hireable,
                 selectedCountryCode = state.filterBottomSheetState.selectedCountryCode,
                 countryCodes = state.filterBottomSheetState.countryCodes.map { it.toModel() },
-            )
+            ),
         )
 
     private fun PredefinedLanguage.toModel() =
@@ -66,31 +66,31 @@ internal class StateMapper : KoinComponent {
         when (this) {
             PredefinedCountry.INDIA -> Leaderboards.PredefinedCountryModel(
                 name = stringResourceProvider.getIndiaString(),
-                value = value
+                value = value,
             )
             PredefinedCountry.CHINA -> Leaderboards.PredefinedCountryModel(
                 name = stringResourceProvider.getChinaString(),
-                value = value
+                value = value,
             )
             PredefinedCountry.US -> Leaderboards.PredefinedCountryModel(
                 name = stringResourceProvider.getUsString(),
-                value = value
+                value = value,
             )
             PredefinedCountry.BRAZIL -> Leaderboards.PredefinedCountryModel(
                 name = stringResourceProvider.getBrazilString(),
-                value = value
+                value = value,
             )
             PredefinedCountry.RUSSIA -> Leaderboards.PredefinedCountryModel(
                 name = stringResourceProvider.getRussiaString(),
-                value = value
+                value = value,
             )
             PredefinedCountry.JAPAN -> Leaderboards.PredefinedCountryModel(
                 name = stringResourceProvider.getJapanString(),
-                value = value
+                value = value,
             )
             PredefinedCountry.GERMANY -> Leaderboards.PredefinedCountryModel(
                 name = stringResourceProvider.getGermanyString(),
-                value = value
+                value = value,
             )
         }
 }

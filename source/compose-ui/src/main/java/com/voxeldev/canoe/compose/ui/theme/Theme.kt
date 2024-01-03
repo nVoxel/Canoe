@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 
 private val LightColors = lightColorScheme(
@@ -88,12 +89,23 @@ internal fun CanoeTheme(
                 dynamicLightColorScheme(context)
             }
         }
+
         useDarkTheme -> DarkColors
         else -> LightColors
     }
+    val chartColors =
+        if (useDarkTheme) {
+            LightChartColorsPalette
+        } else {
+            DarkChartColorsPalette
+        }
 
-    MaterialTheme(
-        colorScheme = colors,
-        content = content,
-    )
+    CompositionLocalProvider(
+        LocalChartColorsPalette provides chartColors,
+    ) {
+        MaterialTheme(
+            colorScheme = colors,
+            content = content,
+        )
+    }
 }

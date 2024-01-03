@@ -27,6 +27,6 @@ interface LeaderboardsDatabase : CrDatabase<LeaderboardsObject> {
                 RunningTotalObject::class,
                 TimeRangeObject::class,
                 LanguageObject::class,
-            )
+            ),
         )
 }

@@ -50,19 +50,22 @@ internal class DefaultSummariesRepository(
                     query = if (useOutdatedCache) {
                         TRUE_PREDICATE
                     } else {
-                        "timestamp > $0 AND start == $1 AND end = $2"
+                        "timestamp > $0 AND start == $1 AND end = $2 AND project = $3"
                     },
                     (System.currentTimeMillis() / 1000) - CACHE_LIFETIME,
                     request.startDate.toUnixTimestamp(),
                     request.endDate.toUnixTimestamp(),
+                    request.project,
                 ) {
                     firstOrNull()?.let { summariesDatabaseMapper.toModel(it) }
                 }
             },
             cache = {
-                summariesDatabase.add(summariesDatabaseMapper.toObject(this))
+                summariesDatabase.add(
+                    summariesDatabaseMapper.toObject(summariesResponse = this, projectName = request.project),
+                )
             },
-            transform = { summariesMapper.toModel(this) }
+            transform = { summariesMapper.toModel(this) },
         )
 
     private fun String.toUnixTimestamp(): Long =

@@ -15,6 +15,6 @@ interface ProgramLanguagesDatabase : CrDatabase<ProgramLanguagesObject> {
             schema = setOf(
                 ProgramLanguagesObject::class,
                 ProgramLanguageObject::class,
-            )
+            ),
         )
 }

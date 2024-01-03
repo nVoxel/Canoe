@@ -45,7 +45,7 @@ class GetProgramLanguagesUseCaseTest : BaseUnitTest() {
                 data = listOf(ProgramLanguage(id = "1", name = "Kotlin", color = 0x00FF00, isVerified = true)),
                 total = 1,
                 totalPages = 1,
-            )
+            ),
         )
 
         declareMock<ProgramLanguagesRepository> {

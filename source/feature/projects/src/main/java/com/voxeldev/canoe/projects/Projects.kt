@@ -1,32 +1,19 @@
 package com.voxeldev.canoe.projects
 
+import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.voxeldev.canoe.projects.api.ProjectsModel
+import com.voxeldev.canoe.dashboard.integration.DashboardComponent
+import com.voxeldev.canoe.projects.list.ProjectsListComponent
 
 /**
  * @author nvoxel
  */
 interface Projects {
 
-    val model: Value<Model>
+    val childStack: Value<ChildStack<*, Child>>
 
-    fun onItemClicked(projectId: String)
-
-    fun onSearchTextChanged(text: String)
-
-    fun onToggleSearchClicked()
-
-    fun onSearchClicked()
-
-    data class Model(
-        val projectsModel: ProjectsModel,
-        val errorText: String?,
-        val isLoading: Boolean,
-        val searchActive: Boolean,
-        val searchText: String,
-    )
-
-    sealed class Output {
-        data class Selected(val projectId: String) : Output()
+    sealed class Child {
+        class ProjectsListChild(val component: ProjectsListComponent) : Child()
+        class ProjectsDetailsChild(val component: DashboardComponent) : Child()
     }
 }

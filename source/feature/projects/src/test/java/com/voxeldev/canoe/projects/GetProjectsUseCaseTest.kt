@@ -45,7 +45,7 @@ class GetProjectsUseCaseTest : BaseUnitTest() {
         val repositoryResult = Result.success(
             value = ProjectsModel(
                 data = listOf(),
-            )
+            ),
         )
 
         declareMock<ProjectsRepository> {

@@ -21,7 +21,7 @@ internal class FcmService : FirebaseMessagingService() {
             with(resources) {
                 val builder = NotificationCompat.Builder(
                     applicationContext,
-                    getString(R.string.fcm_notification_channel_id)
+                    getString(R.string.fcm_notification_channel_id),
                 )
                     .setContentTitle(message.notification?.title ?: getString(R.string.fcm_notification_default_title))
                     .setContentText(message.notification?.body ?: getString(R.string.fcm_notification_default_text))
@@ -32,7 +32,7 @@ internal class FcmService : FirebaseMessagingService() {
                             NotificationCompat.PRIORITY_MAX
                         } else {
                             NotificationCompat.PRIORITY_DEFAULT
-                        }
+                        },
                     )
 
                 getNotificationManager().notify(getNotificationId(), builder.build())
@@ -41,7 +41,7 @@ internal class FcmService : FirebaseMessagingService() {
     }
 
     private fun getNotificationManager(): NotificationManager = applicationContext.getSystemService(
-        NotificationManager::class.java
+        NotificationManager::class.java,
     )
 
     private fun getNotificationId(): Int = Random.nextInt()

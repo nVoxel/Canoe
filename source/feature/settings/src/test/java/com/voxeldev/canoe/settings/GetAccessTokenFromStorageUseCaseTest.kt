@@ -39,7 +39,7 @@ class GetAccessTokenFromStorageUseCaseTest : BaseUnitTest() {
     @Test
     fun `check GetAccessTokenFromStorageUseCase returns same value`() = runTest {
         val repositoryResult = Result.success(
-            value = "token"
+            value = "token",
         )
 
         declareMock<TokenRepository> {

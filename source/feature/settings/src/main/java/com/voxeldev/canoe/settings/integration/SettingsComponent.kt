@@ -33,7 +33,7 @@ class SettingsComponent(
         SettingsStoreProvider(
             storeFactory = storeFactory,
             deepLink = deepLink,
-            authenticationCodeParser = authenticationCodeParser
+            authenticationCodeParser = authenticationCodeParser,
         ).provide()
     }
 
@@ -42,7 +42,7 @@ class SettingsComponent(
     }
 
     override fun onConnectButtonClicked() = output(
-        Output.Connect(connectUrl = stringResourceProvider.getOAuthAuthorizeUrl())
+        Output.Connect(connectUrl = stringResourceProvider.getOAuthAuthorizeUrl()),
     )
 
     override fun onDisconnectButtonClicked() = store.accept(intent = SettingsStore.Intent.DisconnectAccount)

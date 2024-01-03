@@ -64,7 +64,7 @@ internal class DefaultAuthenticationRepository(
                 append(CLIENT_SECRET_PARAM, stringResourceProvider.getOAuthClientSecret())
                 // append(ALL_PARAM, ALL_TRUE)
                 append(TOKEN_PARAM, tokenRepository.getAccessToken().getOrThrow())
-            }
+            },
         ).map {
             tokenRepository.clearAccessToken()
             tokenRepository.clearRefreshToken()

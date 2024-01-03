@@ -2,8 +2,8 @@ package com.voxeldev.canoe.compose.ui.components.charts
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.chart.CartesianChartHost
@@ -14,6 +14,7 @@ import com.patrykandpatrick.vico.core.chart.layer.ColumnCartesianLayer
 import com.patrykandpatrick.vico.core.component.shape.LineComponent
 import com.patrykandpatrick.vico.core.model.CartesianChartModel
 import com.patrykandpatrick.vico.core.model.ColumnCartesianLayerModel
+import com.voxeldev.canoe.compose.ui.theme.LocalChartColorsPalette
 import com.voxeldev.canoe.dashboard.api.sumaries.DailyChartData
 
 /**
@@ -21,7 +22,7 @@ import com.voxeldev.canoe.dashboard.api.sumaries.DailyChartData
  */
 @Composable
 internal fun DailyActivityChart(data: DailyChartData) {
-    val chartModel =
+    val chartModel = remember(data) {
         CartesianChartModel(
             ColumnCartesianLayerModel.build {
                 data.projectsSeries.values.forEach { day ->
@@ -29,15 +30,17 @@ internal fun DailyActivityChart(data: DailyChartData) {
                 }
             },
         )
+    }
 
     val columns: List<LineComponent> = listOf(
-        rememberLineComponent(color = Color.Red, thickness = 16.dp),
-        rememberLineComponent(color = Color.Green, thickness = 16.dp),
-        rememberLineComponent(color = Color.Gray, thickness = 16.dp),
-        rememberLineComponent(color = Color.Blue, thickness = 16.dp),
-        rememberLineComponent(color = Color.Cyan, thickness = 16.dp),
-        rememberLineComponent(color = Color.DarkGray, thickness = 16.dp),
-        rememberLineComponent(color = Color.Magenta, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.red, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.green, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.yellow, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.blue, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.cyan, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.orange, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.magenta, thickness = 16.dp),
+        rememberLineComponent(color = LocalChartColorsPalette.current.purple, thickness = 16.dp),
     )
 
     val columnLayer = rememberColumnCartesianLayer(
@@ -58,9 +61,9 @@ internal fun DailyActivityChart(data: DailyChartData) {
             ),
         ),
         model = chartModel,
-        marker = rememberMarker(
+        marker = rememberDailyMarker(
             data.projectsSeries.values.toList(),
-            data.totalLabels
+            data.totalLabels,
         ),
         isZoomEnabled = false,
     )

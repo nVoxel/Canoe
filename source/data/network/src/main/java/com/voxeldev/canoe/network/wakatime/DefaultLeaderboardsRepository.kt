@@ -28,7 +28,7 @@ internal class DefaultLeaderboardsRepository(
 ) : LeaderboardsRepository, BaseNetworkRepository<LeaderboardsModel>(
     networkHandler,
     httpClient,
-    authenticationRepository
+    authenticationRepository,
 ) {
 
     override suspend fun getLeaderboards(request: LeaderboardsRequest): Result<LeaderboardsModel> =
@@ -59,7 +59,7 @@ internal class DefaultLeaderboardsRepository(
                 }
             },
             cache = { leaderboardsDatabase.add(leaderboardsDatabaseMapper.toObject(this)) },
-            transform = { leaderboardsMapper.toModel(this) }
+            transform = { leaderboardsMapper.toModel(this) },
         )
 
     private companion object {

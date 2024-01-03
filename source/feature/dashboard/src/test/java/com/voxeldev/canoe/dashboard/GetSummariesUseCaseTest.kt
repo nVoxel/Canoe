@@ -50,15 +50,15 @@ class GetSummariesUseCaseTest : BaseUnitTest() {
                 dailyChartData = DailyChartData(
                     projectsSeries = hashMapOf(),
                     totalLabels = mutableListOf(),
-                    horizontalLabels = mutableListOf()
+                    horizontalLabels = mutableListOf(),
                 ),
                 languagesChartData = listOf(),
                 editorsChartData = listOf(),
                 operatingSystemsChartData = listOf(),
                 machinesChartData = listOf(),
                 cumulativeTotal = CumulativeTotal(seconds = 0f, text = "", digital = ""),
-                dailyAverage = DailyAverage(seconds = 0f, text = "")
-            )
+                dailyAverage = DailyAverage(seconds = 0f, text = ""),
+            ),
         )
 
         declareMock<SummariesRepository> {

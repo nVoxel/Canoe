@@ -15,6 +15,6 @@ interface ProjectsDatabase : CrDatabase<ProjectsObject> {
             schema = setOf(
                 ProjectsObject::class,
                 ProjectObject::class,
-            )
+            ),
         )
 }

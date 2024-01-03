@@ -29,6 +29,7 @@ import java.util.Locale
  * @author nvoxel
  */
 internal class DashboardStoreProvider(
+    private val projectName: String?,
     private val storeFactory: StoreFactory,
     private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics,
     private val getProgramLanguagesUseCase: GetProgramLanguagesUseCase = GetProgramLanguagesUseCase(),
@@ -39,8 +40,8 @@ internal class DashboardStoreProvider(
         object :
             DashboardStore,
             Store<Intent, State, Nothing> by storeFactory.create(
-                name = STORE_NAME,
-                initialState = State(),
+                name = STORE_NAME + (projectName ?: ""),
+                initialState = State(projectName = projectName),
                 bootstrapper = SimpleBootstrapper(Unit),
                 executorFactory = ::ExecutorImpl,
                 reducer = ReducerImpl,
@@ -73,7 +74,7 @@ internal class DashboardStoreProvider(
         override fun executeIntent(intent: Intent, getState: () -> State) {
             when (intent) {
                 is Intent.ReloadDashboard -> loadDashboard(
-                    params = getSummariesRequest(getState().datePickerBottomSheetState)
+                    params = getSummariesRequest(getState().datePickerBottomSheetState),
                 )
 
                 is Intent.ShowDatePickerBottomSheet -> {
@@ -140,6 +141,7 @@ internal class DashboardStoreProvider(
             SummariesRequest(
                 startDate = state.startDate,
                 endDate = state.endDate,
+                project = projectName,
             )
 
         private fun Long.toDateFormat(): String {
@@ -155,27 +157,27 @@ internal class DashboardStoreProvider(
                 is Msg.SummariesLoading -> copy(isSummariesLoading = true)
                 is Msg.ProgramLanguagesLoaded -> copy(
                     programLanguagesModel = msg.programLanguagesModel,
-                    isProgramLanguagesLoading = false
+                    isProgramLanguagesLoading = false,
                 )
 
                 is Msg.ProgramLanguagesLoading -> copy(isProgramLanguagesLoading = true)
                 is Msg.SummariesError -> copy(errorText = msg.message, isSummariesLoading = false)
                 is Msg.ProgramLanguagesError -> copy(errorText = msg.message, isProgramLanguagesLoading = false)
                 is Msg.StartDateChanged -> copy(
-                    datePickerBottomSheetState = datePickerBottomSheetState.copy(startDate = msg.startDate)
+                    datePickerBottomSheetState = datePickerBottomSheetState.copy(startDate = msg.startDate),
                 )
 
                 is Msg.EndDateChanged -> copy(
-                    datePickerBottomSheetState = datePickerBottomSheetState.copy(endDate = msg.endDate)
+                    datePickerBottomSheetState = datePickerBottomSheetState.copy(endDate = msg.endDate),
                 )
 
                 is Msg.DatesReset -> copy(datePickerBottomSheetState = DashboardStore.DatePickerBottomSheetState())
                 is Msg.DatePickerBottomSheetShowed -> copy(
-                    datePickerBottomSheetState = datePickerBottomSheetState.copy(active = true)
+                    datePickerBottomSheetState = datePickerBottomSheetState.copy(active = true),
                 )
 
                 is Msg.DatePickerBottomSheetDismissed -> copy(
-                    datePickerBottomSheetState = datePickerBottomSheetState.copy(active = false)
+                    datePickerBottomSheetState = datePickerBottomSheetState.copy(active = false),
                 )
             }
     }

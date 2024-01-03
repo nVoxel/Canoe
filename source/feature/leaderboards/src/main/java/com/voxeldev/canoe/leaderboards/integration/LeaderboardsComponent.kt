@@ -35,15 +35,15 @@ class LeaderboardsComponent(
     override fun onToggleFilterBottomSheet() = store.accept(intent = LeaderboardsStore.Intent.ToggleFilterBottomSheet)
 
     override fun onSelectLanguage(language: String) = store.accept(
-        intent = LeaderboardsStore.Intent.SetLanguage(language = language)
+        intent = LeaderboardsStore.Intent.SetLanguage(language = language),
     )
 
     override fun onSelectHireable(hireable: Boolean) = store.accept(
-        intent = LeaderboardsStore.Intent.SetHireable(hireable = hireable)
+        intent = LeaderboardsStore.Intent.SetHireable(hireable = hireable),
     )
 
     override fun onSelectCountryCode(countryCode: String) = store.accept(
-        intent = LeaderboardsStore.Intent.SetCountryCode(countryCode = countryCode)
+        intent = LeaderboardsStore.Intent.SetCountryCode(countryCode = countryCode),
     )
 
     override fun onResetFilters() = store.accept(intent = LeaderboardsStore.Intent.ResetFilters)
