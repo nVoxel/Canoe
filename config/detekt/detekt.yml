@@ -80,7 +80,7 @@ formatting:
   StringTemplateIndent:
     active: false
   TrailingCommaOnCallSite:
-    active: true
+    active: false
   TrailingCommaOnDeclarationSite:
     active: true
   ValueArgumentComment:
