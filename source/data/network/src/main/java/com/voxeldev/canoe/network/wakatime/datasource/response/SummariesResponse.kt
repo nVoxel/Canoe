@@ -22,7 +22,7 @@ internal data class SummariesDayResponse(
     @SerialName("grand_total")
     val grandTotal: GrandTotalResponse,
     val categories: List<CategoryResponse>,
-    val projects: List<SummaryProjectResponse>,
+    val projects: List<SummaryProjectResponse>? = null,
     val languages: List<LanguageResponse>,
     val editors: List<EditorResponse>,
     @SerialName("operating_systems")
@@ -71,7 +71,7 @@ internal data class SummaryProjectResponse(
     val totalSeconds: Float,
     val percent: Float,
     val digital: String,
-    val decimal: String,
+    val decimal: Float,
     val text: String,
     val hours: Int,
     val minutes: Int,

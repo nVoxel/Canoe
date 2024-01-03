@@ -44,8 +44,8 @@ internal class SummariesMapper {
         var currentDay = 1
 
         summariesResponse.data.forEach { day ->
-            day.projects.forEach { project ->
-                val time = project.decimal.toFloat()
+            day.projects?.forEach { project ->
+                val time = project.decimal
                 val pair = (if (time > 0f) time else DEFAULT_EMPTY_VALUE) to "${project.name}: ${project.text}"
 
                 projectsSeries
