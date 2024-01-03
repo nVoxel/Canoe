@@ -9,9 +9,9 @@ complexity:
     ignoreSingleWhenExpression: true
   LargeClass:
     active: true
-    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+    excludes: [ '**/test/**', '**/*.Test.kt', '**/*.Spec.kt' ]
   TooManyFunctions:
-    excludes: ['**/test/**', '**/functionalTest/**', '**/*Mapper.kt', '**/*StringResourceProvider.kt']
+    excludes: [ '**/test/**', '**/functionalTest/**', '**/*Mapper.kt', '**/*StringResourceProvider.kt' ]
   LongMethod:
     threshold: 70
   LongParameterList:
@@ -19,6 +19,8 @@ complexity:
     functionThreshold: 15 # Compose...
   NestedBlockDepth:
     threshold: 7
+  NamedArguments:
+    threshold: 1
 
 coroutines:
   active: true
@@ -77,11 +79,15 @@ formatting:
     active: false
   StringTemplateIndent:
     active: false
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true
   ValueArgumentComment:
     active: false
   NoWildcardImports:
     active: true
-    excludes: ['**/*Test.kt']
+    excludes: [ '**/*Test.kt' ]
 
 naming:
   ClassNaming:
@@ -151,7 +157,7 @@ style:
     active: true
   ClassOrdering:
     active: true
-    excludes: ['**/RootComponent.kt'] # ¯\_(ツ)_/¯
+    excludes: [ '**/RootComponent.kt', '**/ProjectsComponent.kt' ] # ¯\_(ツ)_/¯
   CollapsibleIfStatements:
     active: true
   DestructuringDeclarationWithTooManyEntries:
@@ -216,6 +222,7 @@ style:
       - '0'
       - '1'
       - '2'
+      - '3'
       - '100'
       - '1000'
   MandatoryBracesLoops:

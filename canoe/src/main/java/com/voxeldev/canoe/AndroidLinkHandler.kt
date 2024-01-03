@@ -32,14 +32,15 @@ class AndroidLinkHandler(private val context: Context) : LinkHandler {
 
     private fun openUsingImplicitIntent(url: String) {
         context.startActivity(
-            Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            Intent(Intent.ACTION_VIEW, Uri.parse(url)),
         )
     }
 
     private fun openUsingCustomTab(url: String) {
         CustomTabsIntent.Builder().build().apply {
             intent.data = Uri.parse(url)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Otherwise app activity may close after returning from the Custom Tab
+            // Otherwise app activity may close after returning from the Custom Tab
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ContextCompat.startActivity(context, intent, startAnimationBundle)
         }
     }
