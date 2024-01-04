@@ -13,9 +13,11 @@ internal class StateMapper {
             projectName = state.projectName,
             summariesModel = state.summariesModel,
             programLanguagesModel = state.programLanguagesModel,
+            allTimeModel = state.allTimeModel,
             errorText = state.errorText,
             isSummariesLoading = state.isSummariesLoading,
             isProgramLanguagesLoading = state.isProgramLanguagesLoading,
+            isAllTimeLoading = state.isAllTimeLoading,
             datePickerBottomSheetModel = Dashboard.DatePickerBottomSheetModel(
                 active = state.datePickerBottomSheetState.active,
                 startDate = state.datePickerBottomSheetState.startDate,

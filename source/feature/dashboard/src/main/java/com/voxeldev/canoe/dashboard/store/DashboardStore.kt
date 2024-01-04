@@ -1,6 +1,7 @@
 package com.voxeldev.canoe.dashboard.store
 
 import com.arkivanov.mvikotlin.core.store.Store
+import com.voxeldev.canoe.dashboard.api.alltime.AllTimeModel
 import com.voxeldev.canoe.dashboard.api.languages.ProgramLanguagesModel
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesModel
 import com.voxeldev.canoe.dashboard.store.DashboardStore.Intent
@@ -24,9 +25,11 @@ internal interface DashboardStore : Store<Intent, State, Nothing> {
         val projectName: String? = null,
         val summariesModel: SummariesModel? = null,
         val programLanguagesModel: ProgramLanguagesModel? = null,
+        val allTimeModel: AllTimeModel? = null,
         val errorText: String? = null,
         val isSummariesLoading: Boolean = true,
         val isProgramLanguagesLoading: Boolean = true,
+        val isAllTimeLoading: Boolean = true,
         val datePickerBottomSheetState: DatePickerBottomSheetState = DatePickerBottomSheetState(),
     )
 

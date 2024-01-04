@@ -35,6 +35,7 @@ import com.voxeldev.canoe.compose.ui.components.charts.DailyActivityChart
 import com.voxeldev.canoe.compose.ui.components.charts.LanguagesChart
 import com.voxeldev.canoe.compose.ui.components.charts.ProjectActivityChart
 import com.voxeldev.canoe.compose.ui.components.charts.UsageChart
+import com.voxeldev.canoe.dashboard.api.alltime.AllTimeModel
 import com.voxeldev.canoe.dashboard.api.languages.ProgramLanguagesModel
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesModel
 import com.voxeldev.canoe.dashboard.integration.DashboardComponent
@@ -65,14 +66,26 @@ internal fun DashboardContent(component: DashboardComponent) {
             ) {
                 if (model.isSummariesLoading || model.isProgramLanguagesLoading) Loader()
 
+                model.errorText?.let {
+                    Error(
+                        message = it,
+                        shouldShowRetry = true,
+                        retryCallback = component::onReloadClicked,
+                    )
+                }
+
                 with(model) {
                     summariesModel?.let { summariesModel ->
                         programLanguagesModel?.let { programLanguagesModel ->
-                            Header(
-                                summariesModel = summariesModel,
-                                startDate = model.datePickerBottomSheetModel.startDate,
-                                endDate = model.datePickerBottomSheetModel.endDate,
-                            )
+                            allTimeModel?.let { allTimeModel ->
+                                Header(
+                                    summariesModel = summariesModel,
+                                    allTimeModel = allTimeModel,
+                                    projectName = projectName,
+                                    startDate = model.datePickerBottomSheetModel.startDate,
+                                    endDate = model.datePickerBottomSheetModel.endDate,
+                                )
+                            }
 
                             Charts(
                                 summariesModel = summariesModel,
@@ -85,14 +98,6 @@ internal fun DashboardContent(component: DashboardComponent) {
                             isVisible = model.datePickerBottomSheetModel.active,
                             onDismissRequest = component::onDismissDatePickerBottomSheet,
                         )
-                    } ?: run {
-                        errorText?.let {
-                            Error(
-                                message = it,
-                                shouldShowRetry = true,
-                                retryCallback = component::onReloadClicked,
-                            )
-                        }
                     }
                 }
             }
@@ -103,14 +108,19 @@ internal fun DashboardContent(component: DashboardComponent) {
 @Composable
 internal fun Header(
     summariesModel: SummariesModel,
+    allTimeModel: AllTimeModel,
+    projectName: String?,
     startDate: String,
     endDate: String,
 ) {
     val headerText = remember(summariesModel) {
         "${summariesModel.cumulativeTotal.text} from $startDate to $endDate.\nDaily average is: ${summariesModel.dailyAverage.text}."
     }
+    val allTimeText = remember(allTimeModel, projectName) {
+        "Total time spent ${projectName?.let { "for $it " } ?: ""}is: ${allTimeModel.data.text}."
+    }
 
-    val spanStyles = remember(summariesModel) {
+    val headerSpanStyles = remember(summariesModel) {
         listOf(
             AnnotatedString.Range(
                 item = SpanStyle(fontWeight = FontWeight.Bold),
@@ -124,11 +134,25 @@ internal fun Header(
             ),
         )
     }
+    val allTimeSpanStyles = remember(allTimeModel, projectName) {
+        listOf(
+            AnnotatedString.Range(
+                item = SpanStyle(fontWeight = FontWeight.Bold),
+                start = allTimeText.length - allTimeModel.data.text.length - 1,
+                end = allTimeText.length - 1,
+            ),
+        )
+    }
 
     Text(
-        modifier = Modifier.padding(all = 16.dp),
-        text = AnnotatedString(text = headerText, spanStyles = spanStyles),
-        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        text = AnnotatedString(text = headerText, spanStyles = headerSpanStyles),
+        style = MaterialTheme.typography.titleMedium,
+    )
+    Text(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+        text = AnnotatedString(text = allTimeText, spanStyles = allTimeSpanStyles),
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
 

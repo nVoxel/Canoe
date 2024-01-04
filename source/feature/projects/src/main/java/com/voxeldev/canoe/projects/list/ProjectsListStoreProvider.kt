@@ -18,6 +18,7 @@ import com.voxeldev.canoe.utils.analytics.CustomEvent
 import com.voxeldev.canoe.utils.analytics.CustomTrace
 import com.voxeldev.canoe.utils.analytics.logEvent
 import com.voxeldev.canoe.utils.analytics.startTrace
+import com.voxeldev.canoe.utils.extensions.getMessage
 
 /**
  * @author nvoxel
@@ -69,7 +70,7 @@ internal class ProjectsListStoreProvider(
                             firebaseAnalytics.logEvent(event = CustomEvent.LoadedProjects)
                             dispatch(message = Msg.ProjectsListLoaded(projectsModel = it))
                         },
-                        onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                        onFailure = { dispatch(message = Msg.Error(message = it.getMessage())) },
                     )
                     .also { trace.stop() }
             }

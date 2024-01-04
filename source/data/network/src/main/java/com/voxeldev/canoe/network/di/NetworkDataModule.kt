@@ -1,10 +1,12 @@
 package com.voxeldev.canoe.network.di
 
+import com.voxeldev.canoe.dashboard.api.alltime.AllTimeRepository
 import com.voxeldev.canoe.dashboard.api.languages.ProgramLanguagesRepository
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesRepository
 import com.voxeldev.canoe.database.di.databaseDataModule
 import com.voxeldev.canoe.leaderboards.api.LeaderboardsRepository
 import com.voxeldev.canoe.local.di.localDataModule
+import com.voxeldev.canoe.network.wakatime.DefaultAllTimeRepository
 import com.voxeldev.canoe.network.wakatime.DefaultAuthenticationRepository
 import com.voxeldev.canoe.network.wakatime.DefaultLeaderboardsRepository
 import com.voxeldev.canoe.network.wakatime.DefaultProgramLanguagesRepository
@@ -105,6 +107,17 @@ val networkDataModule = module {
             httpClient = get(named("oauth")),
             stringResourceProvider = get(),
             tokenRepository = get(),
+        )
+    }
+
+    single<AllTimeRepository> {
+        DefaultAllTimeRepository(
+            networkHandler = get(),
+            httpClient = get(),
+            authenticationRepository = get(),
+            allTimeDatabase = get(),
+            allTimeMapper = get(),
+            allTimeDatabaseMapper = get(),
         )
     }
 
