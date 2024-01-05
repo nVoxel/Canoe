@@ -1,6 +1,7 @@
 package com.voxeldev.canoe.dashboard
 
 import com.arkivanov.decompose.value.Value
+import com.voxeldev.canoe.dashboard.api.alltime.AllTimeModel
 import com.voxeldev.canoe.dashboard.api.languages.ProgramLanguagesModel
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesModel
 
@@ -21,9 +22,11 @@ interface Dashboard {
         val projectName: String?,
         val summariesModel: SummariesModel?,
         val programLanguagesModel: ProgramLanguagesModel?,
+        val allTimeModel: AllTimeModel?,
         val errorText: String?,
         val isSummariesLoading: Boolean,
         val isProgramLanguagesLoading: Boolean,
+        val isAllTimeLoading: Boolean,
         val datePickerBottomSheetModel: DatePickerBottomSheetModel,
     )
 

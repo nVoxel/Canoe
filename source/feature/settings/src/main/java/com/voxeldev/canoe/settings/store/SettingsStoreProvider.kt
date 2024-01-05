@@ -19,6 +19,7 @@ import com.voxeldev.canoe.utils.analytics.CustomEvent
 import com.voxeldev.canoe.utils.analytics.CustomTrace
 import com.voxeldev.canoe.utils.analytics.logEvent
 import com.voxeldev.canoe.utils.analytics.startTrace
+import com.voxeldev.canoe.utils.extensions.getMessage
 import com.voxeldev.canoe.utils.integration.BaseUseCase
 import com.voxeldev.canoe.utils.parsers.AuthenticationCodeParser
 
@@ -88,7 +89,7 @@ internal class SettingsStoreProvider(
                                 firebaseAnalytics.logEvent(event = CustomEvent.Login)
                                 dispatch(message = Msg.AccessTokenLoaded(isConnected = true))
                             },
-                            onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                            onFailure = { dispatch(message = Msg.Error(message = it.getMessage())) },
                         )
                         .also { trace.stop() }
                 }
@@ -105,7 +106,7 @@ internal class SettingsStoreProvider(
                             firebaseAnalytics.logEvent(event = CustomEvent.Logout)
                             dispatch(message = Msg.AccessTokenLoaded(isConnected = false))
                         },
-                        onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                        onFailure = { dispatch(message = Msg.Error(message = it.getMessage())) },
                     )
                     .also { trace.stop() }
             }

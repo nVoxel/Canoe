@@ -18,6 +18,7 @@ import com.voxeldev.canoe.utils.analytics.CustomEvent
 import com.voxeldev.canoe.utils.analytics.CustomTrace
 import com.voxeldev.canoe.utils.analytics.logEvent
 import com.voxeldev.canoe.utils.analytics.startTrace
+import com.voxeldev.canoe.utils.extensions.getMessage
 
 /**
  * @author nvoxel
@@ -98,7 +99,7 @@ internal class LeaderboardsStoreProvider(
                             firebaseAnalytics.logEvent(event = CustomEvent.LoadedLeaderboards)
                             dispatch(message = Msg.LeaderboardsLoaded(leaderboardsModel = it))
                         },
-                        onFailure = { dispatch(message = Msg.Error(message = it.message ?: it.toString())) },
+                        onFailure = { dispatch(message = Msg.Error(message = it.getMessage())) },
                     )
                     .also { trace.stop() }
             }
