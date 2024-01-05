@@ -17,6 +17,8 @@ A WakaTime client application for Android.
 - [Ktor](https://ktor.io/) to receive data from [WakaTime API](https://wakatime.com/developers)
 - [Realm](https://realm.io/) to store cached data
 
+This set of libraries was chosen to simplify (possible) migration to Kotlin Multiplatform in the future.
+
 # Screenshots
 
 <img src="https://i.imgur.com/ZEY2BAY.jpeg" alt="Dashboard" width="25%" height="25%"> <img src="https://i.imgur.com/PgUTwQK.jpeg" alt="Leaderboards" width="25%" height="25%">
