@@ -4,6 +4,8 @@ import android.content.res.Configuration
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
@@ -22,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
@@ -39,7 +42,7 @@ import com.voxeldev.canoe.compose.ui.theme.enableEdgeToEdge
 import com.voxeldev.canoe.root.Root
 import com.voxeldev.canoe.root.integration.RootComponent
 
-private val navigationBarTonalElevation = 3.0.dp
+private val navigationTonalElevation = 3.0.dp
 
 /**
  * @author nvoxel
@@ -47,7 +50,7 @@ private val navigationBarTonalElevation = 3.0.dp
 @Composable
 fun RootContent(component: RootComponent) {
     CanoeTheme {
-        val navigationBarScrim = MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = navigationBarTonalElevation).toArgb()
+        val navigationBarScrim = MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = navigationTonalElevation).toArgb()
 
         (LocalContext.current as ComponentActivity).enableEdgeToEdge(
             navigationBarStyle = SystemBarStyle(
@@ -85,12 +88,20 @@ private fun VerticalLayout(component: RootComponent) {
 
 @Composable
 private fun HorizontalLayout(component: RootComponent) {
-    Row {
-        SideNavigation(component = component)
-        Children(
-            component = component,
-            isHorizontalLayout = true,
-        )
+    Scaffold { paddingValues ->
+        Row(
+            modifier = Modifier
+                .padding(
+                    start = paddingValues.calculateStartPadding(LocalLayoutDirection.current),
+                    end = paddingValues.calculateEndPadding(LocalLayoutDirection.current),
+                )
+        ) {
+            SideNavigation(component = component)
+            Children(
+                component = component,
+                isHorizontalLayout = true,
+            )
+        }
     }
 }
 
@@ -119,7 +130,7 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
 
     NavigationBar(
         modifier = modifier,
-        tonalElevation = navigationBarTonalElevation,
+        tonalElevation = navigationTonalElevation,
     ) {
         NavigationBarItem(
             selected = activeComponent is Root.Child.DashboardChild,
@@ -191,6 +202,7 @@ private fun SideNavigation(component: RootComponent, modifier: Modifier = Modifi
     CustomNavigationRail(
         modifier = modifier
             .zIndex(1f),
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = navigationTonalElevation),
     ) {
         NavigationRailItem(
             selected = activeComponent is Root.Child.DashboardChild,
