@@ -88,12 +88,15 @@ private fun VerticalLayout(component: RootComponent) {
 
 @Composable
 private fun HorizontalLayout(component: RootComponent) {
+    val layoutDirection = LocalLayoutDirection.current
+
     Scaffold { paddingValues ->
         Row(
             modifier = Modifier
                 .padding(
-                    start = paddingValues.calculateStartPadding(LocalLayoutDirection.current),
-                    end = paddingValues.calculateEndPadding(LocalLayoutDirection.current),
+                    start = paddingValues.calculateStartPadding(layoutDirection = layoutDirection),
+                    end = paddingValues.calculateEndPadding(layoutDirection = layoutDirection),
+                    bottom = paddingValues.calculateBottomPadding(),
                 )
         ) {
             SideNavigation(component = component)
