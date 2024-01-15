@@ -37,7 +37,7 @@ internal fun SettingsContent(component: SettingsComponent) {
         content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(paddingValues = paddingValues)
+                    .padding(top = paddingValues.calculateTopPadding())
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {

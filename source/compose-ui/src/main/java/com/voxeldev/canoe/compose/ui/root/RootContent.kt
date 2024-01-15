@@ -1,17 +1,23 @@
 package com.voxeldev.canoe.compose.ui.root
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.voxeldev.canoe.compose.ui.components.decompose.slideTabAnimation
@@ -21,8 +27,12 @@ import com.voxeldev.canoe.compose.ui.projects.ProjectsContent
 import com.voxeldev.canoe.compose.ui.settings.SettingsContent
 import com.voxeldev.canoe.compose.ui.theme.AdditionalIcons
 import com.voxeldev.canoe.compose.ui.theme.CanoeTheme
+import com.voxeldev.canoe.compose.ui.theme.SystemBarStyle
+import com.voxeldev.canoe.compose.ui.theme.enableEdgeToEdge
 import com.voxeldev.canoe.root.Root
 import com.voxeldev.canoe.root.integration.RootComponent
+
+private val navigationBarTonalElevation = 3.0.dp
 
 /**
  * @author nvoxel
@@ -30,6 +40,15 @@ import com.voxeldev.canoe.root.integration.RootComponent
 @Composable
 fun RootContent(component: RootComponent) {
     CanoeTheme {
+        val navigationBarScrim = MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = navigationBarTonalElevation).toArgb()
+
+        (LocalContext.current as ComponentActivity).enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle(
+                lightScrim = navigationBarScrim,
+                darkScrim = navigationBarScrim,
+            )
+        )
+
         Scaffold(
             bottomBar = {
                 BottomNavigation(component = component)
@@ -37,11 +56,9 @@ fun RootContent(component: RootComponent) {
         ) { paddingValues ->
             Children(
                 component = component,
-                modifier = Modifier
-                    .padding(
-                        top = paddingValues.calculateTopPadding(),
-                        bottom = paddingValues.calculateBottomPadding(),
-                    ),
+                modifier = Modifier.padding(
+                    bottom = paddingValues.calculateBottomPadding(),
+                )
             )
         }
     }
@@ -68,7 +85,10 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
     val childStack by component.childStack.subscribeAsState()
     val activeComponent = childStack.active.instance
 
-    NavigationBar(modifier = modifier) {
+    NavigationBar(
+        modifier = modifier,
+        tonalElevation = navigationBarTonalElevation,
+    ) {
         NavigationBarItem(
             selected = activeComponent is Root.Child.DashboardChild,
             onClick = component::onDashboardTabClicked,

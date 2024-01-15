@@ -53,7 +53,7 @@ internal fun ProjectsListContent(component: ProjectsListComponent) {
         content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(paddingValues = paddingValues),
+                    .padding(top = paddingValues.calculateTopPadding()),
             ) {
                 model.errorText?.let {
                     Error(

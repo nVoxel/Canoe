@@ -62,7 +62,7 @@ internal fun DashboardContent(component: DashboardComponent) {
         content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(paddingValues = paddingValues),
+                    .padding(top = paddingValues.calculateTopPadding()),
             ) {
                 if (model.isSummariesLoading || model.isProgramLanguagesLoading) Loader()
 

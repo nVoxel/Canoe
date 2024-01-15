@@ -73,7 +73,7 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
         content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(paddingValues = paddingValues),
+                    .padding(top = paddingValues.calculateTopPadding()),
             ) {
                 if (model.isLoading) Loader()
 
