@@ -26,8 +26,15 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            splits {
+                abi {
+                    isEnable = true
+                    isUniversalApk = false
+                }
+            }
         }
     }
     compileOptions {
