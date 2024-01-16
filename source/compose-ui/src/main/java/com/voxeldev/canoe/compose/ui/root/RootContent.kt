@@ -44,19 +44,26 @@ import com.voxeldev.canoe.root.integration.RootComponent
 
 private val navigationTonalElevation = 3.0.dp
 
+private const val DASHBOARD = "Dashboard"
+private const val LEADERBOARDS = "Leaderboards"
+private const val PROJECTS = "Projects"
+private const val SETTINGS = "Settings"
+
 /**
  * @author nvoxel
  */
 @Composable
 fun RootContent(component: RootComponent) {
     CanoeTheme {
-        val navigationBarScrim = MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = navigationTonalElevation).toArgb()
+        val navigationBarScrim = MaterialTheme.colorScheme.surfaceColorAtElevation(
+            elevation = navigationTonalElevation,
+        ).toArgb()
 
         (LocalContext.current as ComponentActivity).enableEdgeToEdge(
             navigationBarStyle = SystemBarStyle(
                 lightScrim = navigationBarScrim,
                 darkScrim = navigationBarScrim,
-            )
+            ),
         )
 
         LocalConfiguration.current.orientation.let { orientation ->
@@ -97,7 +104,7 @@ private fun HorizontalLayout(component: RootComponent) {
                     start = paddingValues.calculateStartPadding(layoutDirection = layoutDirection),
                     end = paddingValues.calculateEndPadding(layoutDirection = layoutDirection),
                     bottom = paddingValues.calculateBottomPadding(),
-                )
+                ),
         ) {
             SideNavigation(component = component)
             Children(
@@ -114,7 +121,7 @@ private fun Children(component: RootComponent, modifier: Modifier = Modifier, is
         stack = component.childStack,
         modifier = modifier,
         animation = slideTabAnimation(
-            orientation = if (isHorizontalLayout) Orientation.Vertical else Orientation.Horizontal
+            orientation = if (isHorizontalLayout) Orientation.Vertical else Orientation.Horizontal,
         ) { index() },
     ) {
         when (val child = it.instance) {
@@ -141,11 +148,11 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
             icon = {
                 Icon(
                     imageVector = AdditionalIcons.Dashboard,
-                    contentDescription = "Dashboard",
+                    contentDescription = DASHBOARD,
                 )
             },
             label = {
-                Text(text = "Dashboard")
+                Text(text = DASHBOARD)
             },
             alwaysShowLabel = false,
         )
@@ -156,11 +163,11 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
             icon = {
                 Icon(
                     imageVector = AdditionalIcons.Leaderboard,
-                    contentDescription = "Leaderboards",
+                    contentDescription = LEADERBOARDS,
                 )
             },
             label = {
-                Text(text = "Leaderboards")
+                Text(text = LEADERBOARDS)
             },
             alwaysShowLabel = false,
         )
@@ -171,11 +178,11 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
             icon = {
                 Icon(
                     imageVector = Icons.Default.List,
-                    contentDescription = "Projects",
+                    contentDescription = PROJECTS,
                 )
             },
             label = {
-                Text(text = "Projects")
+                Text(text = PROJECTS)
             },
             alwaysShowLabel = false,
         )
@@ -186,11 +193,11 @@ private fun BottomNavigation(component: RootComponent, modifier: Modifier = Modi
             icon = {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings",
+                    contentDescription = SETTINGS,
                 )
             },
             label = {
-                Text(text = "Settings")
+                Text(text = SETTINGS)
             },
             alwaysShowLabel = false,
         )
@@ -213,11 +220,11 @@ private fun SideNavigation(component: RootComponent, modifier: Modifier = Modifi
             icon = {
                 Icon(
                     imageVector = AdditionalIcons.Dashboard,
-                    contentDescription = "Dashboard",
+                    contentDescription = DASHBOARD,
                 )
             },
             label = {
-                Text(text = "Dashboard")
+                Text(text = DASHBOARD)
             },
             alwaysShowLabel = false,
         )
@@ -228,11 +235,11 @@ private fun SideNavigation(component: RootComponent, modifier: Modifier = Modifi
             icon = {
                 Icon(
                     imageVector = AdditionalIcons.Leaderboard,
-                    contentDescription = "Leaderboards",
+                    contentDescription = LEADERBOARDS,
                 )
             },
             label = {
-                Text(text = "Leaderboards")
+                Text(text = LEADERBOARDS)
             },
             alwaysShowLabel = false,
         )
@@ -243,11 +250,11 @@ private fun SideNavigation(component: RootComponent, modifier: Modifier = Modifi
             icon = {
                 Icon(
                     imageVector = Icons.Default.List,
-                    contentDescription = "Projects",
+                    contentDescription = PROJECTS,
                 )
             },
             label = {
-                Text(text = "Projects")
+                Text(text = PROJECTS)
             },
             alwaysShowLabel = false,
         )
@@ -258,11 +265,11 @@ private fun SideNavigation(component: RootComponent, modifier: Modifier = Modifi
             icon = {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings",
+                    contentDescription = SETTINGS,
                 )
             },
             label = {
-                Text(text = "Settings")
+                Text(text = SETTINGS)
             },
             alwaysShowLabel = false,
         )

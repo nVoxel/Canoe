@@ -35,7 +35,7 @@ private fun Children(component: ProjectsComponent, modifier: Modifier = Modifier
         animation = stackAnimation(
             slide(
                 orientation = if (orientation == Configuration.ORIENTATION_PORTRAIT) Orientation.Vertical else Orientation.Horizontal,
-            )
+            ),
         ),
     ) {
         when (val child = it.instance) {
