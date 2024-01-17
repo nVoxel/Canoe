@@ -26,7 +26,7 @@ internal fun ProjectsListContentPreview() {
                     lastHeartBeatAt = null,
                     url = "",
                     urlEncodedName = "",
-                    createdAt = "1970-01-01T00:00:00Z"
+                    createdAt = "1970-01-01T00:00:00Z",
                 ),
                 Project(
                     id = "2",
@@ -39,7 +39,7 @@ internal fun ProjectsListContentPreview() {
                     lastHeartBeatAt = null,
                     url = "",
                     urlEncodedName = "",
-                    createdAt = "1970-01-02T00:00:00Z"
+                    createdAt = "1970-01-02T00:00:00Z",
                 ),
                 Project(
                     id = "3",
@@ -52,7 +52,7 @@ internal fun ProjectsListContentPreview() {
                     lastHeartBeatAt = null,
                     url = "",
                     urlEncodedName = "",
-                    createdAt = "1970-01-03T00:00:00Z"
+                    createdAt = "1970-01-03T00:00:00Z",
                 ),
             ),
         ),

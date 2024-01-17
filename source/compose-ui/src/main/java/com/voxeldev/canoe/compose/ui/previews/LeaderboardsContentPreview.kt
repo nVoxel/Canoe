@@ -44,7 +44,7 @@ internal fun LeaderboardsContentPreview() {
             hireable = null,
             selectedCountryCode = null,
             countryCodes = listOf(),
-        )
+        ),
     )
 
     val stringResourceProvider = object : StringResourceProvider {
@@ -83,7 +83,7 @@ internal fun LeaderboardsContentPreview() {
             onSelectHireable = {},
             onSelectCountry = {},
             onResetFilters = {},
-            retryCallback = {}
+            retryCallback = {},
         )
     }
 }

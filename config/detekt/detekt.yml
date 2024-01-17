@@ -1,7 +1,7 @@
 complexity:
   StringLiteralDuplication:
     active: true
-    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
+    excludes: [ '**/test/**', '**/*Test.kt', '**/*Spec.kt', '**/previews/*Preview.kt' ]
     ignoreAnnotation: true
     ignoreStringsRegex: '$^'
   CyclomaticComplexMethod:
@@ -267,6 +267,7 @@ style:
   UnusedPrivateMember:
     active: true
     allowedNames: '(_|ignored|expected)'
+    ignoreAnnotated: [ 'Preview' ]
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseCheckOrError:

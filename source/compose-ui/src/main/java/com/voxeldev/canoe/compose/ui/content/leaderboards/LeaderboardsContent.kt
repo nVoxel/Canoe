@@ -71,7 +71,7 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
             onSelectHireable = ::onSelectHireable,
             onSelectCountry = ::onSelectCountryCode,
             onResetFilters = ::onResetFilters,
-            retryCallback = ::onReloadClicked
+            retryCallback = ::onReloadClicked,
         )
     }
 }

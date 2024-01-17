@@ -30,7 +30,7 @@ private val baseModel = Dashboard.Model(
                     300f to "3 mins",
                     0f to "0 mins",
                     100f to "1 mins",
-                )
+                ),
             ),
             totalLabels = mutableListOf(
                 5f to "5 mins",
@@ -55,14 +55,14 @@ private val baseModel = Dashboard.Model(
         ),
         operatingSystemsChartData = listOf(
             "macOS" to Triple(first = 4f, second = "4 mins", third = LightChartColorsPalette.blue.toArgb()),
-            "Ubuntu" to Triple(first = 2f, second = "2 mins", third = LightChartColorsPalette.red.toArgb())
+            "Ubuntu" to Triple(first = 2f, second = "2 mins", third = LightChartColorsPalette.red.toArgb()),
         ),
         machinesChartData = listOf(
             "MacBook" to Triple(first = 1f, second = "4 mins", third = LightChartColorsPalette.orange.toArgb()),
             "PC" to Triple(first = 1f, second = "3 mins", third = LightChartColorsPalette.purple.toArgb()),
         ),
         cumulativeTotal = CumulativeTotal(10000f, "10h", "10"),
-        dailyAverage = DailyAverage(seconds = 1000f, "1h")
+        dailyAverage = DailyAverage(seconds = 1000f, "1h"),
     ),
     programLanguagesModel = ProgramLanguagesModel(
         data = listOf(),
@@ -86,7 +86,7 @@ private val baseModel = Dashboard.Model(
         active = false,
         startDate = "Jan 1",
         endDate = "Jan 2",
-    )
+    ),
 )
 
 /**
@@ -99,7 +99,7 @@ internal fun DashboardContentPreview() {
             model = baseModel,
             onShowDatePickerBottomSheet = {},
             onDismissRequest = { _, _ -> },
-            retryCallback = {}
+            retryCallback = {},
         )
     }
 }
@@ -110,9 +110,9 @@ internal fun DashboardProjectContentPreview() {
         projectName = "Canoe",
         summariesModel = baseModel.summariesModel?.copy(
             dailyChartData = baseModel.summariesModel?.dailyChartData?.copy(
-                projectsSeries = hashMapOf()
-            )!!
-        )
+                projectsSeries = hashMapOf(),
+            )!!,
+        ),
     )
 
     CanoeTheme {
@@ -120,7 +120,7 @@ internal fun DashboardProjectContentPreview() {
             model = model,
             onShowDatePickerBottomSheet = {},
             onDismissRequest = { _, _ -> },
-            retryCallback = {}
+            retryCallback = {},
         )
     }
 }
