@@ -95,9 +95,9 @@ internal fun CanoeTheme(
     }
     val chartColors =
         if (useDarkTheme) {
-            LightChartColorsPalette
-        } else {
             DarkChartColorsPalette
+        } else {
+            LightChartColorsPalette
         }
 
     CompositionLocalProvider(
