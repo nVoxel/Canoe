@@ -1,4 +1,4 @@
-package com.voxeldev.canoe.compose.ui.root
+package com.voxeldev.canoe.compose.ui.content.root
 
 import android.content.res.Configuration
 import androidx.activity.ComponentActivity
@@ -31,10 +31,10 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.voxeldev.canoe.compose.ui.components.CustomNavigationRail
 import com.voxeldev.canoe.compose.ui.components.decompose.slideTabAnimation
-import com.voxeldev.canoe.compose.ui.dashboard.DashboardContent
-import com.voxeldev.canoe.compose.ui.leaderboards.LeaderboardsContent
-import com.voxeldev.canoe.compose.ui.projects.ProjectsContent
-import com.voxeldev.canoe.compose.ui.settings.SettingsContent
+import com.voxeldev.canoe.compose.ui.content.dashboard.DashboardContent
+import com.voxeldev.canoe.compose.ui.content.leaderboards.LeaderboardsContent
+import com.voxeldev.canoe.compose.ui.content.projects.ProjectsContent
+import com.voxeldev.canoe.compose.ui.content.settings.SettingsContent
 import com.voxeldev.canoe.compose.ui.theme.AdditionalIcons
 import com.voxeldev.canoe.compose.ui.theme.CanoeTheme
 import com.voxeldev.canoe.compose.ui.theme.SystemBarStyle

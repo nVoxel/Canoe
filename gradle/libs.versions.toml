@@ -58,7 +58,8 @@ material-icons-extended = { group = "androidx.compose.material", name = "materia
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
-ui = { group = "androidx.compose.ui", name = "ui" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 

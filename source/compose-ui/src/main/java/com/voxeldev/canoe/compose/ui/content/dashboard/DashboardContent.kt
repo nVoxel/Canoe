@@ -1,4 +1,4 @@
-package com.voxeldev.canoe.compose.ui.dashboard
+package com.voxeldev.canoe.compose.ui.content.dashboard
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.voxeldev.canoe.compose.ui.components.Error
@@ -35,6 +36,9 @@ import com.voxeldev.canoe.compose.ui.components.charts.DailyActivityChart
 import com.voxeldev.canoe.compose.ui.components.charts.LanguagesChart
 import com.voxeldev.canoe.compose.ui.components.charts.ProjectActivityChart
 import com.voxeldev.canoe.compose.ui.components.charts.UsageChart
+import com.voxeldev.canoe.compose.ui.previews.DashboardContentPreview
+import com.voxeldev.canoe.compose.ui.previews.DashboardProjectContentPreview
+import com.voxeldev.canoe.dashboard.Dashboard
 import com.voxeldev.canoe.dashboard.api.alltime.AllTimeModel
 import com.voxeldev.canoe.dashboard.api.languages.ProgramLanguagesModel
 import com.voxeldev.canoe.dashboard.api.sumaries.SummariesModel
@@ -43,17 +47,34 @@ import com.voxeldev.canoe.dashboard.integration.DashboardComponent
 /**
  * @author nvoxel
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DashboardContent(component: DashboardComponent) {
-    val model by component.model.subscribeAsState()
+    with(component) {
+        val model by model.subscribeAsState()
 
+        DashboardContent(
+            model = model,
+            onShowDatePickerBottomSheet = ::onShowDatePickerBottomSheet,
+            onDismissRequest = ::onDismissDatePickerBottomSheet,
+            retryCallback = ::onReloadClicked,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun DashboardContent(
+    model: Dashboard.Model,
+    onShowDatePickerBottomSheet: () -> Unit,
+    onDismissRequest: (startMillis: Long?, endMillis: Long?) -> Unit,
+    retryCallback: () -> Unit,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = model.projectName ?: "Dashboard") },
                 actions = {
-                    IconButton(onClick = { component.onShowDatePickerBottomSheet() }) {
+                    IconButton(onClick = onShowDatePickerBottomSheet) {
                         Icon(imageVector = Icons.Default.DateRange, contentDescription = "Change date range")
                     }
                 },
@@ -70,7 +91,7 @@ internal fun DashboardContent(component: DashboardComponent) {
                     Error(
                         message = it,
                         shouldShowRetry = true,
-                        retryCallback = component::onReloadClicked,
+                        retryCallback = retryCallback,
                     )
                 }
 
@@ -96,7 +117,7 @@ internal fun DashboardContent(component: DashboardComponent) {
 
                         DatePickerBottomSheet(
                             isVisible = model.datePickerBottomSheetModel.active,
-                            onDismissRequest = component::onDismissDatePickerBottomSheet,
+                            onDismissRequest = onDismissRequest,
                         )
                     }
                 }
@@ -273,3 +294,11 @@ private fun DatePickerBottomSheet(
         }
     }
 }
+
+@Composable
+@Preview
+private fun Preview() = DashboardContentPreview()
+
+@Composable
+@Preview
+private fun ProjectPreview() = DashboardProjectContentPreview()

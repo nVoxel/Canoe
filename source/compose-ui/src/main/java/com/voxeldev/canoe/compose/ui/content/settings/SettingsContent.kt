@@ -1,5 +1,6 @@
-package com.voxeldev.canoe.compose.ui.settings
+package com.voxeldev.canoe.compose.ui.content.settings
 
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,20 +15,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.voxeldev.canoe.compose.ui.components.Error
 import com.voxeldev.canoe.compose.ui.components.Loader
+import com.voxeldev.canoe.compose.ui.previews.SettingsContentPreview
+import com.voxeldev.canoe.settings.Settings
 import com.voxeldev.canoe.settings.integration.SettingsComponent
 
 /**
  * @author nvoxel
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsContent(component: SettingsComponent) {
-    val model by component.model.subscribeAsState()
+    with(component) {
+        val model by model.subscribeAsState()
 
+        SettingsContent(
+            model = model,
+            onReloadButtonClicked = ::onReloadButtonClicked,
+            onConnectButtonClicked = ::onConnectButtonClicked,
+            onDisconnectButtonClicked = ::onDisconnectButtonClicked,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun SettingsContent(
+    model: Settings.Model,
+    onReloadButtonClicked: () -> Unit,
+    onConnectButtonClicked: () -> Unit,
+    onDisconnectButtonClicked: () -> Unit,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -47,7 +68,7 @@ internal fun SettingsContent(component: SettingsComponent) {
                     Error(
                         message = it,
                         shouldShowRetry = true,
-                        retryCallback = component::onReloadButtonClicked,
+                        retryCallback = onReloadButtonClicked,
                     )
                 } ?: run {
                     Text(
@@ -57,11 +78,11 @@ internal fun SettingsContent(component: SettingsComponent) {
                     )
 
                     if (model.isConnected) {
-                        OutlinedButton(onClick = { component.onDisconnectButtonClicked() }) {
+                        OutlinedButton(onClick = onDisconnectButtonClicked) {
                             Text(text = "Disconnect")
                         }
                     } else {
-                        Button(onClick = { component.onConnectButtonClicked() }) {
+                        Button(onClick = onConnectButtonClicked) {
                             Text(text = "Connect")
                         }
                     }
@@ -70,3 +91,7 @@ internal fun SettingsContent(component: SettingsComponent) {
         },
     )
 }
+
+@Preview
+@Composable
+private fun Preview() = SettingsContentPreview()

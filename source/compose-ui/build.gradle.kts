@@ -40,6 +40,7 @@ dependencies {
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.foundation.android)
+    implementation(libs.ui.tooling.preview)
 
     implementation(libs.material3)
     // implementation(libs.material.icons.extended)
@@ -63,4 +64,6 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
+
+    debugImplementation(libs.ui.tooling)
 }

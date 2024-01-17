@@ -1,4 +1,4 @@
-package com.voxeldev.canoe.compose.ui.leaderboards
+package com.voxeldev.canoe.compose.ui.content.leaderboards
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
@@ -42,6 +43,7 @@ import coil.transform.CircleCropTransformation
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.voxeldev.canoe.compose.ui.components.Error
 import com.voxeldev.canoe.compose.ui.components.Loader
+import com.voxeldev.canoe.compose.ui.previews.LeaderboardsContentPreview
 import com.voxeldev.canoe.compose.ui.theme.AdditionalIcons
 import com.voxeldev.canoe.leaderboards.Leaderboards
 import com.voxeldev.canoe.leaderboards.api.GeneralizedUser
@@ -53,18 +55,47 @@ import org.koin.compose.koinInject
 /**
  * @author nvoxel
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun LeaderboardsContent(component: LeaderboardsComponent) {
-    val model by component.model.subscribeAsState()
-    val stringResourceProvider = koinInject<StringResourceProvider>()
+    with(component) {
+        val model by model.subscribeAsState()
+        val stringResourceProvider = koinInject<StringResourceProvider>()
 
+        LeaderboardsContent(
+            model = model,
+            stringResourceProvider = stringResourceProvider,
+            onItemClicked = ::onItemClicked,
+            onToggleFilterBottomSheet = ::onToggleFilterBottomSheet,
+            onDismissRequest = ::onReloadClicked,
+            onSelectLanguage = ::onSelectLanguage,
+            onSelectHireable = ::onSelectHireable,
+            onSelectCountry = ::onSelectCountryCode,
+            onResetFilters = ::onResetFilters,
+            retryCallback = ::onReloadClicked
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun LeaderboardsContent(
+    model: Leaderboards.Model,
+    stringResourceProvider: StringResourceProvider,
+    onItemClicked: (profileUrl: String) -> Unit,
+    onToggleFilterBottomSheet: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onSelectLanguage: (String) -> Unit,
+    onSelectHireable: (Boolean) -> Unit,
+    onSelectCountry: (String) -> Unit,
+    onResetFilters: () -> Unit,
+    retryCallback: () -> Unit,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Leaderboards") },
                 actions = {
-                    IconButton(onClick = { component.onToggleFilterBottomSheet() }) {
+                    IconButton(onClick = onToggleFilterBottomSheet) {
                         Icon(imageVector = AdditionalIcons.FilterList, contentDescription = "Filters")
                     }
                 },
@@ -81,7 +112,7 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
                     Error(
                         message = it,
                         shouldShowRetry = true,
-                        retryCallback = component::onReloadClicked,
+                        retryCallback = retryCallback,
                     )
                 }
 
@@ -98,22 +129,22 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
 
                     LeaderboardsList(
                         leaderboards = it.data,
-                        onItemClicked = component::onItemClicked,
+                        onItemClicked = onItemClicked,
                         stringResourceProvider = stringResourceProvider,
                     )
 
                     FilterBottomSheet(
                         isVisible = model.filterBottomSheetModel.active,
-                        onDismissRequest = component::onToggleFilterBottomSheet,
+                        onDismissRequest = onDismissRequest,
                         selectedLanguage = model.filterBottomSheetModel.selectedLanguage,
                         languages = model.filterBottomSheetModel.languages,
-                        onSelectLanguage = component::onSelectLanguage,
+                        onSelectLanguage = onSelectLanguage,
                         isHireable = model.filterBottomSheetModel.hireable,
-                        onSelectHireable = component::onSelectHireable,
+                        onSelectHireable = onSelectHireable,
                         selectedCountry = model.filterBottomSheetModel.selectedCountryCode,
                         countries = model.filterBottomSheetModel.countryCodes,
-                        onSelectCountry = component::onSelectCountryCode,
-                        onResetFilters = component::onResetFilters,
+                        onSelectCountry = onSelectCountry,
+                        onResetFilters = onResetFilters,
                     )
                 }
             }
@@ -323,5 +354,9 @@ private fun EntryProperty(
         style = style,
     )
 }
+
+@Composable
+@Preview
+private fun Preview() = LeaderboardsContentPreview()
 
 private const val LANGUAGE_LIMIT = 5
