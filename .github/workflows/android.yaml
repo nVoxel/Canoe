@@ -128,4 +128,4 @@ jobs:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{secrets.CREDENTIAL_FILE_CONTENT}}
           groups: testers
-          file: canoe/build/outputs/apk/release/canoe-release-unsigned.apk
+          file: canoe/build/outputs/apk/release/canoe-universal-release-unsigned.apk
