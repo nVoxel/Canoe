@@ -7,6 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,6 +56,7 @@ internal fun DashboardContent(component: DashboardComponent) {
         DashboardContent(
             model = model,
             onShowDatePickerBottomSheet = ::onShowDatePickerBottomSheet,
+            onResetDates = ::onDatesResetClicked,
             onDismissRequest = ::onDismissDatePickerBottomSheet,
             retryCallback = ::onReloadClicked,
         )
@@ -66,6 +68,7 @@ internal fun DashboardContent(component: DashboardComponent) {
 internal fun DashboardContent(
     model: Dashboard.Model,
     onShowDatePickerBottomSheet: () -> Unit,
+    onResetDates: () -> Unit,
     onDismissRequest: (startMillis: Long?, endMillis: Long?) -> Unit,
     retryCallback: () -> Unit,
 ) {
@@ -74,6 +77,9 @@ internal fun DashboardContent(
             TopAppBar(
                 title = { Text(text = model.projectName ?: "Dashboard") },
                 actions = {
+                    IconButton(onClick = onResetDates) {
+                        Icon(imageVector = Icons.Default.Refresh, contentDescription = "Reset dates")
+                    }
                     IconButton(onClick = onShowDatePickerBottomSheet) {
                         Icon(imageVector = Icons.Default.DateRange, contentDescription = "Change date range")
                     }

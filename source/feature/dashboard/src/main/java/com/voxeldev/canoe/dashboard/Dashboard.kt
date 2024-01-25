@@ -14,6 +14,8 @@ interface Dashboard {
 
     fun onReloadClicked()
 
+    fun onDatesResetClicked()
+
     fun onShowDatePickerBottomSheet()
 
     fun onDismissDatePickerBottomSheet(startMillis: Long?, endMillis: Long?)

@@ -29,6 +29,8 @@ class DashboardComponent(
 
     override fun onReloadClicked() = store.accept(intent = DashboardStore.Intent.ReloadDashboard)
 
+    override fun onDatesResetClicked() = store.accept(intent = DashboardStore.Intent.DatesReset)
+
     override fun onShowDatePickerBottomSheet() = store.accept(DashboardStore.Intent.ShowDatePickerBottomSheet)
 
     override fun onDismissDatePickerBottomSheet(startMillis: Long?, endMillis: Long?) =
