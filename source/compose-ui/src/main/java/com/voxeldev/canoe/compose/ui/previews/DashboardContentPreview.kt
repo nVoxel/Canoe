@@ -98,6 +98,7 @@ internal fun DashboardContentPreview() {
         DashboardContent(
             model = baseModel,
             onShowDatePickerBottomSheet = {},
+            onResetDates = {},
             onDismissRequest = { _, _ -> },
             retryCallback = {},
         )
@@ -119,6 +120,7 @@ internal fun DashboardProjectContentPreview() {
         DashboardContent(
             model = model,
             onShowDatePickerBottomSheet = {},
+            onResetDates = {},
             onDismissRequest = { _, _ -> },
             retryCallback = {},
         )

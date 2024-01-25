@@ -85,6 +85,11 @@ internal class DashboardStoreProvider(
                     params = getSummariesRequest(getState().datePickerBottomSheetState),
                 )
 
+                is Intent.DatesReset -> {
+                    dispatch(message = Msg.DatesReset)
+                    loadDashboard(params = getSummariesRequest(state = getState().datePickerBottomSheetState))
+                }
+
                 is Intent.ShowDatePickerBottomSheet -> {
                     val state = getState()
                     lastDatePickerState = state.datePickerBottomSheetState.copy()
@@ -97,12 +102,12 @@ internal class DashboardStoreProvider(
 
                     lastDatePickerState?.let { lastDatePickerState ->
                         if (startDate != lastDatePickerState.startDate || endDate != lastDatePickerState.endDate) {
-                            if (startDate != null && endDate != null) {
-                                dispatch(message = Msg.StartDateChanged(startDate = startDate))
-                                dispatch(message = Msg.EndDateChanged(endDate = endDate))
-                            } else {
-                                dispatch(message = Msg.DatesReset)
+                            if (startDate == null || endDate == null) {
+                                return@let
                             }
+
+                            dispatch(message = Msg.StartDateChanged(startDate = startDate))
+                            dispatch(message = Msg.EndDateChanged(endDate = endDate))
 
                             loadDashboard(params = getSummariesRequest(state = getState().datePickerBottomSheetState))
                         }

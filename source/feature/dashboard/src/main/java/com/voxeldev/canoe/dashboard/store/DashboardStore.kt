@@ -19,6 +19,7 @@ internal interface DashboardStore : Store<Intent, State, Nothing> {
         data object ShowDatePickerBottomSheet : Intent()
         data class DismissDatePickerBottomSheet(val startMillis: Long?, val endMillis: Long?) : Intent()
         data object ReloadDashboard : Intent()
+        data object DatesReset : Intent()
     }
 
     data class State(
