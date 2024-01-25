@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.google.firebase.FirebaseApp
-import com.voxeldev.canoe.compose.ui.root.RootContent
+import com.voxeldev.canoe.compose.ui.content.root.RootContent
 import com.voxeldev.canoe.root.integration.RootComponent
 import com.voxeldev.canoe.utils.extensions.checkNotificationsPermission
 import com.voxeldev.canoe.utils.extensions.lazyUnsafe

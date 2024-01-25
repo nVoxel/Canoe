@@ -27,7 +27,7 @@ class AndroidLinkHandler(private val context: Context) : LinkHandler {
             val serviceIntent = Intent(SERVICE_ACTION)
             serviceIntent.setPackage(CHROME_PACKAGE)
             val packageName = context.packageManager.queryIntentServices(serviceIntent, 0)
-            return packageName.isNotEmpty()
+            return packageName.isNotEmpty().also { isCustomTabsSupported = it }
         }
 
     private fun openUsingImplicitIntent(url: String) {

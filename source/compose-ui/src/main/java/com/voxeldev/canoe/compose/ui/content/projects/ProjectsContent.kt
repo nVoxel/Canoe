@@ -1,4 +1,4 @@
-package com.voxeldev.canoe.compose.ui.projects
+package com.voxeldev.canoe.compose.ui.content.projects
 
 import android.content.res.Configuration
 import androidx.compose.foundation.gestures.Orientation
@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
-import com.voxeldev.canoe.compose.ui.dashboard.DashboardContent
+import com.voxeldev.canoe.compose.ui.content.dashboard.DashboardContent
 import com.voxeldev.canoe.projects.Projects
 import com.voxeldev.canoe.projects.ProjectsComponent
 

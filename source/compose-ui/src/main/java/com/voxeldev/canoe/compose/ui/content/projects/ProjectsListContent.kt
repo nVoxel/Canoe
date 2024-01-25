@@ -1,4 +1,4 @@
-package com.voxeldev.canoe.compose.ui.projects
+package com.voxeldev.canoe.compose.ui.content.projects
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -24,27 +24,51 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.voxeldev.canoe.compose.ui.components.Error
 import com.voxeldev.canoe.compose.ui.components.Loader
+import com.voxeldev.canoe.compose.ui.previews.ProjectsListContentPreview
 import com.voxeldev.canoe.projects.api.Project
+import com.voxeldev.canoe.projects.list.ProjectsList
 import com.voxeldev.canoe.projects.list.ProjectsListComponent
 
 /**
  * @author nvoxel
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ProjectsListContent(component: ProjectsListComponent) {
-    val model by component.model.subscribeAsState()
+    with(component) {
+        val model by model.subscribeAsState()
 
+        ProjectsListContent(
+            model = model,
+            onToggleSearchClicked = ::onToggleSearchClicked,
+            onSearchButtonClicked = ::onSearchClicked,
+            onTextChanged = ::onSearchTextChanged,
+            onItemClicked = ::onItemClicked,
+            retryCallback = ::onSearchClicked,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun ProjectsListContent(
+    model: ProjectsList.Model,
+    onToggleSearchClicked: () -> Unit,
+    onSearchButtonClicked: () -> Unit,
+    onTextChanged: (String) -> Unit,
+    onItemClicked: (id: String) -> Unit,
+    retryCallback: () -> Unit,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Projects") },
                 actions = {
-                    IconButton(onClick = { component.onToggleSearchClicked() }) {
+                    IconButton(onClick = onToggleSearchClicked) {
                         Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
                     }
                 },
@@ -59,20 +83,20 @@ internal fun ProjectsListContent(component: ProjectsListComponent) {
                     Error(
                         message = it,
                         shouldShowRetry = true,
-                        retryCallback = component::onSearchClicked,
+                        retryCallback = retryCallback,
                     )
                 } ?: run {
                     SearchField(
                         isVisible = model.searchActive,
                         text = model.searchText,
-                        onTextChanged = component::onSearchTextChanged,
-                        onSearchButtonClicked = component::onSearchClicked,
+                        onTextChanged = onTextChanged,
+                        onSearchButtonClicked = onSearchButtonClicked,
                     )
 
                     ProjectsList(
                         isLoading = model.isLoading,
                         projects = model.projectsModel.data,
-                        onItemClicked = component::onItemClicked,
+                        onItemClicked = onItemClicked,
                     )
                 }
             }
@@ -155,3 +179,7 @@ private fun ProjectsListItem(
         }
     }
 }
+
+@Preview
+@Composable
+private fun Preview() = ProjectsListContentPreview()
