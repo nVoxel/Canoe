@@ -21,6 +21,7 @@ mvikotlin = "3.3.0"
 paging = "3.2.1"
 realm = "1.13.0"
 security-crypto = "1.1.0-alpha06"
+shimmer = "1.2.0"
 vico = "2.0.0-alpha.4"
 ycharts = "2.1.0"
 
@@ -103,6 +104,9 @@ ycharts = { group = "co.yml", name = "ycharts", version.ref = "ycharts" }
 # Paging
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+
+# Shimmer
+shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "shimmer" }
 
 # Firebase
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebase-analytics" }

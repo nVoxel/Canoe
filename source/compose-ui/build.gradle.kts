@@ -41,6 +41,8 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.foundation.android)
     implementation(libs.ui.tooling.preview)
+    implementation(libs.paging.compose)
+    implementation(libs.shimmer)
 
     implementation(libs.material3)
     // implementation(libs.material.icons.extended)

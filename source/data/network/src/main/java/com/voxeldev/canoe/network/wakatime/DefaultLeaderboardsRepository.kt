@@ -48,9 +48,10 @@ internal class DefaultLeaderboardsRepository(
                     query = if (useOutdatedCache) {
                         TRUE_PREDICATE
                     } else {
-                        "timestamp > $0 AND language == $1 AND isHireable == $2 AND countryCode == $3"
+                        "timestamp > $0 AND page == $1 && language == $2 AND isHireable == $3 AND countryCode == $4"
                     },
                     (System.currentTimeMillis() / 1000) - CACHE_LIFETIME,
+                    request.page,
                     request.language,
                     request.isHireable ?: false,
                     request.countryCode,

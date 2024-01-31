@@ -1,6 +1,8 @@
 package com.voxeldev.canoe.leaderboards.store
 
+import androidx.paging.PagingData
 import com.arkivanov.mvikotlin.core.store.Store
+import com.voxeldev.canoe.leaderboards.api.LeaderboardEntry
 import com.voxeldev.canoe.leaderboards.api.LeaderboardsModel
 import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.Intent
 import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.PredefinedCountry.BRAZIL
@@ -18,6 +20,7 @@ import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.PredefinedLanguag
 import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.PredefinedLanguage.PHP
 import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.PredefinedLanguage.PYTHON
 import com.voxeldev.canoe.leaderboards.store.LeaderboardsStore.State
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @author nvoxel
@@ -35,6 +38,7 @@ internal interface LeaderboardsStore : Store<Intent, State, Nothing> {
 
     data class State(
         val leaderboardsModel: LeaderboardsModel? = null,
+        val leaderboardsFlow: Flow<PagingData<LeaderboardEntry>>? = null,
         val errorText: String? = null,
         val isLoading: Boolean = true,
         val filterBottomSheetState: FilterBottomSheetState = FilterBottomSheetState(),

@@ -2,6 +2,7 @@ package com.voxeldev.canoe.compose.ui.previews
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.paging.PagingData
 import com.voxeldev.canoe.compose.ui.content.leaderboards.LeaderboardsContent
 import com.voxeldev.canoe.compose.ui.theme.CanoeTheme
 import com.voxeldev.canoe.leaderboards.Leaderboards
@@ -11,6 +12,7 @@ import com.voxeldev.canoe.leaderboards.api.LeaderboardsModel
 import com.voxeldev.canoe.leaderboards.api.TimeRange
 import com.voxeldev.canoe.leaderboards.api.User
 import com.voxeldev.canoe.utils.providers.string.StringResourceProvider
+import kotlinx.coroutines.flow.flow
 
 /**
  * @author nvoxel
@@ -21,13 +23,7 @@ internal fun LeaderboardsContentPreview() {
     val model = Leaderboards.Model(
         leaderboardsModel = LeaderboardsModel(
             currentUser = CurrentUser(rank = 123, user = User(id = "", username = "Test User")),
-            data = listOf(
-                LeaderboardEntry(rank = 1, runningTotal = null, user = User(id = "", username = "Leader 1")),
-                LeaderboardEntry(rank = 2, runningTotal = null, user = User(id = "", username = "Leader 2")),
-                LeaderboardEntry(rank = 3, runningTotal = null, user = User(id = "", username = "Leader 3")),
-                LeaderboardEntry(rank = 4, runningTotal = null, user = User(id = "", username = "Leader 4")),
-                LeaderboardEntry(rank = 5, runningTotal = null, user = User(id = "", username = "Leader 5")),
-            ),
+            data = emptyList(),
             page = 0,
             totalPages = 0,
             range = TimeRange(),
@@ -35,6 +31,19 @@ internal fun LeaderboardsContentPreview() {
             timeout = 0,
             writesOnly = false,
         ),
+        leaderboardsFlow = flow {
+            emit(
+                value = PagingData.from(
+                    data = listOf(
+                        LeaderboardEntry(rank = 1, runningTotal = null, user = User(id = "", username = "Leader 1")),
+                        LeaderboardEntry(rank = 2, runningTotal = null, user = User(id = "", username = "Leader 2")),
+                        LeaderboardEntry(rank = 3, runningTotal = null, user = User(id = "", username = "Leader 3")),
+                        LeaderboardEntry(rank = 4, runningTotal = null, user = User(id = "", username = "Leader 4")),
+                        LeaderboardEntry(rank = 5, runningTotal = null, user = User(id = "", username = "Leader 5")),
+                    ),
+                ),
+            )
+        },
         isLoading = false,
         errorText = null,
         filterBottomSheetModel = Leaderboards.FilterBottomSheetModel(

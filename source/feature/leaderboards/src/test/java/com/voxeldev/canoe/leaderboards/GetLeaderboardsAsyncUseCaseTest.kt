@@ -7,7 +7,7 @@ import com.voxeldev.canoe.leaderboards.api.LeaderboardsRequest
 import com.voxeldev.canoe.leaderboards.api.TimeRange
 import com.voxeldev.canoe.leaderboards.api.User
 import com.voxeldev.canoe.leaderboards.di.leaderboardsFeatureModule
-import com.voxeldev.canoe.leaderboards.integration.GetLeaderboardsUseCase
+import com.voxeldev.canoe.leaderboards.integration.GetLeaderboardsAsyncUseCase
 import com.voxeldev.canoe.utils.BaseUnitTest
 import com.voxeldev.canoe.utils.exceptions.TokenNotFoundException
 import kotlinx.coroutines.test.runTest
@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 /**
  * @author nvoxel
  */
-class GetLeaderboardsUseCaseTest : BaseUnitTest() {
+class GetLeaderboardsAsyncUseCaseTest : BaseUnitTest() {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
@@ -38,7 +38,7 @@ class GetLeaderboardsUseCaseTest : BaseUnitTest() {
     fun `check GetLeaderboardsUseCase gets data from repository`() = runTest {
         val leaderboardsRepository = declareMock<LeaderboardsRepository>()
 
-        GetLeaderboardsUseCase().run(params = defaultRequestParams)
+        GetLeaderboardsAsyncUseCase().run(params = defaultRequestParams)
 
         verify(leaderboardsRepository).getLeaderboards(request = defaultRequestParams)
     }
@@ -64,7 +64,7 @@ class GetLeaderboardsUseCaseTest : BaseUnitTest() {
             }
         }
 
-        val useCaseResult = GetLeaderboardsUseCase().run(params = defaultRequestParams)
+        val useCaseResult = GetLeaderboardsAsyncUseCase().run(params = defaultRequestParams)
 
         assertEquals(
             expected = repositoryResult,
@@ -85,7 +85,7 @@ class GetLeaderboardsUseCaseTest : BaseUnitTest() {
             }
         }
 
-        val useCaseResult = GetLeaderboardsUseCase().run(params = defaultRequestParams)
+        val useCaseResult = GetLeaderboardsAsyncUseCase().run(params = defaultRequestParams)
 
         assertEquals(
             expected = repositoryResult,

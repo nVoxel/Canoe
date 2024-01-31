@@ -18,6 +18,7 @@ internal class StateMapper : KoinComponent {
     fun toModel(state: State): Leaderboards.Model =
         Leaderboards.Model(
             leaderboardsModel = state.leaderboardsModel,
+            leaderboardsFlow = state.leaderboardsFlow,
             errorText = state.errorText,
             isLoading = state.isLoading,
             filterBottomSheetModel = Leaderboards.FilterBottomSheetModel(
