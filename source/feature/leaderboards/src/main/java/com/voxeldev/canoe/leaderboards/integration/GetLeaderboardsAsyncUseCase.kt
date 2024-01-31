@@ -10,7 +10,7 @@ import org.koin.core.component.inject
 /**
  * @author nvoxel
  */
-internal class GetLeaderboardsUseCase : BaseUseCase<LeaderboardsRequest, LeaderboardsModel>(), KoinComponent {
+internal class GetLeaderboardsAsyncUseCase : BaseUseCase<LeaderboardsRequest, LeaderboardsModel>(), KoinComponent {
 
     private val leaderboardsRepository: LeaderboardsRepository by inject()
 

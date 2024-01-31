@@ -35,6 +35,8 @@ dependencies {
     implementation(libs.mvikotlin)
     implementation(libs.mvikotlin.extensions.coroutines)
 
+    implementation(libs.paging.runtime)
+
     implementation(project(":source:data:network"))
     implementation(project(":source:utils"))
     api(project(":source:feature:leaderboards-api"))

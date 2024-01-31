@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,10 +38,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
+import com.valentinilk.shimmer.shimmer
 import com.voxeldev.canoe.compose.ui.components.Error
 import com.voxeldev.canoe.compose.ui.components.Loader
 import com.voxeldev.canoe.compose.ui.previews.LeaderboardsContentPreview
@@ -50,6 +57,7 @@ import com.voxeldev.canoe.leaderboards.api.GeneralizedUser
 import com.voxeldev.canoe.leaderboards.api.LeaderboardEntry
 import com.voxeldev.canoe.leaderboards.integration.LeaderboardsComponent
 import com.voxeldev.canoe.utils.providers.string.StringResourceProvider
+import kotlinx.coroutines.flow.Flow
 import org.koin.compose.koinInject
 
 /**
@@ -66,7 +74,7 @@ internal fun LeaderboardsContent(component: LeaderboardsComponent) {
             stringResourceProvider = stringResourceProvider,
             onItemClicked = ::onItemClicked,
             onToggleFilterBottomSheet = ::onToggleFilterBottomSheet,
-            onDismissRequest = ::onReloadClicked,
+            onDismissRequest = ::onToggleFilterBottomSheet,
             onSelectLanguage = ::onSelectLanguage,
             onSelectHireable = ::onSelectHireable,
             onSelectCountry = ::onSelectCountryCode,
@@ -127,11 +135,13 @@ internal fun LeaderboardsContent(
                         }
                     }
 
-                    LeaderboardsList(
-                        leaderboards = it.data,
-                        onItemClicked = onItemClicked,
-                        stringResourceProvider = stringResourceProvider,
-                    )
+                    model.leaderboardsFlow?.let { leaderboardsFlow ->
+                        LeaderboardsList(
+                            leaderboardsPagingFlow = leaderboardsFlow,
+                            onItemClicked = onItemClicked,
+                            stringResourceProvider = stringResourceProvider,
+                        )
+                    }
 
                     FilterBottomSheet(
                         isVisible = model.filterBottomSheetModel.active,
@@ -154,21 +164,39 @@ internal fun LeaderboardsContent(
 
 @Composable
 private fun LeaderboardsList(
-    leaderboards: List<LeaderboardEntry>,
+    leaderboardsPagingFlow: Flow<PagingData<LeaderboardEntry>>,
     onItemClicked: (profileUrl: String) -> Unit,
     stringResourceProvider: StringResourceProvider,
 ) {
     val listState = rememberLazyListState()
+    val leaderboardsPagingItems = leaderboardsPagingFlow.collectAsLazyPagingItems()
+
+    val shimmerInstance = rememberShimmer(shimmerBounds = ShimmerBounds.Window)
 
     LazyColumn(state = listState) {
-        items(leaderboards) { entry ->
-            LeaderboardsListItem(
-                entry = entry,
-                onItemClicked = onItemClicked,
-                stringResourceProvider = stringResourceProvider,
-            )
+        items(
+            count = leaderboardsPagingItems.itemCount,
+        ) { index ->
+            leaderboardsPagingItems[index]?.let { leaderboardEntry ->
+                LeaderboardsListItem(
+                    entry = leaderboardEntry,
+                    onItemClicked = onItemClicked,
+                    stringResourceProvider = stringResourceProvider,
+                )
+            } ?: LeaderboardsListPlaceholder(shimmerInstance = shimmerInstance)
         }
     }
+}
+
+@Composable
+private fun LeaderboardsListPlaceholder(shimmerInstance: Shimmer) {
+    ElevatedCard(
+        modifier = Modifier
+            .padding(all = 16.dp)
+            .fillMaxWidth()
+            .height(height = 200.dp)
+            .shimmer(customShimmer = shimmerInstance),
+    ) { }
 }
 
 @Composable

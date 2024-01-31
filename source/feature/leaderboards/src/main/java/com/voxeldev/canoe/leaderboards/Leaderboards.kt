@@ -1,7 +1,10 @@
 package com.voxeldev.canoe.leaderboards
 
+import androidx.paging.PagingData
 import com.arkivanov.decompose.value.Value
+import com.voxeldev.canoe.leaderboards.api.LeaderboardEntry
 import com.voxeldev.canoe.leaderboards.api.LeaderboardsModel
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @author nvoxel
@@ -26,6 +29,7 @@ interface Leaderboards {
 
     data class Model(
         val leaderboardsModel: LeaderboardsModel?,
+        val leaderboardsFlow: Flow<PagingData<LeaderboardEntry>>?,
         val errorText: String?,
         val isLoading: Boolean,
         val filterBottomSheetModel: FilterBottomSheetModel,
